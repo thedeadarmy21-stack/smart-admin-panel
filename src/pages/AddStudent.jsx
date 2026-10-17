@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AddStudent = () => {
   const [formData, setFormData] = useState({
-    name: '', rollNumber: '', className: '', section: 'A', fatherName: '', fatherWhatsApp: ''
+    name: '', rollNumber: '', className: '', section: 'A', fatherName: '', fatherWhatsApp: '', fatherEmail: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -20,7 +20,6 @@ const AddStudent = () => {
     setLoading(true);
     setError('');
     try {
-      // 👇 Vercel Live URL
       await axios.post('https://smart-attendance-backend-one.vercel.app/api/students/add', formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -64,8 +63,12 @@ const AddStudent = () => {
             <input type="text" name="fatherName" required onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-800" placeholder="e.g. Ahmed Khan" />
           </div>
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-2">WhatsApp No.</label>
-            <input type="text" name="fatherWhatsApp" required placeholder="+92300..." onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-800" />
+            <label className="block text-sm font-bold text-slate-700 mb-2">Father Email (Gmail)</label>
+            <input type="email" name="fatherEmail" required onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-800" placeholder="e.g. ahmed@gmail.com" />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-bold text-slate-700 mb-2">WhatsApp No. <span className="text-slate-400 font-normal">(Optional - Future Use)</span></label>
+            <input type="text" name="fatherWhatsApp" onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-800" placeholder="+92300..." />
           </div>
         </div>
         <div className="pt-4 border-t border-slate-100">

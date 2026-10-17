@@ -12,7 +12,6 @@ const Students = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        // 👇 Vercel Live URL
         const response = await axios.get('https://smart-attendance-backend-one.vercel.app/api/students', {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -26,32 +25,24 @@ const Students = () => {
     fetchStudents();
   }, [token]);
 
-  // 🌟 PREMIUM ID CARD GENERATOR
   const downloadIDCard = async (student) => {
     try {
       const qrDataUrl = await QRCode.toDataURL(student.qrCode, { width: 400, margin: 1 });
-
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [54, 86] });
 
-      // Background
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 54, 86, 'F');
-
-      // Header Band
-      doc.setFillColor(30, 58, 138); // Deep Blue
+      doc.setFillColor(30, 58, 138);
       doc.rect(0, 0, 54, 22, 'F');
       
-      // School Name
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(12);
       doc.setFont('helvetica', 'bold');
       doc.text('SMART SCHOOL', 27, 10, { align: 'center' });
-      
       doc.setFontSize(6);
       doc.setFont('helvetica', 'normal');
       doc.text('EXCELLENCE IN EDUCATION', 27, 15, { align: 'center' });
 
-      // Avatar
       doc.setFillColor(239, 246, 255);
       doc.circle(27, 35, 10, 'F');
       doc.setTextColor(30, 58, 138);
@@ -59,7 +50,6 @@ const Students = () => {
       doc.setFont('helvetica', 'bold');
       doc.text(student.name.charAt(0).toUpperCase(), 27, 38, { align: 'center' });
 
-      // Details
       doc.setTextColor(15, 23, 42);
       doc.setFontSize(11);
       doc.text(student.name.toUpperCase(), 27, 52, { align: 'center' });
@@ -70,10 +60,8 @@ const Students = () => {
       doc.text(`Roll No: ${student.rollNumber}`, 27, 58, { align: 'center' });
       doc.text(`Class: ${student.className} - ${student.section}`, 27, 63, { align: 'center' });
 
-      // QR Code
       doc.addImage(qrDataUrl, 'PNG', 17, 66, 20, 20);
 
-      // Footer
       doc.setDrawColor(226, 232, 240);
       doc.line(0, 80, 54, 80);
       doc.setFontSize(5);
@@ -111,7 +99,7 @@ const Students = () => {
               <th className="p-5">Student Name</th>
               <th className="p-5">Roll No</th>
               <th className="p-5">Class</th>
-              <th className="p-5">Father Name</th>
+              <th className="p-5">Father Email</th>
               <th className="p-5 text-center">Action</th>
             </tr>
           </thead>
@@ -128,7 +116,7 @@ const Students = () => {
                 </td>
                 <td className="p-5 text-slate-600 font-medium">{student.rollNumber}</td>
                 <td className="p-5 text-slate-600">{student.className}-{student.section}</td>
-                <td className="p-5 text-slate-600">{student.fatherName}</td>
+                <td className="p-5 text-slate-600">{student.fatherEmail || 'N/A'}</td>
                 <td className="p-5 text-center">
                   <button 
                     onClick={() => downloadIDCard(student)}
