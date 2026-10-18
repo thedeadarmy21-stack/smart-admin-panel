@@ -6,7 +6,6 @@ const Layout = ({ children }) => {
   const navigate = useNavigate();
   const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
   
-  // Dark Mode State
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
 
   useEffect(() => {
@@ -32,9 +31,11 @@ const Layout = ({ children }) => {
     { name: 'Reports', path: '/reports', icon: '📑' },
   ];
 
+  // 👇 Naam yahan fix kiya hai
+  const displayName = adminData.name === 'Sir Bilal' ? 'Sir Sarkar' : (adminData.name || 'Sir Sarkar');
+
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
-      {/* PREMIUM DARK SIDEBAR */}
       <aside className="w-64 bg-slate-900 dark:bg-slate-950 text-white flex flex-col shadow-2xl z-20 transition-colors duration-300">
         <div className="h-20 flex items-center px-6 border-b border-slate-800 bg-slate-950">
           <h1 className="text-xl font-extrabold tracking-wide flex items-center gap-2">
@@ -62,10 +63,10 @@ const Layout = ({ children }) => {
         <div className="p-5 border-t border-slate-800 bg-slate-950">
           <div className="mb-4 flex items-center gap-3">
             <div className="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold border border-blue-500/30">
-              {adminData.name?.charAt(0) || 'A'}
+              {displayName.charAt(0)}
             </div>
             <div>
-             <p className="text-sm font-bold text-white">{adminData.name === 'Sir Bilal' ? 'Sarkar Sir' : (adminData.name || 'Sarkar Sir')}</p>
+              <p className="text-sm font-bold text-white">{displayName}</p>
               <p className="text-xs text-slate-400">Smart School</p>
             </div>
           </div>
@@ -78,14 +79,12 @@ const Layout = ({ children }) => {
         </div>
       </aside>
 
-      {/* MAIN CONTENT AREA */}
       <main className="flex-1 overflow-y-auto relative">
         <header className="h-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 flex justify-between items-center px-8 sticky top-0 z-10 transition-colors duration-300">
           <h2 className="text-xl font-bold text-slate-800 dark:text-white capitalize tracking-tight">
             {location.pathname.replace('/', '').replace('-', ' ')}
           </h2>
           
-          {/* DARK MODE TOGGLE */}
           <button 
             onClick={() => setIsDark(!isDark)}
             className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm"

@@ -15,7 +15,6 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // 👇 Yahan apna Vercel wala live URL daala hai
       const response = await axios.post('https://smart-attendance-backend-one.vercel.app/api/auth/login', {
         username,
         password,
@@ -57,7 +56,7 @@ const Login = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-800"
-              placeholder="bilal01"
+              placeholder="Enter username" // 👈 Placeholder change kiya
               required
             />
           </div>
@@ -69,7 +68,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-800"
-              placeholder="••••••"
+              placeholder="Enter password" // 👈 Placeholder change kiya
               required
             />
           </div>

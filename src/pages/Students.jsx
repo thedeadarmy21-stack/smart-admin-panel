@@ -28,46 +28,67 @@ const Students = () => {
     fetchStudents();
   }, [token]);
 
-  // Helper function for PDF generation
+  // 🌟 ULTRA PREMIUM ID CARD GENERATOR (Screenshot wala design)
   const generateIDCardPDF = async (doc, student, isFirst) => {
     if (!isFirst) doc.addPage([54, 86], 'portrait');
     
     const qrDataUrl = await QRCode.toDataURL(student.qrCode, { width: 400, margin: 1 });
+    
+    // 1. Background White
     doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, 54, 86, 'F');
-    doc.setFillColor(29, 78, 216); 
-    doc.rect(0, 0, 54, 24, 'F');
-    doc.setFillColor(255, 255, 255);
-    doc.circle(27, 12, 5, 'F');
+
+    // 2. Header Band (Deep Blue)
+    doc.setFillColor(30, 58, 138); 
+    doc.rect(0, 0, 54, 22, 'F');
+    
+    // 3. Header Yellow Accent
+    doc.setFillColor(234, 179, 8); // Yellow-500
+    doc.rect(0, 22, 54, 3, 'F');
+
+    // 4. School Logo & Name
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(10);
+    doc.setFontSize(8);
     doc.setFont('helvetica', 'bold');
-    doc.text('SMART SCHOOL', 27, 20, { align: 'center' });
-    doc.setDrawColor(226, 232, 240);
-    doc.line(5, 28, 49, 28);
-    doc.setFillColor(239, 246, 255);
-    doc.circle(27, 39, 9, 'F');
-    doc.setTextColor(29, 78, 216);
-    doc.setFontSize(18);
-    doc.setFont('helvetica', 'bold');
-    doc.text(student.name.charAt(0).toUpperCase(), 27, 42, { align: 'center' });
-    doc.setTextColor(15, 23, 42);
-    doc.setFontSize(12);
-    doc.text(student.name.toUpperCase(), 27, 54, { align: 'center' });
-    doc.setFontSize(7);
+    doc.text('SMART SCHOOL', 27, 10, { align: 'center' });
+    doc.setFontSize(5);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(100, 116, 139);
-    doc.text(`Roll No: ${student.rollNumber}`, 27, 60, { align: 'center' });
-    doc.text(`Class: ${student.className} - ${student.section}`, 27, 64, { align: 'center' });
-    doc.addImage(qrDataUrl, 'PNG', 18, 68, 18, 18);
+    doc.text('Excellence in Education', 27, 14, { align: 'center' });
+
+    // 5. Student Avatar (Big Circle)
+    doc.setFillColor(239, 246, 255); // Light Blue
+    doc.circle(27, 38, 12, 'F');
+    doc.setDrawColor(30, 58, 138); // Blue border
+    doc.setLineWidth(1);
+    doc.circle(27, 38, 12, 'S');
+    
+    doc.setTextColor(30, 58, 138);
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    doc.text(student.name.charAt(0).toUpperCase(), 27, 43, { align: 'center' });
+
+    // 6. Student Details
+    doc.setTextColor(15, 23, 42); // Slate-900
+    doc.setFontSize(11);
+    doc.text(student.name.toUpperCase(), 27, 56, { align: 'center' });
+
+    doc.setFontSize(6);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100, 116, 139); // Slate-500
+    doc.text(`Roll No: ${student.rollNumber}`, 27, 61, { align: 'center' });
+    doc.text(`Class: ${student.className} - ${student.section}`, 27, 65, { align: 'center' });
+
+    // 7. QR Code
+    doc.addImage(qrDataUrl, 'PNG', 19, 68, 16, 16);
+
+    // 8. Footer Line & Text
     doc.setDrawColor(226, 232, 240);
     doc.line(0, 80, 54, 80);
-    doc.setFontSize(5);
+    doc.setFontSize(4);
     doc.setTextColor(148, 163, 184);
-    doc.text('Powered by Smart School', 27, 83.5, { align: 'center' });
+    doc.text('Powered by Smart Attendance System', 27, 83.5, { align: 'center' });
   };
 
-  // Single ID Download
   const downloadIDCard = async (student) => {
     try {
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [54, 86] });
@@ -79,18 +100,14 @@ const Students = () => {
     }
   };
 
-  // 🚀 NAYA FEATURE: Bulk ID Download
   const downloadAllIDCards = async () => {
     if (filteredStudents.length === 0) return alert("No students to download.");
-    
     setDownloadingAll(true);
     try {
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [54, 86] });
-      
       for (let i = 0; i < filteredStudents.length; i++) {
         await generateIDCardPDF(doc, filteredStudents[i], i === 0);
       }
-      
       const className = selectedClass ? `Class-${selectedClass}` : 'All-Students';
       doc.save(`ID-Cards-${className}.pdf`);
     } catch (err) {
@@ -119,8 +136,6 @@ const Students = () => {
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
-      
-      {/* Header & Filter Area */}
       <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h3 className="font-extrabold text-xl text-slate-800 dark:text-white">Enrolled Students</h3>
@@ -138,7 +153,6 @@ const Students = () => {
               className="pl-9 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-56"
             />
           </div>
-
           <select 
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
@@ -149,8 +163,6 @@ const Students = () => {
               <option key={idx} value={cls}>Class {cls}</option>
             ))}
           </select>
-
-          {/* 🚀 BULK DOWNLOAD BUTTON */}
           <button 
             onClick={downloadAllIDCards}
             disabled={downloadingAll}
@@ -158,14 +170,12 @@ const Students = () => {
           >
             <span>🖨️</span> {downloadingAll ? 'Printing...' : 'Print All IDs'}
           </button>
-
           <Link to="/add-student" className="bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2">
             <span>➕</span> Add Student
           </Link>
         </div>
       </div>
 
-      {/* Table Area */}
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-bold border-b border-slate-200 dark:border-slate-700">
