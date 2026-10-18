@@ -42,10 +42,8 @@ const Reports = () => {
     }
   };
 
-  // 🚀 NAYA FEATURE: Mark Absent function
   const handleMarkAbsent = async () => {
     if (!window.confirm("Kya aap sach me un sab bacho ko absent mark karna chahte hain jo aaj scan nahi hue?")) return;
-    
     setMarkingAbsent(true);
     try {
       const res = await axios.post(
@@ -54,7 +52,7 @@ const Reports = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert(res.data.message);
-      if (report) fetchReport(); // Agar report khuli hai to usko refresh karo
+      if (report) fetchReport();
     } catch (error) {
       console.error('Error:', error);
       alert('Absent mark karne me error aya.');
@@ -63,9 +61,13 @@ const Reports = () => {
     }
   };
 
+  // 👇 Percentage Calculate karo
+  const totalDays = report ? report.attendance.length : 0;
+  const presentDays = report ? report.attendance.filter(a => a.status === 'present' || a.status === 'late').length : 0;
+  const percentage = totalDays === 0 ? 0 : Math.round((presentDays / totalDays) * 100);
+
   return (
     <div className="space-y-8">
-      {/* FILTER CARD */}
       <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors duration-300">
         <div className="flex flex-col md:flex-row gap-6 items-end">
           <div className="flex-1 w-full">
@@ -100,8 +102,6 @@ const Reports = () => {
             >
               {loading ? 'Generating...' : 'Generate Report'}
             </button>
-
-            {/* 🚀 NAYA BUTTON */}
             <button
               onClick={handleMarkAbsent}
               disabled={markingAbsent}
@@ -113,13 +113,17 @@ const Reports = () => {
         </div>
       </div>
 
-      {/* REPORT RESULTS */}
       {report && (
         <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
           <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
             <h3 className="text-lg font-extrabold text-slate-800 dark:text-white">Monthly Attendance Summary</h3>
-            <div className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-5 py-2 rounded-xl font-bold text-sm border border-emerald-200 dark:border-emerald-800 flex items-center gap-2 shadow-sm">
-              <span>✅</span> {report.totalDaysPresent} Days Present
+            <div className="flex gap-3">
+              <div className={`px-5 py-2 rounded-xl font-bold text-sm border flex items-center gap-2 shadow-sm ${percentage >= 75 ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800'}`}>
+                <span>📊</span> {percentage}% Attendance
+              </div>
+              <div className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-5 py-2 rounded-xl font-bold text-sm border border-emerald-200 dark:border-emerald-800 flex items-center gap-2 shadow-sm">
+                <span>✅</span> {report.totalDaysPresent} Days Present
+              </div>
             </div>
           </div>
 
@@ -145,12 +149,13 @@ const Reports = () => {
                         </span>
                       </td>
                       <td className="p-5">
+                        {/* 👇 Naya Status Logic (Present, Late, Absent) */}
                         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border flex items-center gap-1 w-max ${
-                          att.status === 'present' 
-                            ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' 
-                            : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800'
+                          att.status === 'present' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' :
+                          att.status === 'late' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800' :
+                          'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800'
                         }`}>
-                          <span>{att.status === 'present' ? '🟢' : '🔴'}</span> {att.status}
+                          <span>{att.status === 'present' ? '🟢' : att.status === 'late' ? '🟡' : '🔴'}</span> {att.status}
                         </span>
                       </td>
                     </tr>

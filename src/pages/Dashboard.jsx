@@ -56,7 +56,7 @@ const Dashboard = () => {
       {/* WELCOME BANNER */}
       <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-8 rounded-3xl shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h3 className="text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name === 'Sir Bilal' ? 'Sarkar Sir' : (adminData.name || 'Principal')}!</h3>
+          <h3 className="text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name === 'Sir Bilal' ? 'Sir Sarkar' : (adminData.name || 'Principal')}!</h3>
           <p className="text-blue-100 relative z-10 max-w-xl">
             Here is the live overview of Smart School. You can manage students, print ID cards, and view attendance reports.
           </p>

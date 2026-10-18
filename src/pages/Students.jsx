@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import QRCode from 'qrcode';
 import jsPDF from 'jspdf';
 
@@ -11,6 +11,7 @@ const Students = () => {
   const [loading, setLoading] = useState(true);
   const [downloadingAll, setDownloadingAll] = useState(false);
   const token = localStorage.getItem('adminToken');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -28,25 +29,17 @@ const Students = () => {
     fetchStudents();
   }, [token]);
 
-  // 🌟 ULTRA PREMIUM ID CARD GENERATOR (Screenshot wala design)
   const generateIDCardPDF = async (doc, student, isFirst) => {
     if (!isFirst) doc.addPage([54, 86], 'portrait');
-    
     const qrDataUrl = await QRCode.toDataURL(student.qrCode, { width: 400, margin: 1 });
     
-    // 1. Background White
     doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, 54, 86, 'F');
-
-    // 2. Header Band (Deep Blue)
     doc.setFillColor(30, 58, 138); 
     doc.rect(0, 0, 54, 22, 'F');
-    
-    // 3. Header Yellow Accent
-    doc.setFillColor(234, 179, 8); // Yellow-500
+    doc.setFillColor(234, 179, 8); 
     doc.rect(0, 22, 54, 3, 'F');
 
-    // 4. School Logo & Name
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(8);
     doc.setFont('helvetica', 'bold');
@@ -55,10 +48,9 @@ const Students = () => {
     doc.setFont('helvetica', 'normal');
     doc.text('Excellence in Education', 27, 14, { align: 'center' });
 
-    // 5. Student Avatar (Big Circle)
-    doc.setFillColor(239, 246, 255); // Light Blue
+    doc.setFillColor(239, 246, 255); 
     doc.circle(27, 38, 12, 'F');
-    doc.setDrawColor(30, 58, 138); // Blue border
+    doc.setDrawColor(30, 58, 138); 
     doc.setLineWidth(1);
     doc.circle(27, 38, 12, 'S');
     
@@ -67,21 +59,18 @@ const Students = () => {
     doc.setFont('helvetica', 'bold');
     doc.text(student.name.charAt(0).toUpperCase(), 27, 43, { align: 'center' });
 
-    // 6. Student Details
-    doc.setTextColor(15, 23, 42); // Slate-900
+    doc.setTextColor(15, 23, 42); 
     doc.setFontSize(11);
     doc.text(student.name.toUpperCase(), 27, 56, { align: 'center' });
 
     doc.setFontSize(6);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(100, 116, 139); // Slate-500
+    doc.setTextColor(100, 116, 139); 
     doc.text(`Roll No: ${student.rollNumber}`, 27, 61, { align: 'center' });
     doc.text(`Class: ${student.className} - ${student.section}`, 27, 65, { align: 'center' });
 
-    // 7. QR Code
     doc.addImage(qrDataUrl, 'PNG', 19, 68, 16, 16);
 
-    // 8. Footer Line & Text
     doc.setDrawColor(226, 232, 240);
     doc.line(0, 80, 54, 80);
     doc.setFontSize(4);
@@ -194,11 +183,17 @@ const Students = () => {
               filteredStudents.map((student) => (
                 <tr key={student._id} className="hover:bg-blue-50/50 dark:hover:bg-slate-700/50 transition-colors">
                   <td className="p-5">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold">
+                    {/* 👇 Clickable Student Name */}
+                    <div 
+                      onClick={() => navigate(`/student/${student._id}`)}
+                      className="flex items-center gap-3 cursor-pointer group"
+                    >
+                      <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">
                         {student.name.charAt(0)}
                       </div>
-                      <span className="font-bold text-slate-800 dark:text-white">{student.name}</span>
+                      <span className="font-bold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors underline-offset-4 group-hover:underline">
+                        {student.name}
+                      </span>
                     </div>
                   </td>
                   <td className="p-5 text-slate-600 dark:text-slate-300 font-medium">{student.rollNumber}</td>

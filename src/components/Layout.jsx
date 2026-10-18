@@ -40,7 +40,7 @@ const Layout = ({ children }) => {
     )},
   ];
 
-  const displayName = adminData.name === 'Sir Bilal' ? 'Sarkar Sir' : (adminData.name || 'Sarkar Sir');
+  const displayName = adminData.name === 'Sir Bilal' ? 'Sir Sarkar' : (adminData.name || 'Sir Sarkar');
 
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
