@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 const Dashboard = () => {
   const [stats, setStats] = useState({ totalStudents: 0, presentToday: 0, absentToday: 0 });
   const [loading, setLoading] = useState(true);
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [passData, setPassData] = useState({ currentPassword: '', newPassword: '' });
-  const [passError, setPassError] = useState('');
-  const [passSuccess, setPassSuccess] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  
+  const [profileData, setProfileData] = useState({ newUsername: '', currentPassword: '', newPassword: '' });
+  const [msg, setMsg] = useState({ type: '', text: '' });
   
   const token = localStorage.getItem('adminToken');
   const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
@@ -29,19 +29,25 @@ const Dashboard = () => {
     fetchStats();
   }, [token]);
 
-  const handleChangePassword = async (e) => {
+  const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    setPassError('');
-    setPassSuccess('');
+    setMsg({ type: '', text: '' });
     try {
-      await axios.put('https://smart-attendance-backend-one.vercel.app/api/auth/change-password', passData, {
+      const res = await axios.put('https://smart-attendance-backend-one.vercel.app/api/auth/update-profile', profileData, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setPassSuccess('Password changed successfully!');
-      setPassData({ currentPassword: '', newPassword: '' });
-      setTimeout(() => setShowPasswordModal(false), 2000);
+      
+      // Update local storage with new data
+      localStorage.setItem('adminData', JSON.stringify(res.data.teacher));
+      
+      setMsg({ type: 'success', text: 'Profile updated successfully!' });
+      setTimeout(() => {
+        setShowModal(false);
+        window.location.reload(); // Reload to show new name
+      }, 1500);
+      
     } catch (err) {
-      setPassError(err.response?.data?.message || 'Failed to change password');
+      setMsg({ type: 'error', text: err.response?.data?.message || 'Failed to update profile' });
     }
   };
 
@@ -51,7 +57,7 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 animate-pop relative">
       {/* WELCOME BANNER */}
-      <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-8 rounded-3xl shadow-xl text-white relative overflow-hidden flex justify-between items-center">
+      <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-8 rounded-3xl shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h3 className="text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name || 'Principal'}!</h3>
           <p className="text-blue-100 relative z-10 max-w-xl">
@@ -59,53 +65,73 @@ const Dashboard = () => {
           </p>
         </div>
         <button 
-          onClick={() => setShowPasswordModal(true)}
-          className="bg-white/20 hover:bg-white/30 transition px-4 py-2 rounded-xl text-sm font-bold backdrop-blur-sm border border-white/30 z-10"
+          onClick={() => setShowModal(true)}
+          className="bg-white/20 hover:bg-white/30 transition px-4 py-2 rounded-xl text-sm font-bold backdrop-blur-sm border border-white/30 z-10 whitespace-nowrap"
         >
-          🔐 Change Password
+          ⚙️ Edit Profile
         </button>
         <div className="absolute top-0 right-0 opacity-10 text-9xl transform translate-x-4 -translate-y-4">🎓</div>
       </div>
 
-      {/* CHANGE PASSWORD MODAL */}
-      {showPasswordModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+      {/* EDIT PROFILE MODAL */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-700">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-4">Change Password</h3>
-            {passError && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm font-bold">{passError}</div>}
-            {passSuccess && <div className="bg-emerald-50 text-emerald-600 p-3 rounded-lg mb-4 text-sm font-bold">{passSuccess}</div>}
+            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">Edit Profile</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Change your username or password.</p>
             
-            <form onSubmit={handleChangePassword} className="space-y-4">
+            {msg.text && (
+              <div className={`p-3 rounded-lg mb-4 text-sm font-bold ${msg.type === 'success' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
+                {msg.text}
+              </div>
+            )}
+            
+            <form onSubmit={handleUpdateProfile} className="space-y-4">
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Password</label>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username (Optional)</label>
+                <input 
+                  type="text" 
+                  value={profileData.newUsername}
+                  onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})}
+                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
+                  placeholder="Leave blank to keep current"
+                />
+              </div>
+              
+              <hr className="border-slate-200 dark:border-slate-700" />
+              
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Password (Required)</label>
                 <input 
                   type="password" 
-                  value={passData.currentPassword}
-                  onChange={(e) => setPassData({...passData, currentPassword: e.target.value})}
+                  value={profileData.currentPassword}
+                  onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})}
                   className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
                   required 
                 />
               </div>
+              
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password (Optional)</label>
                 <input 
                   type="password" 
-                  value={passData.newPassword}
-                  onChange={(e) => setPassData({...passData, newPassword: e.target.value})}
+                  value={profileData.newPassword}
+                  onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})}
                   className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
-                  required 
+                  placeholder="Leave blank to keep current"
                 />
               </div>
-              <div className="flex gap-3 pt-2">
-                <button type="button" onClick={() => setShowPasswordModal(false)} className="flex-1 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-300 dark:hover:bg-slate-600 transition">Cancel</button>
-                <button type="submit" className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">Update Password</button>
+              
+              <div className="flex gap-3 pt-4">
+                <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-300 dark:hover:bg-slate-600 transition">Cancel</button>
+                <button type="submit" className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">Update Profile</button>
               </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* LIVE STATS CARDS (Same as before) */}
+      {/* LIVE STATS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-5">
           <div className="p-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl text-3xl">👨‍🎓</div>
@@ -131,7 +157,6 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* WEEKLY CHART */}
         <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
           <h4 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Weekly Attendance Overview</h4>
           <div className="flex items-end justify-between h-48 gap-2">
@@ -146,7 +171,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* QUICK ACTIONS */}
         <div className="space-y-4">
           <Link to="/add-student" className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all group flex items-center justify-between block">
             <div>
