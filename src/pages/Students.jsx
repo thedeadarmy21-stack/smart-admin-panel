@@ -13,21 +13,39 @@ const Students = () => {
   const token = localStorage.getItem('adminToken');
   const navigate = useNavigate();
 
+  const fetchStudents = async () => {
+    try {
+      const response = await axios.get('https://smart-attendance-backend-one.vercel.app/api/students', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setStudents(response.data.students);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        const response = await axios.get('https://smart-attendance-backend-one.vercel.app/api/students', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setStudents(response.data.students);
-      } catch (error) {
-        console.error('Error:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchStudents();
   }, [token]);
+
+  // 🚀 NAYA: Delete Student Function
+  const handleDelete = async (studentId, studentName) => {
+    if (!window.confirm(`Kya aap sach me "${studentName}" ko delete karna chahte hain? Iski saari attendance bhi delete ho jayegi.`)) {
+      return;
+    }
+    try {
+      await axios.delete(`https://smart-attendance-backend-one.vercel.app/api/students/delete/${studentId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert('Student deleted successfully!');
+      fetchStudents(); // List refresh karo
+    } catch (error) {
+      console.error('Delete Error:', error);
+      alert('Student delete nahi ho paya.');
+    }
+  };
 
   const generateIDCardPDF = async (doc, student, isFirst) => {
     if (!isFirst) doc.addPage([54, 86], 'portrait');
@@ -183,7 +201,6 @@ const Students = () => {
               filteredStudents.map((student) => (
                 <tr key={student._id} className="hover:bg-blue-50/50 dark:hover:bg-slate-700/50 transition-colors">
                   <td className="p-5">
-                    {/* 👇 Clickable Student Name */}
                     <div 
                       onClick={() => navigate(`/student/${student._id}`)}
                       className="flex items-center gap-3 cursor-pointer group"
@@ -200,12 +217,22 @@ const Students = () => {
                   <td className="p-5 text-slate-600 dark:text-slate-300">{student.className}-{student.section}</td>
                   <td className="p-5 text-slate-600 dark:text-slate-300">{student.fatherName}</td>
                   <td className="p-5 text-center">
-                    <button 
-                      onClick={() => downloadIDCard(student)}
-                      className="bg-slate-800 dark:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-slate-900 dark:hover:bg-black transition-all shadow-md flex items-center gap-2 mx-auto border border-transparent dark:border-slate-700"
-                    >
-                      🪪 Download ID
-                    </button>
+                    <div className="flex items-center justify-center gap-2">
+                      <button 
+                        onClick={() => downloadIDCard(student)}
+                        className="bg-slate-800 dark:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-slate-900 dark:hover:bg-black transition-all shadow-md flex items-center gap-2 border border-transparent dark:border-slate-700"
+                      >
+                        🪪 ID
+                      </button>
+                      {/* 🚀 NAYA: Delete Button */}
+                      <button 
+                        onClick={() => handleDelete(student._id, student.name)}
+                        className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2 rounded-xl text-sm font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-all shadow-sm border border-red-200 dark:border-red-800"
+                        title="Delete Student"
+                      >
+                        🗑️ Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
