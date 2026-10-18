@@ -1,9 +1,23 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
+  
+  // Dark Mode State
+  const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
@@ -19,9 +33,9 @@ const Layout = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       {/* PREMIUM DARK SIDEBAR */}
-      <aside className="w-64 bg-slate-900 text-white flex flex-col shadow-2xl z-20">
+      <aside className="w-64 bg-slate-900 dark:bg-slate-950 text-white flex flex-col shadow-2xl z-20 transition-colors duration-300">
         <div className="h-20 flex items-center px-6 border-b border-slate-800 bg-slate-950">
           <h1 className="text-xl font-extrabold tracking-wide flex items-center gap-2">
             <span className="text-2xl">🎓</span> Smart School
@@ -66,10 +80,19 @@ const Layout = ({ children }) => {
 
       {/* MAIN CONTENT AREA */}
       <main className="flex-1 overflow-y-auto relative">
-        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center px-8 sticky top-0 z-10">
-          <h2 className="text-xl font-bold text-slate-800 capitalize tracking-tight">
+        <header className="h-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 flex justify-between items-center px-8 sticky top-0 z-10 transition-colors duration-300">
+          <h2 className="text-xl font-bold text-slate-800 dark:text-white capitalize tracking-tight">
             {location.pathname.replace('/', '').replace('-', ' ')}
           </h2>
+          
+          {/* DARK MODE TOGGLE */}
+          <button 
+            onClick={() => setIsDark(!isDark)}
+            className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm"
+            title="Toggle Dark Mode"
+          >
+            {isDark ? '☀️ Light' : '🌙 Dark'}
+          </button>
         </header>
         <div className="p-8 max-w-7xl mx-auto">{children}</div>
       </main>
