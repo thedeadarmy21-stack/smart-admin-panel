@@ -31,15 +31,23 @@ const Layout = ({ children }) => {
     { name: 'Reports', path: '/reports', icon: '📑' },
   ];
 
-  // 👇 Naam yahan fix kiya hai
-  const displayName = adminData.name === 'Sir Bilal' ? 'Sir Sarkar' : (adminData.name || 'Sir Sarkar');
+  const displayName = adminData.name === 'Sir Bilal' ? 'Sarkar Sir' : (adminData.name || 'Sarkar Sir');
 
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       <aside className="w-64 bg-slate-900 dark:bg-slate-950 text-white flex flex-col shadow-2xl z-20 transition-colors duration-300">
         <div className="h-20 flex items-center px-6 border-b border-slate-800 bg-slate-950">
           <h1 className="text-xl font-extrabold tracking-wide flex items-center gap-2">
-            <span className="text-2xl">🎓</span> Smart School
+            {/* 👇 MODERN SVG LOGO */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500">
+              <path d="M4 4h6v6H4z"/>
+              <path d="M14 4h6v6h-6z"/>
+              <path d="M4 14h6v6H4z"/>
+              <path d="M14 14h6v6h-6z"/>
+              <path d="M12 2v20"/>
+              <path d="M2 12h20"/>
+            </svg>
+            Smart School
           </h1>
         </div>
         

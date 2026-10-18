@@ -37,13 +37,12 @@ const Dashboard = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       
-      // Update local storage with new data
       localStorage.setItem('adminData', JSON.stringify(res.data.teacher));
-      
       setMsg({ type: 'success', text: 'Profile updated successfully!' });
+      
       setTimeout(() => {
         setShowModal(false);
-        window.location.reload(); // Reload to show new name
+        window.location.reload(); 
       }, 1500);
       
     } catch (err) {
@@ -59,55 +58,66 @@ const Dashboard = () => {
       {/* WELCOME BANNER */}
       <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-8 rounded-3xl shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h3 className="text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name || 'Principal'}!</h3>
+          <h3 className="text-2xl font-bold mb-2 relative z-10">
+  Welcome back, {adminData.name === 'Sir Bilal' ? 'Sarkar Sir' : (adminData.name || 'Principal')}!
+</h3>
           <p className="text-blue-100 relative z-10 max-w-xl">
             Here is the live overview of Smart School. You can manage students, print ID cards, and view attendance reports.
           </p>
         </div>
         <button 
           onClick={() => setShowModal(true)}
-          className="bg-white/20 hover:bg-white/30 transition px-4 py-2 rounded-xl text-sm font-bold backdrop-blur-sm border border-white/30 z-10 whitespace-nowrap"
+          className="bg-white/10 hover:bg-white/20 transition-all px-5 py-2.5 rounded-xl text-sm font-bold backdrop-blur-md border border-white/20 z-10 whitespace-nowrap flex items-center gap-2 shadow-lg"
         >
-          ⚙️ Edit Profile
+          <span>🔐</span> Security
         </button>
         <div className="absolute top-0 right-0 opacity-10 text-9xl transform translate-x-4 -translate-y-4">🎓</div>
       </div>
 
-      {/* EDIT PROFILE MODAL */}
+      {/* SECURITY MODAL */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-700">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">Edit Profile</h3>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Change your username or password.</p>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-10 w-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 text-xl">
+                🔐
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-800 dark:text-white">Account Security</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Update your login credentials</p>
+              </div>
+            </div>
             
             {msg.text && (
-              <div className={`p-3 rounded-lg mb-4 text-sm font-bold ${msg.type === 'success' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
-                {msg.text}
+              <div className={`p-3 rounded-xl mb-6 text-sm font-bold flex items-center gap-2 ${msg.type === 'success' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400'}`}>
+                <span>{msg.type === 'success' ? '✅' : '⚠️'}</span> {msg.text}
               </div>
             )}
             
-            <form onSubmit={handleUpdateProfile} className="space-y-4">
+            <form onSubmit={handleUpdateProfile} className="space-y-5">
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Password <span className="text-red-500">*</span></label>
+                <input 
+                  type="password" 
+                  value={profileData.currentPassword}
+                  onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})}
+                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all"
+                  placeholder="Enter current password"
+                  required 
+                />
+                <p className="text-xs text-slate-500 mt-1">Required to verify your identity.</p>
+              </div>
+              
+              <div className="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
+              
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username (Optional)</label>
                 <input 
                   type="text" 
                   value={profileData.newUsername}
                   onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})}
-                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
+                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all"
                   placeholder="Leave blank to keep current"
-                />
-              </div>
-              
-              <hr className="border-slate-200 dark:border-slate-700" />
-              
-              <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Password (Required)</label>
-                <input 
-                  type="password" 
-                  value={profileData.currentPassword}
-                  onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})}
-                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
-                  required 
                 />
               </div>
               
@@ -117,14 +127,14 @@ const Dashboard = () => {
                   type="password" 
                   value={profileData.newPassword}
                   onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})}
-                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
+                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all"
                   placeholder="Leave blank to keep current"
                 />
               </div>
               
               <div className="flex gap-3 pt-4">
-                <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-300 dark:hover:bg-slate-600 transition">Cancel</button>
-                <button type="submit" className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">Update Profile</button>
+                <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600 transition">Cancel</button>
+                <button type="submit" className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-600/30">Update</button>
               </div>
             </form>
           </div>
