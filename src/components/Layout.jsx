@@ -65,7 +65,7 @@ const Layout = ({ children }) => {
               {adminData.name?.charAt(0) || 'A'}
             </div>
             <div>
-              <p className="text-sm font-bold text-white">{adminData.name || 'Admin'}</p>
+             <p className="text-sm font-bold text-white">{adminData.name === 'Sir Bilal' ? 'Sarkar Sir' : (adminData.name || 'Sarkar Sir')}</p>
               <p className="text-xs text-slate-400">Smart School</p>
             </div>
           </div>
