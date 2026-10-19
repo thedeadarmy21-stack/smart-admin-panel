@@ -46,7 +46,7 @@ const Students = () => {
     }
   };
 
-  // 🌟 FINAL PREMIUM ID CARD (With New Professional Logo & Fonts)
+  // 🌟 FINAL PREMIUM ID CARD (No Logo, Just Clean Typography)
   const generateIDCardPDF = async (doc, student, isFirst) => {
     if (!isFirst) doc.addPage([85.6, 54], 'landscape');
     
@@ -68,54 +68,25 @@ const Students = () => {
     doc.setFillColor(240, 253, 250); // Teal-50
     doc.rect(0, 42, 85.6, 12, 'F');
 
-    // 🚀 5. PROFESSIONAL SCHOOL LOGO (Draw with shapes)
-    // Sun (Orange Circle)
-    doc.setFillColor(245, 158, 11); // Amber-500
-    doc.circle(12, 9, 3.5, 'F');
-    
-    // Sun Rays
-    doc.setDrawColor(245, 158, 11);
-    doc.setLineWidth(0.4);
-    doc.line(12, 4, 12, 5); // Top
-    doc.line(12, 13, 12, 14); // Bottom
-    doc.line(7, 9, 8, 9); // Left
-    doc.line(16, 9, 17, 9); // Right
-    doc.line(8.5, 5.5, 9.5, 6.5); // Top Left
-    doc.line(14.5, 11.5, 15.5, 12.5); // Bottom Right
-    doc.line(8.5, 12.5, 9.5, 11.5); // Bottom Left
-    doc.line(14.5, 6.5, 15.5, 5.5); // Top Right
-
-    // Book Left (Teal)
-    doc.setFillColor(6, 182, 212); // Cyan-500
-    doc.triangle(7, 13, 12, 11, 12, 15, 'F');
-    doc.triangle(7, 13, 7, 17, 12, 15, 'F');
-    doc.setDrawColor(30, 41, 59); // Dark border
-    doc.setLineWidth(0.5);
-    doc.triangle(7, 13, 7, 17, 12, 15, 'S');
-
-    // Book Right (Orange)
-    doc.setFillColor(245, 158, 11); // Amber-500
-    doc.triangle(17, 13, 12, 11, 12, 15, 'F');
-    doc.triangle(17, 13, 17, 17, 12, 15, 'F');
-    doc.triangle(17, 13, 17, 17, 12, 15, 'S');
-
-    // 6. School Name & Tagline
+    // 🚀 5. PROFESSIONAL SCHOOL NAME (No Logo, Just Text)
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'bold');
-    doc.text('SMART SCHOOL', 19, 8.5);
-    doc.setFontSize(5);
+    doc.setFontSize(12);
+    doc.setFont('times', 'bold'); // Premium Serif Font
+    doc.text('SMART SCHOOL', 10, 9); 
+    
+    doc.setFontSize(6);
     doc.setFont('helvetica', 'normal');
-    doc.text('Excellence in Education', 19, 12);
+    doc.setTextColor(200, 250, 240); // Light Teal text for tagline
+    doc.text('Excellence in Education', 10, 14);
 
-    // 7. Big Title (Times New Roman for Premium Look)
+    // 6. Big Title (Times New Roman for Premium Look)
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(18);
     doc.setFont('times', 'bold');
     doc.text('STUDENT', 45, 11);
     doc.text('ID CARD', 45, 18);
 
-    // 8. Student Details (Right Side)
+    // 7. Student Details (Right Side)
     doc.setTextColor(30, 41, 59); // Slate-800
     
     // Labels (Bold)
@@ -139,7 +110,7 @@ const Students = () => {
     doc.text(`${student.className} - ${student.section}`, 54, 38);
     doc.text(student.fatherName, 54, 44);
 
-    // 9. BIG QR Code (Left Side)
+    // 8. BIG QR Code (Left Side)
     // Border Frame
     doc.setDrawColor(15, 118, 110); // Teal Border
     doc.setLineWidth(0.8);
