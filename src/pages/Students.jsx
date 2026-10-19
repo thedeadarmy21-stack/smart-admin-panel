@@ -46,9 +46,9 @@ const Students = () => {
     }
   };
 
-  // 🌟 ULTRA PREMIUM ID CARD (Screenshot wala Green/Teal Design)
+  // 🌟 FINAL PREMIUM ID CARD (With QR, Logo, and no footer)
   const generateIDCardPDF = async (doc, student, isFirst) => {
-    if (!isFirst) doc.addPage([85.6, 54], 'landscape'); // Card size landscape
+    if (!isFirst) doc.addPage([85.6, 54], 'landscape');
     
     const qrDataUrl = await QRCode.toDataURL(student.qrCode, { width: 400, margin: 1 });
     
@@ -66,16 +66,24 @@ const Students = () => {
 
     // 4. Bottom Wave (Light Teal)
     doc.setFillColor(240, 253, 250); // Teal-50
-    doc.rect(0, 40, 85.6, 14, 'F');
+    doc.rect(0, 42, 85.6, 12, 'F');
 
-    // 5. School Logo & Name
+    // 5. School Logo & Name (Top Left)
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.text('SMART SCHOOL', 10, 8);
+    doc.text('SMART SCHOOL', 18, 8); // Thoda right shift kiya logo ke liye
     doc.setFontSize(6);
     doc.setFont('helvetica', 'normal');
-    doc.text('Excellence in Education', 10, 12);
+    doc.text('Excellence in Education', 18, 12);
+
+    // Draw a simple Graduation Cap Logo (Since PDF can't render complex SVGs easily)
+    doc.setDrawColor(255, 255, 255);
+    doc.setLineWidth(0.5);
+    doc.line(8, 8, 14, 8); // Cap base
+    doc.line(8, 8, 11, 5); // Cap left slope
+    doc.line(14, 8, 11, 5); // Cap right slope
+    doc.line(11, 5, 11, 9); // Tassel
 
     // 6. Big Title
     doc.setTextColor(255, 255, 255);
@@ -84,57 +92,44 @@ const Students = () => {
     doc.text('STUDENT', 45, 10);
     doc.text('ID CARD', 45, 17);
 
-    // 7. Student Avatar (Big Circle)
-    doc.setFillColor(255, 255, 255);
-    doc.circle(22, 32, 14, 'F');
-    doc.setDrawColor(13, 148, 136); // Teal border
-    doc.setLineWidth(2);
-    doc.circle(22, 32, 14, 'S');
-    
-    doc.setTextColor(13, 148, 136);
-    doc.setFontSize(24);
-    doc.setFont('helvetica', 'bold');
-    doc.text(student.name.charAt(0).toUpperCase(), 22, 37, { align: 'center' });
-
-    // 8. Student Details (Right Side)
+    // 7. Student Details (Right Side - Shifted a bit)
     doc.setTextColor(30, 41, 59); // Slate-800
     doc.setFontSize(8);
     doc.setFont('helvetica', 'bold');
     
     // Name
-    doc.text('Name', 42, 25);
-    doc.text(':', 55, 25);
+    doc.text('Name', 38, 26);
+    doc.text(':', 52, 26);
     doc.setFont('helvetica', 'normal');
-    doc.text(student.name.toUpperCase(), 58, 25);
+    doc.text(student.name.toUpperCase(), 55, 26);
 
     // Roll Number
     doc.setFont('helvetica', 'bold');
-    doc.text('Roll No', 42, 31);
-    doc.text(':', 55, 31);
+    doc.text('Roll No', 38, 32);
+    doc.text(':', 52, 32);
     doc.setFont('helvetica', 'normal');
-    doc.text(student.rollNumber, 58, 31);
+    doc.text(student.rollNumber, 55, 32);
 
     // Class
     doc.setFont('helvetica', 'bold');
-    doc.text('Class', 42, 37);
-    doc.text(':', 55, 37);
+    doc.text('Class', 38, 38);
+    doc.text(':', 52, 38);
     doc.setFont('helvetica', 'normal');
-    doc.text(`${student.className} - ${student.section}`, 58, 37);
+    doc.text(`${student.className} - ${student.section}`, 55, 38);
 
     // Father Name
     doc.setFont('helvetica', 'bold');
-    doc.text('Father', 42, 43);
-    doc.text(':', 55, 43);
+    doc.text('Father', 38, 44);
+    doc.text(':', 52, 44);
     doc.setFont('helvetica', 'normal');
-    doc.text(student.fatherName, 58, 43);
+    doc.text(student.fatherName, 55, 44);
 
-    // 9. QR Code (Bottom Left)
-    doc.addImage(qrDataUrl, 'PNG', 10, 42, 14, 14);
-
-    // 10. Footer Text
-    doc.setFontSize(5);
-    doc.setTextColor(100, 116, 139);
-    doc.text('Powered by Smart Attendance System', 85.6 - 5, 52, { align: 'right' });
+    // 8. BIG QR Code (Left Side - Replacing Photo/Avatar)
+    // QR Code Box border
+    doc.setDrawColor(13, 148, 136); // Teal
+    doc.setLineWidth(1);
+    doc.rect(9, 22, 26, 26, 'S'); // Border frame
+    doc.addImage(qrDataUrl, 'PNG', 10, 23, 24, 24); // QR Code inside
   };
 
   const downloadIDCard = async (student) => {
