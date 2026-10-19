@@ -46,7 +46,7 @@ const Students = () => {
     }
   };
 
-  // 🌟 FINAL PREMIUM ID CARD (With QR, Logo, and no footer)
+  // 🌟 FINAL PREMIUM ID CARD (Screenshot wala Design with Logo & Fonts)
   const generateIDCardPDF = async (doc, student, isFirst) => {
     if (!isFirst) doc.addPage([85.6, 54], 'landscape');
     
@@ -57,79 +57,73 @@ const Students = () => {
     doc.rect(0, 0, 85.6, 54, 'F');
 
     // 2. Top Header Wave (Dark Teal)
-    doc.setFillColor(13, 148, 136); // Teal-600
+    doc.setFillColor(15, 118, 110); // Teal-700
     doc.rect(0, 0, 85.6, 20, 'F');
     
     // 3. Top Right Green Blob
     doc.setFillColor(22, 163, 74); // Green-600
-    doc.ellipse(85.6, 0, 25, 15, 'F');
+    doc.ellipse(85.6, 0, 30, 18, 'F');
 
     // 4. Bottom Wave (Light Teal)
     doc.setFillColor(240, 253, 250); // Teal-50
     doc.rect(0, 42, 85.6, 12, 'F');
 
-    // 5. School Logo & Name (Top Left)
+    // 5. Logo (Professional Graduation Cap Shape)
+    doc.setFillColor(255, 255, 255);
+    // Cap Top
+    doc.rect(8, 6, 6, 1.5, 'F');
+    // Cap Base
+    doc.rect(9.5, 7.5, 3, 2, 'F');
+    // Tassel
+    doc.rect(14, 7.5, 0.5, 3, 'F');
+    
+    // 6. School Name & Tagline
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(10);
+    doc.setFontSize(9);
     doc.setFont('helvetica', 'bold');
-    doc.text('SMART SCHOOL', 18, 8); // Thoda right shift kiya logo ke liye
-    doc.setFontSize(6);
+    doc.text('SMART SCHOOL', 16, 8.5);
+    doc.setFontSize(5);
     doc.setFont('helvetica', 'normal');
-    doc.text('Excellence in Education', 18, 12);
+    doc.text('Excellence in Education', 16, 12);
 
-    // Draw a simple Graduation Cap Logo (Since PDF can't render complex SVGs easily)
-    doc.setDrawColor(255, 255, 255);
-    doc.setLineWidth(0.5);
-    doc.line(8, 8, 14, 8); // Cap base
-    doc.line(8, 8, 11, 5); // Cap left slope
-    doc.line(14, 8, 11, 5); // Cap right slope
-    doc.line(11, 5, 11, 9); // Tassel
-
-    // 6. Big Title
+    // 7. Big Title (Times New Roman for Premium Look)
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(18);
     doc.setFont('times', 'bold');
-    doc.text('STUDENT', 45, 10);
-    doc.text('ID CARD', 45, 17);
+    doc.text('STUDENT', 45, 11);
+    doc.text('ID CARD', 45, 18);
 
-    // 7. Student Details (Right Side - Shifted a bit)
+    // 8. Student Details (Right Side - Modern Font)
     doc.setTextColor(30, 41, 59); // Slate-800
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'bold');
     
-    // Name
+    // Labels (Bold)
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
     doc.text('Name', 38, 26);
-    doc.text(':', 52, 26);
-    doc.setFont('helvetica', 'normal');
-    doc.text(student.name.toUpperCase(), 55, 26);
-
-    // Roll Number
-    doc.setFont('helvetica', 'bold');
     doc.text('Roll No', 38, 32);
-    doc.text(':', 52, 32);
-    doc.setFont('helvetica', 'normal');
-    doc.text(student.rollNumber, 55, 32);
-
-    // Class
-    doc.setFont('helvetica', 'bold');
     doc.text('Class', 38, 38);
-    doc.text(':', 52, 38);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`${student.className} - ${student.section}`, 55, 38);
-
-    // Father Name
-    doc.setFont('helvetica', 'bold');
     doc.text('Father', 38, 44);
-    doc.text(':', 52, 44);
-    doc.setFont('helvetica', 'normal');
-    doc.text(student.fatherName, 55, 44);
 
-    // 8. BIG QR Code (Left Side - Replacing Photo/Avatar)
-    // QR Code Box border
-    doc.setDrawColor(13, 148, 136); // Teal
-    doc.setLineWidth(1);
-    doc.rect(9, 22, 26, 26, 'S'); // Border frame
-    doc.addImage(qrDataUrl, 'PNG', 10, 23, 24, 24); // QR Code inside
+    // Colons
+    doc.text(':', 50, 26);
+    doc.text(':', 50, 32);
+    doc.text(':', 50, 38);
+    doc.text(':', 50, 44);
+
+    // Values (Normal)
+    doc.setFont('helvetica', 'normal');
+    doc.text(student.name.toUpperCase(), 54, 26);
+    doc.text(student.rollNumber, 54, 32);
+    doc.text(`${student.className} - ${student.section}`, 54, 38);
+    doc.text(student.fatherName, 54, 44);
+
+    // 9. BIG QR Code (Left Side - Replacing Photo)
+    // Border Frame
+    doc.setDrawColor(15, 118, 110); // Teal Border
+    doc.setLineWidth(0.8);
+    doc.rect(8, 21, 26, 26, 'S'); 
+    // QR Image
+    doc.addImage(qrDataUrl, 'PNG', 9, 22, 24, 24); 
   };
 
   const downloadIDCard = async (student) => {
