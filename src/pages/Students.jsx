@@ -30,7 +30,6 @@ const Students = () => {
     fetchStudents();
   }, [token]);
 
-  // 🚀 NAYA: Delete Student Function
   const handleDelete = async (studentId, studentName) => {
     if (!window.confirm(`Kya aap sach me "${studentName}" ko delete karna chahte hain? Iski saari attendance bhi delete ho jayegi.`)) {
       return;
@@ -40,65 +39,107 @@ const Students = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert('Student deleted successfully!');
-      fetchStudents(); // List refresh karo
+      fetchStudents();
     } catch (error) {
       console.error('Delete Error:', error);
       alert('Student delete nahi ho paya.');
     }
   };
 
+  // 🌟 ULTRA PREMIUM ID CARD (Screenshot wala Green/Teal Design)
   const generateIDCardPDF = async (doc, student, isFirst) => {
-    if (!isFirst) doc.addPage([54, 86], 'portrait');
+    if (!isFirst) doc.addPage([85.6, 54], 'landscape'); // Card size landscape
+    
     const qrDataUrl = await QRCode.toDataURL(student.qrCode, { width: 400, margin: 1 });
     
+    // 1. Background White
     doc.setFillColor(255, 255, 255);
-    doc.rect(0, 0, 54, 86, 'F');
-    doc.setFillColor(30, 58, 138); 
-    doc.rect(0, 0, 54, 22, 'F');
-    doc.setFillColor(234, 179, 8); 
-    doc.rect(0, 22, 54, 3, 'F');
+    doc.rect(0, 0, 85.6, 54, 'F');
 
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'bold');
-    doc.text('SMART SCHOOL', 27, 10, { align: 'center' });
-    doc.setFontSize(5);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Excellence in Education', 27, 14, { align: 'center' });
-
-    doc.setFillColor(239, 246, 255); 
-    doc.circle(27, 38, 12, 'F');
-    doc.setDrawColor(30, 58, 138); 
-    doc.setLineWidth(1);
-    doc.circle(27, 38, 12, 'S');
+    // 2. Top Header Wave (Dark Teal)
+    doc.setFillColor(13, 148, 136); // Teal-600
+    doc.rect(0, 0, 85.6, 20, 'F');
     
-    doc.setTextColor(30, 58, 138);
-    doc.setFontSize(24);
+    // 3. Top Right Green Blob
+    doc.setFillColor(22, 163, 74); // Green-600
+    doc.ellipse(85.6, 0, 25, 15, 'F');
+
+    // 4. Bottom Wave (Light Teal)
+    doc.setFillColor(240, 253, 250); // Teal-50
+    doc.rect(0, 40, 85.6, 14, 'F');
+
+    // 5. School Logo & Name
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.text(student.name.charAt(0).toUpperCase(), 27, 43, { align: 'center' });
-
-    doc.setTextColor(15, 23, 42); 
-    doc.setFontSize(11);
-    doc.text(student.name.toUpperCase(), 27, 56, { align: 'center' });
-
+    doc.text('SMART SCHOOL', 10, 8);
     doc.setFontSize(6);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(100, 116, 139); 
-    doc.text(`Roll No: ${student.rollNumber}`, 27, 61, { align: 'center' });
-    doc.text(`Class: ${student.className} - ${student.section}`, 27, 65, { align: 'center' });
+    doc.text('Excellence in Education', 10, 12);
 
-    doc.addImage(qrDataUrl, 'PNG', 19, 68, 16, 16);
+    // 6. Big Title
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(18);
+    doc.setFont('times', 'bold');
+    doc.text('STUDENT', 45, 10);
+    doc.text('ID CARD', 45, 17);
 
-    doc.setDrawColor(226, 232, 240);
-    doc.line(0, 80, 54, 80);
-    doc.setFontSize(4);
-    doc.setTextColor(148, 163, 184);
-    doc.text('Powered by Smart Attendance System', 27, 83.5, { align: 'center' });
+    // 7. Student Avatar (Big Circle)
+    doc.setFillColor(255, 255, 255);
+    doc.circle(22, 32, 14, 'F');
+    doc.setDrawColor(13, 148, 136); // Teal border
+    doc.setLineWidth(2);
+    doc.circle(22, 32, 14, 'S');
+    
+    doc.setTextColor(13, 148, 136);
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    doc.text(student.name.charAt(0).toUpperCase(), 22, 37, { align: 'center' });
+
+    // 8. Student Details (Right Side)
+    doc.setTextColor(30, 41, 59); // Slate-800
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    
+    // Name
+    doc.text('Name', 42, 25);
+    doc.text(':', 55, 25);
+    doc.setFont('helvetica', 'normal');
+    doc.text(student.name.toUpperCase(), 58, 25);
+
+    // Roll Number
+    doc.setFont('helvetica', 'bold');
+    doc.text('Roll No', 42, 31);
+    doc.text(':', 55, 31);
+    doc.setFont('helvetica', 'normal');
+    doc.text(student.rollNumber, 58, 31);
+
+    // Class
+    doc.setFont('helvetica', 'bold');
+    doc.text('Class', 42, 37);
+    doc.text(':', 55, 37);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`${student.className} - ${student.section}`, 58, 37);
+
+    // Father Name
+    doc.setFont('helvetica', 'bold');
+    doc.text('Father', 42, 43);
+    doc.text(':', 55, 43);
+    doc.setFont('helvetica', 'normal');
+    doc.text(student.fatherName, 58, 43);
+
+    // 9. QR Code (Bottom Left)
+    doc.addImage(qrDataUrl, 'PNG', 10, 42, 14, 14);
+
+    // 10. Footer Text
+    doc.setFontSize(5);
+    doc.setTextColor(100, 116, 139);
+    doc.text('Powered by Smart Attendance System', 85.6 - 5, 52, { align: 'right' });
   };
 
   const downloadIDCard = async (student) => {
     try {
-      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [54, 86] });
+      const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [85.6, 54] });
       await generateIDCardPDF(doc, student, true);
       doc.save(`${student.name}-ID-Card.pdf`);
     } catch (err) {
@@ -111,7 +152,7 @@ const Students = () => {
     if (filteredStudents.length === 0) return alert("No students to download.");
     setDownloadingAll(true);
     try {
-      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [54, 86] });
+      const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [85.6, 54] });
       for (let i = 0; i < filteredStudents.length; i++) {
         await generateIDCardPDF(doc, filteredStudents[i], i === 0);
       }
@@ -224,7 +265,6 @@ const Students = () => {
                       >
                         🪪 ID
                       </button>
-                      {/* 🚀 NAYA: Delete Button */}
                       <button 
                         onClick={() => handleDelete(student._id, student.name)}
                         className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2 rounded-xl text-sm font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-all shadow-sm border border-red-200 dark:border-red-800"
