@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 const Dashboard = () => {
   const [stats, setStats] = useState({ totalStudents: 0, presentToday: 0, absentToday: 0 });
   const [classStats, setClassStats] = useState([]);
-  const [lowAttendance, setLowAttendance] = useState([]); // 👈 Naya State
+  const [lowAttendance, setLowAttendance] = useState([]);
+  const [selectedClassFilter, setSelectedClassFilter] = useState('all'); // 👈 Naya State
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   
@@ -15,25 +16,26 @@ const Dashboard = () => {
   const token = localStorage.getItem('adminToken');
   const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
 
+  const fetchData = async () => {
+    try {
+      const [statsRes, classRes, lowRes] = await Promise.all([
+        axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/dashboard-stats', { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/class-stats', { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get(`https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance?className=${selectedClassFilter}`, { headers: { Authorization: `Bearer ${token}` } }) // 👈 Class filter bhej rahe hain
+      ]);
+      setStats(statsRes.data);
+      setClassStats(classRes.data.data);
+      setLowAttendance(lowRes.data.data);
+    } catch (error) {
+      console.error('Error fetching data', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [statsRes, classRes, lowRes] = await Promise.all([
-          axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/dashboard-stats', { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/class-stats', { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance', { headers: { Authorization: `Bearer ${token}` } }) // 👈 Naya API Call
-        ]);
-        setStats(statsRes.data);
-        setClassStats(classRes.data.data);
-        setLowAttendance(lowRes.data.data);
-      } catch (error) {
-        console.error('Error fetching data', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchData();
-  }, [token]);
+  }, [token, selectedClassFilter]); // 👈 Jab class filter change ho, dobara fetch karo
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -56,7 +58,7 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 animate-pop relative">
       
-      {/* WELCOME BANNER */}
+      {/* WELCOME BANNER & SECURITY MODAL (Same as before) */}
       <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-8 rounded-3xl shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h3 className="text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name === 'Sir Bilal' ? 'Sir Sarkar' : (adminData.name || 'Principal')}!</h3>
@@ -70,7 +72,6 @@ const Dashboard = () => {
         </button>
       </div>
 
-      {/* SECURITY MODAL */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-700">
@@ -107,7 +108,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* LIVE STATS CARDS */}
+      {/* LIVE STATS CARDS (Same as before) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-5">
           <div className="p-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl">
@@ -175,15 +176,30 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* 🚀 NAYA FEATURE: LOW ATTENDANCE ALERT */}
+      {/* 🚀 NAYA FEATURE: LOW ATTENDANCE ALERT (With Class Filter) */}
       <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50">
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-2xl">⚠️</span>
-          <h4 className="font-bold text-lg text-red-600 dark:text-red-400">Low Attendance Alert (Below 75%)</h4>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">⚠️</span>
+            <h4 className="font-bold text-lg text-red-600 dark:text-red-400">Low Attendance Alert (Below 75%)</h4>
+          </div>
+          
+          {/* 👇 NAYA: Class Filter */}
+          <select
+            value={selectedClassFilter}
+            onChange={(e) => setSelectedClassFilter(e.target.value)}
+            className="px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-sm cursor-pointer"
+          >
+            <option value="all">All Classes</option>
+            {classStats.map((cls, idx) => (
+              <option key={idx} value={cls.className}>Class {cls.className}</option>
+            ))}
+          </select>
         </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {lowAttendance.length === 0 ? (
-            <p className="text-slate-500 text-sm col-span-full">All students have good attendance. 🎉</p>
+            <p className="text-slate-500 text-sm col-span-full">All students in this class have good attendance. 🎉</p>
           ) : (
             lowAttendance.map((student) => (
               <Link to={`/student/${student._id}`} key={student._id} className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-900/30 hover:shadow-md transition">

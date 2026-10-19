@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const Reports = () => {
   const [students, setStudents] = useState([]);
+  const [selectedClass, setSelectedClass] = useState(''); // 👈 Naya State
   const [selectedStudent, setSelectedStudent] = useState('');
   const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
   const [report, setReport] = useState(null);
@@ -23,6 +24,13 @@ const Reports = () => {
     };
     fetchStudents();
   }, [token]);
+
+  // Class ke hisaab se students filter karo
+  const filteredStudents = selectedClass 
+    ? students.filter(s => s.className === selectedClass)
+    : students;
+
+  const uniqueClasses = [...new Set(students.map(s => s.className))].sort();
 
   const fetchReport = async () => {
     if (!selectedStudent || !month) return alert('Select Student and Month');
@@ -61,7 +69,6 @@ const Reports = () => {
     }
   };
 
-  // 👇 Percentage Calculate karo
   const totalDays = report ? report.attendance.length : 0;
   const presentDays = report ? report.attendance.filter(a => a.status === 'present' || a.status === 'late').length : 0;
   const percentage = totalDays === 0 ? 0 : Math.round((presentDays / totalDays) * 100);
@@ -70,6 +77,22 @@ const Reports = () => {
     <div className="space-y-8">
       <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors duration-300">
         <div className="flex flex-col md:flex-row gap-6 items-end">
+          
+          {/* 🚀 NAYA: Class Select */}
+          <div className="flex-1 w-full">
+            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Select Class</label>
+            <select
+              value={selectedClass}
+              onChange={(e) => { setSelectedClass(e.target.value); setSelectedStudent(''); setReport(null); }}
+              className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 dark:text-white font-medium cursor-pointer"
+            >
+              <option value="">All Classes</option>
+              {uniqueClasses.map((cls, idx) => (
+                <option key={idx} value={cls}>Class {cls}</option>
+              ))}
+            </select>
+          </div>
+
           <div className="flex-1 w-full">
             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Select Student</label>
             <select
@@ -78,7 +101,7 @@ const Reports = () => {
               className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 dark:text-white font-medium cursor-pointer"
             >
               <option value="">-- Choose Student --</option>
-              {students.map((s) => (
+              {filteredStudents.map((s) => (
                 <option key={s._id} value={s._id}>{s.name} ({s.rollNumber})</option>
               ))}
             </select>
@@ -113,6 +136,7 @@ const Reports = () => {
         </div>
       </div>
 
+      {/* REPORT RESULTS (Same as before) */}
       {report && (
         <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
           <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -149,7 +173,6 @@ const Reports = () => {
                         </span>
                       </td>
                       <td className="p-5">
-                        {/* 👇 Naya Status Logic (Present, Late, Absent) */}
                         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border flex items-center gap-1 w-max ${
                           att.status === 'present' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' :
                           att.status === 'late' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800' :
