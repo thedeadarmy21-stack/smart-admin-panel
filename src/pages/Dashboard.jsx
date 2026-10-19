@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({ totalStudents: 0, presentToday: 0, absentToday: 0 });
-  const [classStats, setClassStats] = useState([]); // 👈 Naya State
+  const [classStats, setClassStats] = useState([]);
+  const [lowAttendance, setLowAttendance] = useState([]); // 👈 Naya State
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   
@@ -17,12 +18,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [statsRes, classRes] = await Promise.all([
+        const [statsRes, classRes, lowRes] = await Promise.all([
           axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/dashboard-stats', { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/class-stats', { headers: { Authorization: `Bearer ${token}` } })
+          axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/class-stats', { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance', { headers: { Authorization: `Bearer ${token}` } }) // 👈 Naya API Call
         ]);
         setStats(statsRes.data);
         setClassStats(classRes.data.data);
+        setLowAttendance(lowRes.data.data);
       } catch (error) {
         console.error('Error fetching data', error);
       } finally {
@@ -67,7 +70,7 @@ const Dashboard = () => {
         </button>
       </div>
 
-      {/* SECURITY MODAL (Same as before) */}
+      {/* SECURITY MODAL */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-700">
@@ -104,7 +107,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* LIVE STATS CARDS (Modern SVG) */}
+      {/* LIVE STATS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-5">
           <div className="p-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl">
@@ -151,7 +154,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* 🚀 NAYA FEATURE: CLASS-WISE STATS */}
+        {/* CLASS-WISE STATS */}
         <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
           <h4 className="font-bold text-lg text-slate-800 dark:text-white mb-4">Class-wise Overview</h4>
           <div className="space-y-3 max-h-48 overflow-y-auto pr-2">
@@ -169,6 +172,31 @@ const Dashboard = () => {
               ))
             )}
           </div>
+        </div>
+      </div>
+
+      {/* 🚀 NAYA FEATURE: LOW ATTENDANCE ALERT */}
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-2xl">⚠️</span>
+          <h4 className="font-bold text-lg text-red-600 dark:text-red-400">Low Attendance Alert (Below 75%)</h4>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {lowAttendance.length === 0 ? (
+            <p className="text-slate-500 text-sm col-span-full">All students have good attendance. 🎉</p>
+          ) : (
+            lowAttendance.map((student) => (
+              <Link to={`/student/${student._id}`} key={student._id} className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-900/30 hover:shadow-md transition">
+                <div>
+                  <p className="font-bold text-slate-800 dark:text-white">{student.name}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Roll: {student.rollNumber} | Class: {student.className}</p>
+                </div>
+                <div className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-lg">
+                  {student.percentage}%
+                </div>
+              </Link>
+            ))
+          )}
         </div>
       </div>
     </div>
