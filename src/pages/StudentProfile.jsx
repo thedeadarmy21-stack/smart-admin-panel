@@ -60,6 +60,10 @@ const StudentProfile = () => {
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Roll No: {student.rollNumber}</span>
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Class: {student.className} - {student.section}</span>
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Father: {student.fatherName}</span>
+            {/* 👇 Yahan WhatsApp Number add kiya hai */}
+            {student.fatherWhatsApp && (
+              <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">WhatsApp: {student.fatherWhatsApp}</span>
+            )}
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Email: {student.fatherEmail}</span>
           </div>
         </div>
