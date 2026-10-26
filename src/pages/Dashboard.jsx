@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({ totalStudents: 0, presentToday: 0, absentToday: 0 });
+  const [teacherStats, setTeacherStats] = useState({ totalTeachers: 0, presentTeachers: 0 }); // 👈 Naya State
   const [classStats, setClassStats] = useState([]);
   const [lowAttendance, setLowAttendance] = useState([]);
-  const [selectedClassFilter, setSelectedClassFilter] = useState('all'); // 👈 Naya State
+  const [selectedClassFilter, setSelectedClassFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   
@@ -18,14 +19,17 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [statsRes, classRes, lowRes] = await Promise.all([
+      const [statsRes, classRes, lowRes, teacherStatsRes] = await Promise.all([
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/dashboard-stats', { headers: { Authorization: `Bearer ${token}` } }),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/class-stats', { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get(`https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance?className=${selectedClassFilter}`, { headers: { Authorization: `Bearer ${token}` } }) // 👈 Class filter bhej rahe hain
+        axios.get(`https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance?className=${selectedClassFilter}`, { headers: { Authorization: `Bearer ${token}` } }),
+        // 👇 Naya API call: Teachers ka stats
+        axios.get('https://smart-attendance-backend-one.vercel.app/api/teacher-attendance/stats', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { totalTeachers: 0, presentTeachers: 0 } }))
       ]);
       setStats(statsRes.data);
       setClassStats(classRes.data.data);
       setLowAttendance(lowRes.data.data);
+      setTeacherStats(teacherStatsRes.data);
     } catch (error) {
       console.error('Error fetching data', error);
     } finally {
@@ -35,7 +39,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchData();
-  }, [token, selectedClassFilter]); // 👈 Jab class filter change ho, dobara fetch karo
+  }, [token, selectedClassFilter]);
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -58,7 +62,7 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 animate-pop relative">
       
-      {/* WELCOME BANNER & SECURITY MODAL (Same as before) */}
+      {/* WELCOME BANNER */}
       <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-8 rounded-3xl shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h3 className="text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name === 'Sir Bilal' ? 'Sir Sarkar' : (adminData.name || 'Principal')}!</h3>
@@ -72,6 +76,7 @@ const Dashboard = () => {
         </button>
       </div>
 
+      {/* SECURITY MODAL */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-700">
@@ -108,8 +113,8 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* LIVE STATS CARDS (Same as before) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* LIVE STATS CARDS (4 Cards) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-5">
           <div className="p-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
@@ -124,19 +129,30 @@ const Dashboard = () => {
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-wider">Present Today</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-wider">Students Present</p>
             <p className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">{loading ? '-' : stats.presentToday}</p>
           </div>
         </div>
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-5">
-          <div className="p-4 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-2xl">
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        {/* 👇 NAYA: Total Teachers */}
+        <Link to="/teachers-attendance" className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-5 hover:shadow-md transition">
+          <div className="p-4 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-2xl">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-wider">Absent Today</p>
-            <p className="text-3xl font-extrabold text-red-500 dark:text-red-400">{loading ? '-' : stats.absentToday}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-wider">Total Teachers</p>
+            <p className="text-3xl font-extrabold text-slate-800 dark:text-white">{loading ? '-' : teacherStats.totalTeachers}</p>
           </div>
-        </div>
+        </Link>
+        {/* 👇 NAYA: Teachers Present Today */}
+        <Link to="/teachers-attendance" className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-5 hover:shadow-md transition">
+          <div className="p-4 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          </div>
+          <div>
+            <p className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-wider">Teachers Present</p>
+            <p className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">{loading ? '-' : teacherStats.presentTeachers}</p>
+          </div>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -176,7 +192,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* 🚀 NAYA FEATURE: LOW ATTENDANCE ALERT (With Class Filter) */}
+      {/* LOW ATTENDANCE ALERT */}
       <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div className="flex items-center gap-2">
@@ -184,7 +200,6 @@ const Dashboard = () => {
             <h4 className="font-bold text-lg text-red-600 dark:text-red-400">Low Attendance Alert (Below 75%)</h4>
           </div>
           
-          {/* 👇 NAYA: Class Filter */}
           <select
             value={selectedClassFilter}
             onChange={(e) => setSelectedClassFilter(e.target.value)}

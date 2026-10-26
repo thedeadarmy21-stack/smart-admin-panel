@@ -4,7 +4,10 @@ import Dashboard from './pages/Dashboard';
 import Students from './pages/Students';
 import AddStudent from './pages/AddStudent';
 import Reports from './pages/Reports';
-import StudentProfile from './pages/StudentProfile'; // 👈 Naya Import
+import StudentProfile from './pages/StudentProfile';
+import Teachers from './pages/Teachers';           // 👈 Naya
+import AddTeacher from './pages/AddTeacher';       // 👈 Naya
+import TeachersAttendance from './pages/TeachersAttendance';
 import Layout from './components/Layout';
 
 const ProtectedRoute = ({ children }) => {
@@ -22,7 +25,13 @@ function App() {
         <Route path="/students" element={<ProtectedRoute><Students /></ProtectedRoute>} />
         <Route path="/add-student" element={<ProtectedRoute><AddStudent /></ProtectedRoute>} />
         <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
-        <Route path="/student/:id" element={<ProtectedRoute><StudentProfile /></ProtectedRoute>} /> {/* 👈 Naya Route */}
+        <Route path="/student/:id" element={<ProtectedRoute><StudentProfile /></ProtectedRoute>} />
+        
+        {/* 👇 Teachers Routes */}
+        <Route path="/teachers" element={<ProtectedRoute><Teachers /></ProtectedRoute>} />
+        <Route path="/add-teacher" element={<ProtectedRoute><AddTeacher /></ProtectedRoute>} />
+        <Route path="/teachers-attendance" element={<ProtectedRoute><TeachersAttendance /></ProtectedRoute>} />
+        
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

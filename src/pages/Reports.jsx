@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const Reports = () => {
   const [students, setStudents] = useState([]);
-  const [selectedClass, setSelectedClass] = useState(''); // 👈 Naya State
+  const [selectedClass, setSelectedClass] = useState('');
   const [selectedStudent, setSelectedStudent] = useState('');
   const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
   const [report, setReport] = useState(null);
@@ -78,7 +78,6 @@ const Reports = () => {
       <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors duration-300">
         <div className="flex flex-col md:flex-row gap-6 items-end">
           
-          {/* 🚀 NAYA: Class Select */}
           <div className="flex-1 w-full">
             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Select Class</label>
             <select
@@ -136,7 +135,6 @@ const Reports = () => {
         </div>
       </div>
 
-      {/* REPORT RESULTS (Same as before) */}
       {report && (
         <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
           <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
