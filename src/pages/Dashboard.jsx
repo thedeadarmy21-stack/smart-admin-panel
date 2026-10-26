@@ -13,6 +13,7 @@ const Dashboard = () => {
   
   const [profileData, setProfileData] = useState({ newUsername: '', currentPassword: '', newPassword: '' });
   const [msg, setMsg] = useState({ type: '', text: '' });
+  const [updating, setUpdating] = useState(false);
   
   const token = localStorage.getItem('adminToken');
   const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
@@ -44,15 +45,24 @@ const Dashboard = () => {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setMsg({ type: '', text: '' });
+    setUpdating(true);
+    
     try {
       const res = await axios.put('https://smart-attendance-backend-one.vercel.app/api/auth/update-profile', profileData, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
       localStorage.setItem('adminData', JSON.stringify(res.data.teacher));
       setMsg({ type: 'success', text: 'Profile updated successfully!' });
-      setTimeout(() => { setShowModal(false); window.location.reload(); }, 1500);
+      
+      setTimeout(() => { 
+        setShowModal(false); 
+        window.location.reload(); 
+      }, 1500);
     } catch (err) {
       setMsg({ type: 'error', text: err.response?.data?.message || 'Failed to update profile' });
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -87,23 +97,30 @@ const Dashboard = () => {
               </div>
             </div>
             {msg.text && <div className={`p-3 rounded-xl mb-6 text-sm font-bold flex items-center gap-2 ${msg.type === 'success' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>{msg.text}</div>}
+            
             <form onSubmit={handleUpdateProfile} className="space-y-5">
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Password <span className="text-red-500">*</span></label>
                 <input type="password" value={profileData.currentPassword} onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" required />
               </div>
+              
               <div className="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
+              
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username (Optional)</label>
-                <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" />
+                <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
               </div>
+              
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password (Optional)</label>
-                <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" />
+                <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
               </div>
+              
               <div className="flex gap-3 pt-4">
                 <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
-                <button type="submit" className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">Update</button>
+                <button type="submit" disabled={updating} className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition flex justify-center items-center">
+                  {updating ? 'Updating...' : 'Update'}
+                </button>
               </div>
             </form>
           </div>
