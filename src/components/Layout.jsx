@@ -5,6 +5,8 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
+  const schoolName = adminData.schoolName || 'Smart School';
+  const displayName = adminData.name || 'Admin';
   
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
 
@@ -24,7 +26,6 @@ const Layout = ({ children }) => {
     navigate('/');
   };
 
-  // 👇 Modern SVG Icons (Updated with Teachers & Attendance)
   const menuItems = [
     { name: 'Dashboard', path: '/dashboard', icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
@@ -49,8 +50,6 @@ const Layout = ({ children }) => {
     )},
   ];
 
-  const displayName = adminData.name === 'Sir Bilal' ? 'Sir Sarkar' : (adminData.name || 'Sarkar Sir');
-
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       
@@ -63,7 +62,7 @@ const Layout = ({ children }) => {
             <div className="h-9 w-9 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/50">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
             </div>
-            Smart School
+            <span className="truncate max-w-[150px]" title={schoolName}>{schoolName}</span>
           </h1>
         </div>
         
@@ -87,23 +86,20 @@ const Layout = ({ children }) => {
           ))}
         </nav>
 
-        {/* 🚀 PREMIUM USER PROFILE SECTION */}
+        {/* User Profile Section */}
         <div className="p-5 border-t border-slate-800/80 bg-slate-950">
           
           <div className="flex items-center gap-3 mb-5">
-            {/* Gradient Avatar */}
             <div className="h-11 w-11 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-900/50 border-2 border-slate-800">
-              {displayName.charAt(0)}
+              {displayName.charAt(0).toUpperCase()}
             </div>
             
-            {/* Name & School */}
             <div className="overflow-hidden">
               <p className="text-sm font-bold text-white truncate">{displayName}</p>
-              <p className="text-xs font-medium text-slate-500 truncate">Smart School</p>
+              <p className="text-xs font-medium text-slate-500 truncate" title={schoolName}>{schoolName}</p>
             </div>
           </div>
           
-          {/* Premium Logout Button */}
           <button
             onClick={handleLogout}
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-red-500 bg-red-500/10 border border-red-500/20 rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300 group"

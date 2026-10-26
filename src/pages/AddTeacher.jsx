@@ -3,11 +3,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const AddTeacher = () => {
+  const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
+  const defaultSchoolName = adminData.schoolName || '';
+
   const [formData, setFormData] = useState({
     name: '',
     username: '',
     password: '',
-    schoolName: 'Smart School',
+    schoolName: defaultSchoolName, // ✅ Admin ke school ka naam auto-fill
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -30,15 +33,14 @@ const AddTeacher = () => {
         'https://smart-attendance-backend-one.vercel.app/api/auth/register',
         {
           ...formData,
-          role: 'teacher', // 👈 Hamesha teacher role hi set hoga
+          role: 'teacher',
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setSuccess(`Teacher "${response.data.teacher.name}" added successfully!`);
-      setFormData({ name: '', username: '', password: '', schoolName: 'Smart School' });
+      setFormData({ name: '', username: '', password: '', schoolName: defaultSchoolName });
 
-      // 2 second baad students page pe redirect (ya teachers list pe)
       setTimeout(() => navigate('/teachers'), 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to add teacher.');
@@ -115,7 +117,9 @@ const AddTeacher = () => {
               value={formData.schoolName}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
+              readOnly
+              className="w-full px-4 py-3 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-600 dark:text-slate-400 cursor-not-allowed"
+              title="School name admin ke account se aata hai"
             />
           </div>
         </div>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({ totalStudents: 0, presentToday: 0, absentToday: 0 });
-  const [teacherStats, setTeacherStats] = useState({ totalTeachers: 0, presentTeachers: 0 }); // 👈 Naya State
+  const [teacherStats, setTeacherStats] = useState({ totalTeachers: 0, presentTeachers: 0 });
   const [classStats, setClassStats] = useState([]);
   const [lowAttendance, setLowAttendance] = useState([]);
   const [selectedClassFilter, setSelectedClassFilter] = useState('all');
@@ -16,6 +16,7 @@ const Dashboard = () => {
   
   const token = localStorage.getItem('adminToken');
   const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
+  const schoolName = adminData.schoolName || 'Smart School';
 
   const fetchData = async () => {
     try {
@@ -23,7 +24,6 @@ const Dashboard = () => {
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/dashboard-stats', { headers: { Authorization: `Bearer ${token}` } }),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/class-stats', { headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance?className=${selectedClassFilter}`, { headers: { Authorization: `Bearer ${token}` } }),
-        // 👇 Naya API call: Teachers ka stats
         axios.get('https://smart-attendance-backend-one.vercel.app/api/teacher-attendance/stats', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { totalTeachers: 0, presentTeachers: 0 } }))
       ]);
       setStats(statsRes.data);
@@ -56,18 +56,15 @@ const Dashboard = () => {
     }
   };
 
-  const chartData = [40, 65, 80, 55, 90, 70, 85]; 
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
   return (
     <div className="space-y-8 animate-pop relative">
       
       {/* WELCOME BANNER */}
       <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-8 rounded-3xl shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h3 className="text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name === 'Sir Bilal' ? 'Sir Sarkar' : (adminData.name || 'Principal')}!</h3>
+          <h3 className="text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name || 'Principal'}!</h3>
           <p className="text-blue-100 relative z-10 max-w-xl">
-            Here is the live overview of Smart School. You can manage students, print ID cards, and view attendance reports.
+            Here is the live overview of {schoolName}. You can manage students, print ID cards, and view attendance reports.
           </p>
         </div>
         <button onClick={() => setShowModal(true)} className="bg-white/10 hover:bg-white/20 transition-all px-5 py-2.5 rounded-xl text-sm font-bold backdrop-blur-md border border-white/20 z-10 whitespace-nowrap flex items-center gap-2 shadow-lg">
@@ -133,7 +130,6 @@ const Dashboard = () => {
             <p className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">{loading ? '-' : stats.presentToday}</p>
           </div>
         </div>
-        {/* 👇 NAYA: Total Teachers */}
         <Link to="/teachers-attendance" className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-5 hover:shadow-md transition">
           <div className="p-4 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-2xl">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -143,7 +139,6 @@ const Dashboard = () => {
             <p className="text-3xl font-extrabold text-slate-800 dark:text-white">{loading ? '-' : teacherStats.totalTeachers}</p>
           </div>
         </Link>
-        {/* 👇 NAYA: Teachers Present Today */}
         <Link to="/teachers-attendance" className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-5 hover:shadow-md transition">
           <div className="p-4 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -155,40 +150,23 @@ const Dashboard = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* WEEKLY CHART */}
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
-          <h4 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Weekly Attendance Overview</h4>
-          <div className="flex items-end justify-between h-48 gap-2">
-            {chartData.map((val, idx) => (
-              <div key={idx} className="flex flex-col items-center flex-1 group">
-                <div className="w-full bg-blue-100 dark:bg-slate-700 rounded-t-lg relative group-hover:bg-blue-500 dark:group-hover:bg-blue-600 transition-all duration-300" style={{ height: `${val}%` }}>
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">{val} Students</div>
+      {/* CLASS-WISE STATS (Full Width) */}
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <h4 className="font-bold text-lg text-slate-800 dark:text-white mb-4">Class-wise Overview (Today)</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {classStats.length === 0 ? (
+            <p className="text-slate-500 text-sm col-span-full">No data available.</p>
+          ) : (
+            classStats.map((cls, idx) => (
+              <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                <span className="font-bold text-slate-700 dark:text-slate-300">Class {cls.className}</span>
+                <div className="flex gap-4 text-sm font-bold">
+                  <span className="text-emerald-500 flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> {cls.present} P</span>
+                  <span className="text-red-500 flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500"></span> {cls.absent} A</span>
                 </div>
-                <span className="text-xs text-slate-500 dark:text-slate-400 mt-2 font-bold">{days[idx]}</span>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* CLASS-WISE STATS */}
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
-          <h4 className="font-bold text-lg text-slate-800 dark:text-white mb-4">Class-wise Overview</h4>
-          <div className="space-y-3 max-h-48 overflow-y-auto pr-2">
-            {classStats.length === 0 ? (
-              <p className="text-slate-500 text-sm">No data available.</p>
-            ) : (
-              classStats.map((cls, idx) => (
-                <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-700">
-                  <span className="font-bold text-slate-700 dark:text-slate-300">Class {cls.className}</span>
-                  <div className="flex gap-4 text-sm font-bold">
-                    <span className="text-emerald-500 flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> {cls.present} P</span>
-                    <span className="text-red-500 flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500"></span> {cls.absent} A</span>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+            ))
+          )}
         </div>
       </div>
 

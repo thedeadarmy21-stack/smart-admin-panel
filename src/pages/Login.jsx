@@ -20,8 +20,17 @@ const Login = () => {
         password,
       });
 
-      localStorage.setItem('adminToken', response.data.token);
-      localStorage.setItem('adminData', JSON.stringify(response.data.teacher));
+      const { token, teacher } = response.data;
+
+      // ✅ Role check: Sirf admin hi login kar sakta hai
+      if (teacher.role !== 'admin') {
+        setError('Access denied. Only admin can login here.');
+        setLoading(false);
+        return;
+      }
+
+      localStorage.setItem('adminToken', token);
+      localStorage.setItem('adminData', JSON.stringify(teacher));
       navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Server check karo.');
@@ -56,7 +65,7 @@ const Login = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-800"
-              placeholder="Enter username" // 👈 Placeholder change kiya
+              placeholder="Enter username"
               required
             />
           </div>
@@ -68,7 +77,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-800"
-              placeholder="Enter password" // 👈 Placeholder change kiya
+              placeholder="Enter password"
               required
             />
           </div>

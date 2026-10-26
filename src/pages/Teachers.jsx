@@ -45,9 +45,12 @@ const Teachers = () => {
     }
   };
 
+  // ✅ Sirf teacher role wale filter karo (admin nahi)
   const filteredTeachers = teachers.filter(t =>
-    t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    t.username.toLowerCase().includes(searchTerm.toLowerCase())
+    t.role === 'teacher' && (
+      t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      t.username.toLowerCase().includes(searchTerm.toLowerCase())
+    )
   );
 
   if (loading) return (
@@ -87,13 +90,12 @@ const Teachers = () => {
             <tr>
               <th className="p-5">Teacher Name</th>
               <th className="p-5">Username</th>
-              <th className="p-5">Role</th>
               <th className="p-5 text-center">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
             {filteredTeachers.length === 0 ? (
-              <tr><td colSpan="4" className="p-10 text-center text-slate-500 dark:text-slate-400 font-medium">No teachers found.</td></tr>
+              <tr><td colSpan="3" className="p-10 text-center text-slate-500 dark:text-slate-400 font-medium">No teachers found.</td></tr>
             ) : (
               filteredTeachers.map((teacher) => (
                 <tr key={teacher._id} className="hover:bg-blue-50/50 dark:hover:bg-slate-700/50 transition-colors">
@@ -106,15 +108,6 @@ const Teachers = () => {
                     </div>
                   </td>
                   <td className="p-5 text-slate-600 dark:text-slate-300 font-mono text-sm">{teacher.username}</td>
-                  <td className="p-5">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
-                      teacher.role === 'admin' 
-                        ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' 
-                        : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
-                    }`}>
-                      {teacher.role}
-                    </span>
-                  </td>
                   <td className="p-5 text-center">
                     <button
                       onClick={() => downloadQR(teacher)}
