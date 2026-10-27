@@ -11,7 +11,17 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   
+  // 🚀 Security Modal State
+  const [activeTab, setActiveTab] = useState('admin'); // 'admin' or 'teacher'
+  const [teachersList, setTeachersList] = useState([]); // Teachers ki list
+
+  // Admin Profile State
   const [profileData, setProfileData] = useState({ newUsername: '', currentPassword: '', newPassword: '' });
+  
+  // Teacher Update State
+  const [selectedTeacherId, setSelectedTeacherId] = useState('');
+  const [teacherUpdateData, setTeacherUpdateData] = useState({ newUsername: '', newPassword: '' });
+
   const [msg, setMsg] = useState({ type: '', text: '' });
   const [updating, setUpdating] = useState(false);
   
@@ -21,16 +31,23 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [statsRes, classRes, lowRes, teacherStatsRes] = await Promise.all([
+      const [statsRes, classRes, lowRes, teacherStatsRes, teachersRes] = await Promise.all([
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/dashboard-stats', { headers: { Authorization: `Bearer ${token}` } }),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/class-stats', { headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance?className=${selectedClassFilter}`, { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get('https://smart-attendance-backend-one.vercel.app/api/teacher-attendance/stats', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { totalTeachers: 0, presentTeachers: 0 } }))
+        axios.get('https://smart-attendance-backend-one.vercel.app/api/teacher-attendance/stats', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { totalTeachers: 0, presentTeachers: 0 } })),
+        // 🚀 Teachers ki list fetch karein taake dropdown mein dikha saken
+        axios.get('https://smart-attendance-backend-one.vercel.app/api/auth/all-teachers', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { teachers: [] } }))
       ]);
       setStats(statsRes.data);
       setClassStats(classRes.data.data);
       setLowAttendance(lowRes.data.data);
       setTeacherStats(teacherStatsRes.data);
+      
+      // Admin ko list se hata kar sirf teachers dikhayein
+      const onlyTeachers = teachersRes.data.teachers.filter(t => t.role === 'teacher');
+      setTeachersList(onlyTeachers);
+
     } catch (error) {
       console.error('Error fetching data', error);
     } finally {
@@ -42,7 +59,8 @@ const Dashboard = () => {
     fetchData();
   }, [token, selectedClassFilter]);
 
-  const handleUpdateProfile = async (e) => {
+  // 🚀 Admin Apna Profile Update Karega
+  const handleUpdateAdmin = async (e) => {
     e.preventDefault();
     setMsg({ type: '', text: '' });
     setUpdating(true);
@@ -53,17 +71,50 @@ const Dashboard = () => {
       });
       
       localStorage.setItem('adminData', JSON.stringify(res.data.teacher));
-      setMsg({ type: 'success', text: 'Profile updated successfully!' });
+      setMsg({ type: 'success', text: 'Admin profile updated successfully!' });
       
       setTimeout(() => { 
         setShowModal(false); 
         window.location.reload(); 
       }, 1500);
     } catch (err) {
-      setMsg({ type: 'error', text: err.response?.data?.message || 'Failed to update profile' });
+      setMsg({ type: 'error', text: err.response?.data?.message || 'Failed to update admin profile' });
     } finally {
       setUpdating(false);
     }
+  };
+
+  // 🚀 Admin Kisi Teacher Ka Profile Update Karega
+  const handleUpdateTeacher = async (e) => {
+    e.preventDefault();
+    setMsg({ type: '', text: '' });
+    if (!selectedTeacherId) {
+      return setMsg({ type: 'error', text: 'Please select a teacher first.' });
+    }
+    setUpdating(true);
+    
+    try {
+      const res = await axios.put(`https://smart-attendance-backend-one.vercel.app/api/auth/update-teacher/${selectedTeacherId}`, teacherUpdateData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      setMsg({ type: 'success', text: res.data.message });
+      setTeacherUpdateData({ newUsername: '', newPassword: '' }); // Clear form
+      fetchData(); // List refresh karein
+    } catch (err) {
+      setMsg({ type: 'error', text: err.response?.data?.message || 'Failed to update teacher profile' });
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  // Modal band hone par states reset karein
+  const closeModal = () => {
+    setShowModal(false);
+    setMsg({ type: '', text: '' });
+    setProfileData({ newUsername: '', currentPassword: '', newPassword: '' });
+    setTeacherUpdateData({ newUsername: '', newPassword: '' });
+    setSelectedTeacherId('');
   };
 
   return (
@@ -83,46 +134,113 @@ const Dashboard = () => {
         </button>
       </div>
 
-      {/* SECURITY MODAL */}
+      {/* 🚀 PROFESSIONAL SECURITY MODAL (With Tabs) */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-700">
-            <div className="flex items-center gap-3 mb-6">
+          <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-700 overflow-hidden">
+            
+            {/* Header */}
+            <div className="p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 flex items-center gap-3">
               <div className="h-10 w-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-800 dark:text-white">Account Security</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Update your login credentials</p>
+                <h3 className="text-xl font-bold text-slate-800 dark:text-white">Security Settings</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Manage account credentials</p>
               </div>
             </div>
-            {msg.text && <div className={`p-3 rounded-xl mb-6 text-sm font-bold flex items-center gap-2 ${msg.type === 'success' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>{msg.text}</div>}
-            
-            <form onSubmit={handleUpdateProfile} className="space-y-5">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Password <span className="text-red-500">*</span></label>
-                <input type="password" value={profileData.currentPassword} onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" required />
-              </div>
-              
-              <div className="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
-              
-              <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username (Optional)</label>
-                <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password (Optional)</label>
-                <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
-              </div>
-              
-              <div className="flex gap-3 pt-4">
-                <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
-                <button type="submit" disabled={updating} className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition flex justify-center items-center">
-                  {updating ? 'Updating...' : 'Update'}
-                </button>
-              </div>
-            </form>
+
+            {/* Tabs */}
+            <div className="flex border-b border-slate-200 dark:border-slate-700">
+              <button 
+                onClick={() => { setActiveTab('admin'); setMsg({type:'',text:''}); }}
+                className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'admin' ? 'text-blue-600 border-b-2 border-blue-600 dark:text-blue-400' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+              >
+                My Account
+              </button>
+              <button 
+                onClick={() => { setActiveTab('teacher'); setMsg({type:'',text:''}); }}
+                className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'teacher' ? 'text-blue-600 border-b-2 border-blue-600 dark:text-blue-400' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+              >
+                Manage Teacher
+              </button>
+            </div>
+
+            <div className="p-6">
+              {msg.text && (
+                <div className={`p-3 rounded-xl mb-6 text-sm font-bold flex items-center gap-2 ${msg.type === 'success' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400'}`}>
+                  {msg.text}
+                </div>
+              )}
+
+              {/* 🚀 TAB 1: MY ACCOUNT (ADMIN) */}
+              {activeTab === 'admin' && (
+                <form onSubmit={handleUpdateAdmin} className="space-y-5 animate-fadeIn">
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Password <span className="text-red-500">*</span></label>
+                    <input type="password" value={profileData.currentPassword} onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" required placeholder="Enter current password" />
+                  </div>
+                  
+                  <div className="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
+                  
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username (Optional)</label>
+                    <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password (Optional)</label>
+                    <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
+                  </div>
+                  
+                  <div className="flex gap-3 pt-4">
+                    <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
+                    <button type="submit" disabled={updating} className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition flex justify-center items-center">
+                      {updating ? 'Updating...' : 'Update My Profile'}
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* 🚀 TAB 2: MANAGE TEACHER (ADMIN UPDATES TEACHER) */}
+              {activeTab === 'teacher' && (
+                <form onSubmit={handleUpdateTeacher} className="space-y-5 animate-fadeIn">
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Select Teacher <span className="text-red-500">*</span></label>
+                    <select 
+                      value={selectedTeacherId} 
+                      onChange={(e) => setSelectedTeacherId(e.target.value)} 
+                      className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
+                      required
+                    >
+                      <option value="">-- Select a Teacher --</option>
+                      {teachersList.map((teacher) => (
+                        <option key={teacher._id} value={teacher._id}>{teacher.name} ({teacher.username})</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div className="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
+                  
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username (Optional)</label>
+                    <input type="text" value={teacherUpdateData.newUsername} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password (Optional)</label>
+                    <input type="password" value={teacherUpdateData.newPassword} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
+                  </div>
+                  
+                  <div className="flex gap-3 pt-4">
+                    <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
+                    <button type="submit" disabled={updating} className="flex-1 bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition flex justify-center items-center">
+                      {updating ? 'Updating...' : 'Update Teacher'}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       )}
