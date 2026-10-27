@@ -1,29 +1,24 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable'; // PDF Table ke liye
+import autoTable from 'jspdf-autotable'; // 🚀 Naya import tarika
 
 const Reports = () => {
-  // 🚀 NAYA: Toggle State (student or teacher)
   const [reportType, setReportType] = useState('student'); 
 
-  // Common States
   const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
   const [loading, setLoading] = useState(false);
   const [report, setReport] = useState(null);
   const [markingAbsent, setMarkingAbsent] = useState(false);
   const token = localStorage.getItem('adminToken');
 
-  // 🚀 Student States
   const [students, setStudents] = useState([]);
   const [selectedClass, setSelectedClass] = useState('');
   const [selectedStudent, setSelectedStudent] = useState('');
 
-  // 🚀 Teacher States
   const [teachers, setTeachers] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState('');
 
-  // Fetch Students & Teachers
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,7 +27,6 @@ const Reports = () => {
           axios.get('https://smart-attendance-backend-one.vercel.app/api/auth/all-teachers', { headers: { Authorization: `Bearer ${token}` } })
         ]);
         setStudents(studentsRes.data.students);
-        // Sirf teachers filter karein (admin nahi)
         setTeachers(teachersRes.data.teachers.filter(t => t.role === 'teacher'));
       } catch (error) {
         console.error('Error:', error);
@@ -41,14 +35,9 @@ const Reports = () => {
     fetchData();
   }, [token]);
 
-  // Class ke hisaab se students filter karo
-  const filteredStudents = selectedClass 
-    ? students.filter(s => s.className === selectedClass)
-    : students;
-
+  const filteredStudents = selectedClass ? students.filter(s => s.className === selectedClass) : students;
   const uniqueClasses = [...new Set(students.map(s => s.className))].sort();
 
-  // 🚀 Report Generate Function (Student or Teacher)
   const fetchReport = async () => {
     setReport(null);
     setLoading(true);
@@ -83,7 +72,6 @@ const Reports = () => {
     }
   };
 
-  // 🚀 Mark Absentees (Sirf students ke liye)
   const handleMarkAbsent = async () => {
     if (!window.confirm("Kya aap sach me un sab bacho ko absent mark karna chahte hain jo aaj scan nahi hue?")) return;
     setMarkingAbsent(true);
@@ -103,60 +91,69 @@ const Reports = () => {
     }
   };
 
-  // 🚀 PDF Download Function
+  // 🚀 FIXED: PDF Download Function
   const downloadPDF = () => {
-    if (!report) return;
+    if (!report) return alert('Pehle report generate karein.');
 
-    const doc = new jsPDF();
-    const title = report.type === 'student' ? 'Student Report' : 'Teacher Report';
-    const name = report.type === 'student' 
-      ? students.find(s => s._id === selectedStudent)?.name 
-      : teachers.find(t => t._id === selectedTeacher)?.name;
+    try {
+      const doc = new jsPDF();
+      const title = report.type === 'student' ? 'Student Report' : 'Teacher Report';
+      const name = report.type === 'student' 
+        ? students.find(s => s._id === selectedStudent)?.name || 'Student'
+        : teachers.find(t => t._id === selectedTeacher)?.name || 'Teacher';
 
-    // Header
-    doc.setFillColor(15, 118, 110);
-    doc.rect(0, 0, 210, 30, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(20);
-    doc.setFont('helvetica', 'bold');
-    doc.text('SMART SCHOOL', 14, 18);
-    doc.setFontSize(12);
-    doc.text(title, 14, 26);
+      // 🚀 HEADER
+      doc.setFillColor(15, 118, 110);
+      doc.rect(0, 0, 210, 35, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(22);
+      doc.setFont('helvetica', 'bold');
+      doc.text('SMART SCHOOL', 14, 18);
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.text(title, 14, 28);
 
-    // Info
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Name: ${name}`, 14, 45);
-    doc.text(`Month: ${month}`, 14, 53);
-    
-    // Stats
-    const totalDays = report.attendance.length;
-    const presentDays = report.attendance.filter(a => a.status === 'present' || a.status === 'late').length;
-    const percentage = totalDays === 0 ? 0 : Math.round((presentDays / totalDays) * 100);
+      // 🚀 INFO
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(11);
+      doc.text(`Name: ${name}`, 14, 50);
+      doc.text(`Month: ${month}`, 14, 57);
+      
+      const totalDays = report.attendance.length;
+      const presentDays = report.attendance.filter(a => a.status === 'present' || a.status === 'late').length;
+      const percentage = totalDays === 0 ? 0 : Math.round((presentDays / totalDays) * 100);
 
-    doc.text(`Total Records: ${totalDays}`, 14, 61);
-    doc.text(`Present: ${report.totalDaysPresent || 0}`, 14, 69);
-    doc.text(`Late: ${report.totalDaysLate || 0}`, 14, 77);
-    doc.text(`Absent: ${report.totalDaysAbsent || 0}`, 14, 85);
-    doc.text(`Attendance %: ${percentage}%`, 14, 93);
+      doc.text(`Total Records: ${totalDays}`, 14, 64);
+      doc.text(`Present: ${report.totalDaysPresent || 0}`, 14, 71);
+      doc.text(`Late: ${report.totalDaysLate || 0}`, 14, 78);
+      doc.text(`Absent: ${report.totalDaysAbsent || 0}`, 14, 85);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`Attendance: ${percentage}%`, 14, 92);
 
-    // Table
-    const tableData = report.attendance.map(att => [
-      att.date,
-      att.timeIn,
-      att.status.toUpperCase()
-    ]);
+      // 🚀 TABLE (Fixed)
+      const tableData = report.attendance.map(att => [
+        att.date,
+        att.timeIn,
+        att.status.toUpperCase()
+      ]);
 
-    doc.autoTable({
-      startY: 100,
-      head: [['Date', 'Time In', 'Status']],
-      body: tableData,
-      theme: 'grid',
-      headStyles: { fillColor: [15, 118, 110], textColor: [255, 255, 255] },
-    });
+      // Ye tarika hamesha kaam karta hai
+      autoTable(doc, {
+        startY: 100,
+        head: [['Date', 'Time In', 'Status']],
+        body: tableData,
+        theme: 'grid',
+        headStyles: { fillColor: [15, 118, 110], textColor: [255, 255, 255], fontStyle: 'bold' },
+        bodyStyles: { fontSize: 10 },
+        alternateRowStyles: { fillColor: [240, 253, 250] },
+      });
 
-    doc.save(`${name}-${month}-Report.pdf`);
+      // 🚀 SAVE
+      doc.save(`${name}-${month}-Report.pdf`);
+    } catch (err) {
+      console.error('PDF Error:', err);
+      alert('PDF download me error aya: ' + err.message);
+    }
   };
 
   const totalDays = report ? report.attendance.length : 0;
@@ -166,7 +163,6 @@ const Reports = () => {
   return (
     <div className="space-y-8">
       
-      {/* 🚀 TABS */}
       <div className="flex justify-center">
         <div className="bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl inline-flex shadow-inner border border-slate-200 dark:border-slate-700">
           <button
@@ -192,11 +188,9 @@ const Reports = () => {
         </div>
       </div>
 
-      {/* Filters */}
       <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors duration-300">
         <div className="flex flex-col md:flex-row gap-6 items-end">
           
-          {/* 🚀 STUDENT TABS KA FILTER */}
           {reportType === 'student' ? (
             <>
               <div className="flex-1 w-full">
@@ -228,7 +222,6 @@ const Reports = () => {
               </div>
             </>
           ) : (
-            // 🚀 TEACHER TABS KA FILTER
             <div className="flex-1 w-full md:w-1/2">
               <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Select Teacher</label>
               <select
@@ -279,7 +272,6 @@ const Reports = () => {
         </div>
       </div>
 
-      {/* Report Display */}
       {report && (
         <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
           <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -294,7 +286,6 @@ const Reports = () => {
                 <span>✅</span> {report.totalDaysAttended} Days Present
               </div>
               
-              {/* 🚀 PDF Download Button */}
               <button
                 onClick={downloadPDF}
                 className="bg-purple-600 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-purple-700 transition-all shadow-md flex items-center gap-2"
