@@ -10,7 +10,9 @@ const AddTeacher = () => {
     name: '',
     username: '',
     password: '',
-    schoolName: defaultSchoolName, // ✅ Admin ke school ka naam auto-fill
+    schoolName: defaultSchoolName,
+    phone: '',
+    assignedClass: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -39,7 +41,7 @@ const AddTeacher = () => {
       );
 
       setSuccess(`Teacher "${response.data.teacher.name}" added successfully!`);
-      setFormData({ name: '', username: '', password: '', schoolName: defaultSchoolName });
+      setFormData({ name: '', username: '', password: '', schoolName: defaultSchoolName, phone: '', assignedClass: '' });
 
       setTimeout(() => navigate('/teachers'), 2000);
     } catch (err) {
@@ -53,7 +55,7 @@ const AddTeacher = () => {
     <div className="max-w-3xl mx-auto bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
       <div className="mb-8">
         <h3 className="text-2xl font-extrabold text-slate-800 dark:text-white">Add New Teacher</h3>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Register a new teacher who can mark student attendance.</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Register a new teacher and assign them a class.</p>
       </div>
 
       {error && (
@@ -107,6 +109,42 @@ const AddTeacher = () => {
               className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
               placeholder="Min 6 characters"
             />
+          </div>
+
+          {/* 🚀 NAYA: Phone Number */}
+          <div>
+            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Phone Number</label>
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
+              placeholder="e.g. 03001234567"
+            />
+          </div>
+
+          {/* 🚀 NAYA: Assigned Class */}
+          <div>
+            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Assigned Class</label>
+            <select
+              name="assignedClass"
+              value={formData.assignedClass}
+              onChange={handleChange}
+              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white cursor-pointer"
+            >
+              <option value="">Select Class</option>
+              <option value="1">Class 1</option>
+              <option value="2">Class 2</option>
+              <option value="3">Class 3</option>
+              <option value="4">Class 4</option>
+              <option value="5">Class 5</option>
+              <option value="6">Class 6</option>
+              <option value="7">Class 7</option>
+              <option value="8">Class 8</option>
+              <option value="9">Class 9</option>
+              <option value="10">Class 10</option>
+            </select>
           </div>
 
           <div>

@@ -47,7 +47,6 @@ const StudentProfile = () => {
       <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 opacity-5 text-9xl transform translate-x-4 -translate-y-4">🎓</div>
         
-        {/* 🚀 Picture or First Letter */}
         <div className="h-32 w-32 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-6xl font-bold border-4 border-white dark:border-slate-700 shadow-lg z-10 overflow-hidden">
           {student.profilePicture ? (
             <img src={student.profilePicture} alt={student.name} className="h-full w-full object-cover" />
@@ -102,11 +101,12 @@ const StudentProfile = () => {
                 <th className="p-5 font-bold">Date</th>
                 <th className="p-5 font-bold">Time In</th>
                 <th className="p-5 font-bold">Status</th>
+                <th className="p-5 font-bold">Marked By</th> {/* 🚀 NAYA COLUMN */}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
               {attendance.length === 0 ? (
-                <tr><td colSpan="3" className="p-10 text-center text-slate-500 dark:text-slate-400">No attendance records found.</td></tr>
+                <tr><td colSpan="4" className="p-10 text-center text-slate-500 dark:text-slate-400">No attendance records found.</td></tr>
               ) : (
                 attendance.map((att) => (
                   <tr key={att._id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition">
@@ -124,6 +124,10 @@ const StudentProfile = () => {
                       }`}>
                         <span>{att.status === 'present' ? '🟢' : att.status === 'late' ? '🟡' : '🔴'}</span> {att.status}
                       </span>
+                    </td>
+                    {/* 🚀 NAYA: Teacher Name */}
+                    <td className="p-5 text-slate-600 dark:text-slate-300 font-medium">
+                      {att.teacherName || 'Unknown'}
                     </td>
                   </tr>
                 ))
