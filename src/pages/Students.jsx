@@ -46,50 +46,41 @@ const Students = () => {
     }
   };
 
-  // 🌟 FINAL PREMIUM ID CARD (No Logo, Just Clean Typography)
   const generateIDCardPDF = async (doc, student, isFirst) => {
     if (!isFirst) doc.addPage([85.6, 54], 'landscape');
     
     const qrDataUrl = await QRCode.toDataURL(student.qrCode, { width: 400, margin: 1 });
     
-    // 1. Background White
     doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, 85.6, 54, 'F');
 
-    // 2. Top Header Wave (Dark Teal)
-    doc.setFillColor(15, 118, 110); // Teal-700
+    doc.setFillColor(15, 118, 110);
     doc.rect(0, 0, 85.6, 20, 'F');
     
-    // 3. Top Right Green Blob
-    doc.setFillColor(22, 163, 74); // Green-600
+    doc.setFillColor(22, 163, 74);
     doc.ellipse(85.6, 0, 30, 18, 'F');
 
-    // 4. Bottom Wave (Light Teal)
-    doc.setFillColor(240, 253, 250); // Teal-50
+    doc.setFillColor(240, 253, 250);
     doc.rect(0, 42, 85.6, 12, 'F');
 
-    // 🚀 5. PROFESSIONAL SCHOOL NAME (No Logo, Just Text)
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(12);
-    doc.setFont('times', 'bold'); // Premium Serif Font
+    doc.setFont('times', 'bold');
     doc.text('SMART SCHOOL', 10, 9); 
     
     doc.setFontSize(6);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(200, 250, 240); // Light Teal text for tagline
+    doc.setTextColor(200, 250, 240);
     doc.text('Excellence in Education', 10, 14);
 
-    // 6. Big Title (Times New Roman for Premium Look)
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(18);
     doc.setFont('times', 'bold');
     doc.text('STUDENT', 45, 11);
     doc.text('ID CARD', 45, 18);
 
-    // 7. Student Details (Right Side)
-    doc.setTextColor(30, 41, 59); // Slate-800
+    doc.setTextColor(30, 41, 59);
     
-    // Labels (Bold)
     doc.setFontSize(7);
     doc.setFont('helvetica', 'bold');
     doc.text('Name', 38, 26);
@@ -97,25 +88,20 @@ const Students = () => {
     doc.text('Class', 38, 38);
     doc.text('Father', 38, 44);
 
-    // Colons
     doc.text(':', 50, 26);
     doc.text(':', 50, 32);
     doc.text(':', 50, 38);
     doc.text(':', 50, 44);
 
-    // Values (Normal)
     doc.setFont('helvetica', 'normal');
     doc.text(student.name.toUpperCase(), 54, 26);
     doc.text(student.rollNumber, 54, 32);
     doc.text(`${student.className} - ${student.section}`, 54, 38);
     doc.text(student.fatherName, 54, 44);
 
-    // 8. BIG QR Code (Left Side)
-    // Border Frame
-    doc.setDrawColor(15, 118, 110); // Teal Border
+    doc.setDrawColor(15, 118, 110);
     doc.setLineWidth(0.8);
     doc.rect(8, 21, 26, 26, 'S'); 
-    // QR Image
     doc.addImage(qrDataUrl, 'PNG', 9, 22, 24, 24); 
   };
 
@@ -228,8 +214,13 @@ const Students = () => {
                       onClick={() => navigate(`/student/${student._id}`)}
                       className="flex items-center gap-3 cursor-pointer group"
                     >
-                      <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                        {student.name.charAt(0)}
+                      {/* 🚀 Picture or First Letter */}
+                      <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold overflow-hidden group-hover:bg-blue-600 group-hover:text-white transition-colors border-2 border-white dark:border-slate-800">
+                        {student.profilePicture ? (
+                          <img src={student.profilePicture} alt={student.name} className="h-full w-full object-cover" />
+                        ) : (
+                          student.name.charAt(0)
+                        )}
                       </div>
                       <span className="font-bold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors underline-offset-4 group-hover:underline">
                         {student.name}

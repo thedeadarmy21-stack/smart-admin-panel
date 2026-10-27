@@ -5,9 +5,10 @@ import Students from './pages/Students';
 import AddStudent from './pages/AddStudent';
 import Reports from './pages/Reports';
 import StudentProfile from './pages/StudentProfile';
-import Teachers from './pages/Teachers';           // 👈 Naya
-import AddTeacher from './pages/AddTeacher';       // 👈 Naya
+import Teachers from './pages/Teachers';
+import AddTeacher from './pages/AddTeacher';
 import TeachersAttendance from './pages/TeachersAttendance';
+import TeacherProfile from './pages/TeacherProfile'; // 🚀 Naya Page
 import Layout from './components/Layout';
 
 const ProtectedRoute = ({ children }) => {
@@ -27,10 +28,11 @@ function App() {
         <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
         <Route path="/student/:id" element={<ProtectedRoute><StudentProfile /></ProtectedRoute>} />
         
-        {/* 👇 Teachers Routes */}
+        {/* Teachers Routes */}
         <Route path="/teachers" element={<ProtectedRoute><Teachers /></ProtectedRoute>} />
         <Route path="/add-teacher" element={<ProtectedRoute><AddTeacher /></ProtectedRoute>} />
         <Route path="/teachers-attendance" element={<ProtectedRoute><TeachersAttendance /></ProtectedRoute>} />
+        <Route path="/teacher/:id" element={<ProtectedRoute><TeacherProfile /></ProtectedRoute>} /> {/* 🚀 Naya Route */}
         
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

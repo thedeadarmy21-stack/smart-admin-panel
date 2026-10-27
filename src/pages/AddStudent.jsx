@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AddStudent = () => {
   const [formData, setFormData] = useState({
-    name: '', rollNumber: '', className: '', section: 'A', fatherName: '', fatherWhatsApp: '', fatherEmail: ''
+    name: '', rollNumber: '', className: '', section: 'A', fatherName: '', fatherWhatsApp: '', fatherEmail: '', profilePicture: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -13,6 +13,21 @@ const AddStudent = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // 🚀 Picture Upload
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) { // 2MB limit
+        return alert('Image size 2MB se kam honi chahiye.');
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, profilePicture: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -41,6 +56,25 @@ const AddStudent = () => {
       {error && <div className="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-4 rounded-xl mb-6 text-sm font-bold border border-red-100 dark:border-red-800 flex items-center gap-2"><span>⚠️</span>{error}</div>}
       
       <form onSubmit={handleSubmit} className="space-y-6">
+        
+        {/* 🚀 Picture Upload Section */}
+        <div className="flex flex-col items-center justify-center mb-6">
+          <div className="relative">
+            <div className="h-28 w-28 rounded-full bg-slate-100 dark:bg-slate-900 border-2 border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center overflow-hidden">
+              {formData.profilePicture ? (
+                <img src={formData.profilePicture} alt="Preview" className="h-full w-full object-cover" />
+              ) : (
+                <span className="text-4xl text-slate-400">📷</span>
+              )}
+            </div>
+            <label className="absolute bottom-0 right-0 h-8 w-8 bg-blue-600 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-blue-700 transition shadow-lg">
+              <span className="text-lg">+</span>
+              <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+            </label>
+          </div>
+          <p className="text-xs text-slate-500 mt-2">Upload Profile Picture (Optional, Max 2MB)</p>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Full Name</label>
