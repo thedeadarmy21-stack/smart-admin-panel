@@ -50,7 +50,6 @@ const TeachersAttendance = () => {
           'reader',
           async (result, err) => {
             if (result) {
-              // QR scan ho gaya
               if (controlsRef.current) controlsRef.current.stop();
               await handleScanSuccess(result.getText());
             }
@@ -80,16 +79,16 @@ const TeachersAttendance = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setScanMessage(`✅ ${res.data.teacherName} marked present at ${res.data.timeIn}`);
+      // 🚀 Status ke hisaab se message dikhayein
+      const statusText = res.data.status === 'late' ? 'LATE' : 'PRESENT';
+      setScanMessage(`✅ ${res.data.teacherName} marked ${statusText} at ${res.data.timeIn}`);
       
-      // 2 second baad scanner band karo aur refresh karo
       setTimeout(() => {
         stopScanner();
         fetchAttendance();
       }, 2000);
     } catch (err) {
       setScanError(err.response?.data?.message || 'Attendance failed.');
-      // 3 second baad scanner band karo
       setTimeout(() => {
         stopScanner();
       }, 3000);
@@ -161,9 +160,9 @@ const TeachersAttendance = () => {
       {/* Attendance Report */}
       <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
         <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex justify-between items-center">
-          <h3 className="text-lg font-extrabold text-slate-800 dark:text-white">Teachers Present on {date}</h3>
+          <h3 className="text-lg font-extrabold text-slate-800 dark:text-white">Teachers Attendance on {date}</h3>
           <span className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-4 py-1.5 rounded-full font-bold text-sm border border-emerald-200 dark:border-emerald-800">
-            {attendance.length} Present
+            {attendance.length} Total Marked
           </span>
         </div>
 
@@ -198,8 +197,16 @@ const TeachersAttendance = () => {
                         </span>
                       </td>
                       <td className="p-5">
-                        <span className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border border-emerald-200 dark:border-emerald-800 flex items-center gap-1 w-max">
-                          🟢 {att.status}
+                        {/* 🚀 Status ke hisaab se color change */}
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border flex items-center gap-1 w-max ${
+                          att.status === 'present' 
+                            ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' 
+                            : att.status === 'late'
+                            ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800'
+                            : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800'
+                        }`}>
+                          <span>{att.status === 'present' ? '🟢' : att.status === 'late' ? '🟡' : '🔴'}</span> 
+                          {att.status}
                         </span>
                       </td>
                     </tr>
