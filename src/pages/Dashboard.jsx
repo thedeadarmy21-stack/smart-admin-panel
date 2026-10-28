@@ -8,7 +8,7 @@ const Dashboard = () => {
   const [classStats, setClassStats] = useState([]);
   const [lowAttendance, setLowAttendance] = useState([]);
   const [absentStudents, setAbsentStudents] = useState([]);
-  const [weeklyData, setWeeklyData] = useState([]); // 🚀 Naya state for graph
+  const [weeklyData, setWeeklyData] = useState([]);
   const [selectedClassFilter, setSelectedClassFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -34,7 +34,6 @@ const Dashboard = () => {
         axios.get('https://smart-attendance-backend-one.vercel.app/api/teacher-attendance/stats', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { totalTeachers: 0, presentTeachers: 0 } })),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/auth/all-teachers', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { teachers: [] } })),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/today-absent', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { data: [] } })),
-        // 🚀 NAYA: Weekly data for graph
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/weekly-stats', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { data: [] } }))
       ]);
       setStats(statsRes.data);
@@ -113,7 +112,6 @@ const Dashboard = () => {
     setSelectedTeacherId('');
   };
 
-  // 🚀 Graph ke liye max value nikaalein
   const maxWeeklyCount = Math.max(...weeklyData.map(d => d.count), 10);
 
   return (
@@ -240,9 +238,8 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* 🚀 LIVE STATS CARDS (6 Cards) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        {/* Total Students */}
+      {/* LIVE STATS CARDS (5 Cards - Reports button hataya) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-3">
           <div className="p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
@@ -253,7 +250,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Students Present */}
         <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-3">
           <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -264,7 +260,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* 🚀 NEW: Students Absent */}
         <Link to="/reports" className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-3 hover:shadow-md transition">
           <div className="p-3 bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-xl">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -275,7 +270,6 @@ const Dashboard = () => {
           </div>
         </Link>
 
-        {/* Total Teachers */}
         <Link to="/teachers-attendance" className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-3 hover:shadow-md transition">
           <div className="p-3 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -286,7 +280,6 @@ const Dashboard = () => {
           </div>
         </Link>
 
-        {/* Teachers Present */}
         <Link to="/teachers-attendance" className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-3 hover:shadow-md transition">
           <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -296,15 +289,9 @@ const Dashboard = () => {
             <p className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">{loading ? '-' : teacherStats.presentTeachers}</p>
           </div>
         </Link>
-
-        {/* Quick Action */}
-        <Link to="/reports" className="bg-gradient-to-br from-blue-600 to-indigo-700 p-5 rounded-3xl shadow-lg text-white flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-          <span className="text-xl">📊</span>
-          <span className="font-bold text-sm">Reports</span>
-        </Link>
       </div>
 
-      {/* 🚀 GRAPH & CLASS-WISE OVERVIEW (Side by Side) */}
+      {/* GRAPH & CLASS-WISE OVERVIEW (Side by Side) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* WEEKLY GRAPH */}
@@ -352,48 +339,6 @@ const Dashboard = () => {
             )}
           </div>
         </div>
-      </div>
-
-      {/* 🚀 NAYA: TODAY'S ABSENT STUDENTS (Compact List) */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-amber-200 dark:border-amber-900/50">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🚫</span>
-            <h4 className="font-bold text-lg text-amber-600 dark:text-amber-400">Today's Absent Students</h4>
-            <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-3 py-1 rounded-full font-bold text-xs border border-amber-200 dark:border-amber-800">
-              {absentStudents.length} Absent
-            </span>
-          </div>
-          <Link to="/reports" className="text-amber-600 dark:text-amber-400 font-bold text-sm hover:underline">
-            View Report →
-          </Link>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {absentStudents.length === 0 ? (
-            <p className="text-slate-500 text-sm col-span-full">All students are present today! 🎉</p>
-          ) : (
-            absentStudents.slice(0, 6).map((student) => (
-              <Link to={`/student/${student._id}`} key={student._id} className="flex items-center justify-between p-2.5 bg-amber-50 dark:bg-amber-900/10 rounded-xl border border-amber-100 dark:border-amber-900/30 hover:shadow-md transition">
-                <div className="flex items-center gap-2 overflow-hidden">
-                  <div className="h-8 w-8 rounded-full bg-amber-200 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 flex items-center justify-center font-bold text-sm flex-shrink-0">
-                    {student.name.charAt(0)}
-                  </div>
-                  <div className="overflow-hidden">
-                    <p className="font-bold text-slate-800 dark:text-white text-sm truncate">{student.name}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">Class: {student.className}</p>
-                  </div>
-                </div>
-                <div className="bg-amber-600 text-white text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0">
-                  ABSENT
-                </div>
-              </Link>
-            ))
-          )}
-        </div>
-        {absentStudents.length > 6 && (
-          <p className="text-center text-xs text-slate-500 mt-4">+ {absentStudents.length - 6} more students absent</p>
-        )}
       </div>
 
       {/* LOW ATTENDANCE ALERT */}
