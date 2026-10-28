@@ -9,7 +9,7 @@ const Dashboard = () => {
   const [lowAttendance, setLowAttendance] = useState([]);
   const [absentStudents, setAbsentStudents] = useState([]);
   const [weeklyData, setWeeklyData] = useState([]);
-  const [selectedClassFilter, setSelectedClassFilter] = useState('all');
+  const [selectedClassFilter, setSelectedClassFilter] = useState(''); // 🚀 Default empty
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   
@@ -30,7 +30,10 @@ const Dashboard = () => {
       const [statsRes, classRes, lowRes, teacherStatsRes, teachersRes, absentRes, weeklyRes] = await Promise.all([
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/dashboard-stats', { headers: { Authorization: `Bearer ${token}` } }),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/class-stats', { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get(`https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance?className=${selectedClassFilter}`, { headers: { Authorization: `Bearer ${token}` } }),
+        // 🚀 Low attendance sirf tab fetch karein jab class select ho
+        selectedClassFilter 
+          ? axios.get(`https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance?className=${selectedClassFilter}`, { headers: { Authorization: `Bearer ${token}` } })
+          : Promise.resolve({ data: { data: [] } }),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/teacher-attendance/stats', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { totalTeachers: 0, presentTeachers: 0 } })),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/auth/all-teachers', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { teachers: [] } })),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/today-absent', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { data: [] } })),
@@ -238,7 +241,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* LIVE STATS CARDS (5 Cards - Reports button hataya) */}
+      {/* LIVE STATS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-3">
           <div className="p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl">
@@ -291,10 +294,9 @@ const Dashboard = () => {
         </Link>
       </div>
 
-      {/* GRAPH & CLASS-WISE OVERVIEW (Side by Side) */}
+      {/* GRAPH & CLASS-WISE OVERVIEW */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
-        {/* WEEKLY GRAPH */}
         <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
           <h4 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Weekly Attendance Overview</h4>
           <div className="flex items-end justify-between h-48 gap-2">
@@ -320,7 +322,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* CLASS-WISE STATS (Short) */}
         <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
           <h4 className="font-bold text-lg text-slate-800 dark:text-white mb-4">Class-wise Overview (Today)</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-48 overflow-y-auto pr-2">
@@ -341,7 +342,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* LOW ATTENDANCE ALERT */}
+      {/* 🚀 LOW ATTENDANCE ALERT (Fixed) */}
       <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div className="flex items-center gap-2">
@@ -354,6 +355,7 @@ const Dashboard = () => {
             onChange={(e) => setSelectedClassFilter(e.target.value)}
             className="px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-sm cursor-pointer"
           >
+            <option value="">-- Select Class --</option> {/* 🚀 Default empty */}
             <option value="all">All Classes</option>
             {classStats.map((cls, idx) => (
               <option key={idx} value={cls.className}>Class {cls.className}</option>
@@ -362,8 +364,15 @@ const Dashboard = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {lowAttendance.length === 0 ? (
-            <p className="text-slate-500 text-sm col-span-full">All students in this class have good attendance. 🎉</p>
+          {/* 🚀 Conditional Message */}
+          {!selectedClassFilter ? (
+            <p className="text-slate-500 text-sm col-span-full text-center py-8">
+              Please select a class from the dropdown above to view students with low attendance.
+            </p>
+          ) : lowAttendance.length === 0 ? (
+            <p className="text-slate-500 text-sm col-span-full text-center py-8">
+              All students in this class have good attendance. 🎉
+            </p>
           ) : (
             lowAttendance.map((student) => (
               <Link to={`/student/${student._id}`} key={student._id} className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-900/30 hover:shadow-md transition">
