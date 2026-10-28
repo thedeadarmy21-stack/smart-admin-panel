@@ -9,7 +9,7 @@ const Dashboard = () => {
   const [lowAttendance, setLowAttendance] = useState([]);
   const [absentStudents, setAbsentStudents] = useState([]);
   const [weeklyData, setWeeklyData] = useState([]);
-  const [selectedClassFilter, setSelectedClassFilter] = useState(''); // 🚀 Default empty
+  const [selectedClassFilter, setSelectedClassFilter] = useState(''); 
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   
@@ -30,7 +30,6 @@ const Dashboard = () => {
       const [statsRes, classRes, lowRes, teacherStatsRes, teachersRes, absentRes, weeklyRes] = await Promise.all([
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/dashboard-stats', { headers: { Authorization: `Bearer ${token}` } }),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/class-stats', { headers: { Authorization: `Bearer ${token}` } }),
-        // 🚀 Low attendance sirf tab fetch karein jab class select ho
         selectedClassFilter 
           ? axios.get(`https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance?className=${selectedClassFilter}`, { headers: { Authorization: `Bearer ${token}` } })
           : Promise.resolve({ data: { data: [] } }),
@@ -206,7 +205,7 @@ const Dashboard = () => {
                     <select 
                       value={selectedTeacherId} 
                       onChange={(e) => setSelectedTeacherId(e.target.value)} 
-                      className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
+                      className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white cursor-pointer"
                       required
                     >
                       <option value="">-- Select a Teacher --</option>
@@ -342,7 +341,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* 🚀 LOW ATTENDANCE ALERT (Fixed) */}
+      {/* 🚀 LOW ATTENDANCE ALERT (Professional Dropdown) */}
       <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div className="flex items-center gap-2">
@@ -350,21 +349,24 @@ const Dashboard = () => {
             <h4 className="font-bold text-lg text-red-600 dark:text-red-400">Low Attendance Alert (Below 75%)</h4>
           </div>
           
-          <select
-            value={selectedClassFilter}
-            onChange={(e) => setSelectedClassFilter(e.target.value)}
-            className="px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-sm cursor-pointer"
-          >
-            <option value="">-- Select Class --</option> {/* 🚀 Default empty */}
-            <option value="all">All Classes</option>
-            {classStats.map((cls, idx) => (
-              <option key={idx} value={cls.className}>Class {cls.className}</option>
-            ))}
-          </select>
+          {/* 🚀 Custom Styled Dropdown */}
+          <div className="w-full md:w-64">
+            <select
+              value={selectedClassFilter}
+              onChange={(e) => setSelectedClassFilter(e.target.value)}
+              className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-red-200 dark:border-red-800 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-sm cursor-pointer shadow-sm appearance-none"
+              style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ef4444'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1.2em' }}
+            >
+              <option value="">-- Select Class --</option>
+              <option value="all">All Classes</option>
+              {classStats.map((cls, idx) => (
+                <option key={idx} value={cls.className}>Class {cls.className}</option>
+              ))}
+            </select>
+          </div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* 🚀 Conditional Message */}
           {!selectedClassFilter ? (
             <p className="text-slate-500 text-sm col-span-full text-center py-8">
               Please select a class from the dropdown above to view students with low attendance.

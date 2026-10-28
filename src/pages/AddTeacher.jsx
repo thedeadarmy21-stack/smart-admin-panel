@@ -79,8 +79,8 @@ const AddTeacher = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
-              placeholder="e.g. Sir Ahmed"
+              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white placeholder:text-slate-400"
+              placeholder="Enter full name"
             />
           </div>
 
@@ -92,8 +92,8 @@ const AddTeacher = () => {
               value={formData.username}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
-              placeholder="e.g. ahmed01"
+              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white placeholder:text-slate-400"
+              placeholder="Enter username"
             />
           </div>
 
@@ -106,12 +106,11 @@ const AddTeacher = () => {
               onChange={handleChange}
               required
               minLength={6}
-              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
+              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white placeholder:text-slate-400"
               placeholder="Min 6 characters"
             />
           </div>
 
-          {/* 🚀 NAYA: Phone Number */}
           <div>
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Phone Number</label>
             <input
@@ -119,12 +118,11 @@ const AddTeacher = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white"
-              placeholder="e.g. 03001234567"
+              className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white placeholder:text-slate-400"
+              placeholder="Enter phone number"
             />
           </div>
 
-          {/* 🚀 NAYA: Assigned Class */}
           <div>
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Assigned Class</label>
             <select
