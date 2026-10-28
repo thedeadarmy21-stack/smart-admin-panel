@@ -7,21 +7,16 @@ const Dashboard = () => {
   const [teacherStats, setTeacherStats] = useState({ totalTeachers: 0, presentTeachers: 0 });
   const [classStats, setClassStats] = useState([]);
   const [lowAttendance, setLowAttendance] = useState([]);
+  const [absentStudents, setAbsentStudents] = useState([]); // 🚀 Naya state
   const [selectedClassFilter, setSelectedClassFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   
-  // 🚀 Security Modal State
-  const [activeTab, setActiveTab] = useState('admin'); // 'admin' or 'teacher'
-  const [teachersList, setTeachersList] = useState([]); // Teachers ki list
-
-  // Admin Profile State
+  const [activeTab, setActiveTab] = useState('admin');
+  const [teachersList, setTeachersList] = useState([]);
   const [profileData, setProfileData] = useState({ newUsername: '', currentPassword: '', newPassword: '' });
-  
-  // Teacher Update State
   const [selectedTeacherId, setSelectedTeacherId] = useState('');
   const [teacherUpdateData, setTeacherUpdateData] = useState({ newUsername: '', newPassword: '' });
-
   const [msg, setMsg] = useState({ type: '', text: '' });
   const [updating, setUpdating] = useState(false);
   
@@ -31,20 +26,21 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [statsRes, classRes, lowRes, teacherStatsRes, teachersRes] = await Promise.all([
+      const [statsRes, classRes, lowRes, teacherStatsRes, teachersRes, absentRes] = await Promise.all([
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/dashboard-stats', { headers: { Authorization: `Bearer ${token}` } }),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/class-stats', { headers: { Authorization: `Bearer ${token}` } }),
         axios.get(`https://smart-attendance-backend-one.vercel.app/api/attendance/low-attendance?className=${selectedClassFilter}`, { headers: { Authorization: `Bearer ${token}` } }),
         axios.get('https://smart-attendance-backend-one.vercel.app/api/teacher-attendance/stats', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { totalTeachers: 0, presentTeachers: 0 } })),
-        // 🚀 Teachers ki list fetch karein taake dropdown mein dikha saken
-        axios.get('https://smart-attendance-backend-one.vercel.app/api/auth/all-teachers', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { teachers: [] } }))
+        axios.get('https://smart-attendance-backend-one.vercel.app/api/auth/all-teachers', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { teachers: [] } })),
+        // 🚀 NAYA: Aaj ke absent students fetch karein
+        axios.get('https://smart-attendance-backend-one.vercel.app/api/attendance/today-absent', { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { data: [] } }))
       ]);
       setStats(statsRes.data);
       setClassStats(classRes.data.data);
       setLowAttendance(lowRes.data.data);
       setTeacherStats(teacherStatsRes.data);
+      setAbsentStudents(absentRes.data.data || []); // 🚀 Set karein
       
-      // Admin ko list se hata kar sirf teachers dikhayein
       const onlyTeachers = teachersRes.data.teachers.filter(t => t.role === 'teacher');
       setTeachersList(onlyTeachers);
 
@@ -59,7 +55,6 @@ const Dashboard = () => {
     fetchData();
   }, [token, selectedClassFilter]);
 
-  // 🚀 Admin Apna Profile Update Karega
   const handleUpdateAdmin = async (e) => {
     e.preventDefault();
     setMsg({ type: '', text: '' });
@@ -84,7 +79,6 @@ const Dashboard = () => {
     }
   };
 
-  // 🚀 Admin Kisi Teacher Ka Profile Update Karega
   const handleUpdateTeacher = async (e) => {
     e.preventDefault();
     setMsg({ type: '', text: '' });
@@ -99,8 +93,8 @@ const Dashboard = () => {
       });
       
       setMsg({ type: 'success', text: res.data.message });
-      setTeacherUpdateData({ newUsername: '', newPassword: '' }); // Clear form
-      fetchData(); // List refresh karein
+      setTeacherUpdateData({ newUsername: '', newPassword: '' });
+      fetchData();
     } catch (err) {
       setMsg({ type: 'error', text: err.response?.data?.message || 'Failed to update teacher profile' });
     } finally {
@@ -108,7 +102,6 @@ const Dashboard = () => {
     }
   };
 
-  // Modal band hone par states reset karein
   const closeModal = () => {
     setShowModal(false);
     setMsg({ type: '', text: '' });
@@ -134,12 +127,11 @@ const Dashboard = () => {
         </button>
       </div>
 
-      {/* 🚀 PROFESSIONAL SECURITY MODAL (With Tabs) */}
+      {/* SECURITY MODAL */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-700 overflow-hidden">
             
-            {/* Header */}
             <div className="p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 flex items-center gap-3">
               <div className="h-10 w-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
@@ -150,7 +142,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Tabs */}
             <div className="flex border-b border-slate-200 dark:border-slate-700">
               <button 
                 onClick={() => { setActiveTab('admin'); setMsg({type:'',text:''}); }}
@@ -173,7 +164,6 @@ const Dashboard = () => {
                 </div>
               )}
 
-              {/* 🚀 TAB 1: MY ACCOUNT (ADMIN) */}
               {activeTab === 'admin' && (
                 <form onSubmit={handleUpdateAdmin} className="space-y-5 animate-fadeIn">
                   <div>
@@ -202,7 +192,6 @@ const Dashboard = () => {
                 </form>
               )}
 
-              {/* 🚀 TAB 2: MANAGE TEACHER (ADMIN UPDATES TEACHER) */}
               {activeTab === 'teacher' && (
                 <form onSubmit={handleUpdateTeacher} className="space-y-5 animate-fadeIn">
                   <div>
@@ -245,7 +234,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* LIVE STATS CARDS (4 Cards) */}
+      {/* LIVE STATS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center space-x-5">
           <div className="p-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl">
@@ -285,7 +274,7 @@ const Dashboard = () => {
         </Link>
       </div>
 
-      {/* CLASS-WISE STATS (Full Width) */}
+      {/* CLASS-WISE STATS */}
       <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
         <h4 className="font-bold text-lg text-slate-800 dark:text-white mb-4">Class-wise Overview (Today)</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -300,6 +289,42 @@ const Dashboard = () => {
                   <span className="text-red-500 flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500"></span> {cls.absent} A</span>
                 </div>
               </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* 🚀 NAYA: TODAY'S ABSENT STUDENTS */}
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-amber-200 dark:border-amber-900/50">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🚫</span>
+            <h4 className="font-bold text-lg text-amber-600 dark:text-amber-400">Today's Absent Students</h4>
+            <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-3 py-1 rounded-full font-bold text-xs border border-amber-200 dark:border-amber-800">
+              {absentStudents.length} Absent
+            </span>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {absentStudents.length === 0 ? (
+            <p className="text-slate-500 text-sm col-span-full">All students are present today! 🎉</p>
+          ) : (
+            absentStudents.map((student) => (
+              <Link to={`/student/${student._id}`} key={student._id} className="flex items-center justify-between p-3 bg-amber-50 dark:bg-amber-900/10 rounded-xl border border-amber-100 dark:border-amber-900/30 hover:shadow-md transition">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-amber-200 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 flex items-center justify-center font-bold">
+                    {student.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-800 dark:text-white">{student.name}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Roll: {student.rollNumber} | Class: {student.className}</p>
+                  </div>
+                </div>
+                <div className="bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded-lg">
+                  ABSENT
+                </div>
+              </Link>
             ))
           )}
         </div>
