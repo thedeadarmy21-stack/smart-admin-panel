@@ -15,19 +15,52 @@ const AddStudent = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 🚀 Picture Upload
+  // 🚀 Picture Upload with Compression
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      if (file.size > 2 * 1024 * 1024) { // 2MB limit
-        return alert('Image size 2MB se kam honi chahiye.');
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, profilePicture: reader.result });
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    // Check file type
+    if (!file.type.startsWith('image/')) {
+      return alert('Please select an image file.');
     }
+
+    // Compress image using Canvas
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 600; // Resize to max 600px width
+        const MAX_HEIGHT = 600;
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate new dimensions
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert to compressed Base64 (JPEG, 70% quality)
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+        setFormData({ ...formData, profilePicture: compressedBase64 });
+      };
+    };
   };
 
   const handleSubmit = async (e) => {
@@ -72,7 +105,7 @@ const AddStudent = () => {
               <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
             </label>
           </div>
-          <p className="text-xs text-slate-500 mt-2">Upload Profile Picture (Optional, Max 2MB)</p>
+          <p className="text-xs text-slate-500 mt-2">Upload Profile Picture (Auto-compressed)</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
