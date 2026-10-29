@@ -3,9 +3,14 @@ import axios from 'axios';
 
 const Broadcast = () => {
   const [message, setMessage] = useState('');
-  const [targetType, setTargetType] = useState('all'); // 'all' or 'class'
+  const [targetType, setTargetType] = useState('all'); // 'all', 'class', 'student'
   const [targetClass, setTargetClass] = useState('');
+  const [targetStudentId, setTargetStudentId] = useState('');
+  
   const [classes, setClasses] = useState([]);
+  const [allStudents, setAllStudents] = useState([]);
+  const [filteredStudents, setFilteredStudents] = useState([]);
+  
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState([]);
   const [historyLoading, setHistoryLoading] = useState(true);
@@ -13,21 +18,34 @@ const Broadcast = () => {
 
   const token = localStorage.getItem('adminToken');
 
-  // 🚀 Classes fetch karein (taake dropdown mein dikha saken)
+  // 🚀 Data fetch karein (Classes aur Students)
   useEffect(() => {
-    const fetchClasses = async () => {
+    const fetchData = async () => {
       try {
         const res = await axios.get('https://smart-attendance-backend-one.vercel.app/api/students', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const uniqueClasses = [...new Set(res.data.students.map(s => s.className))].sort();
+        const students = res.data.students;
+        setAllStudents(students);
+        const uniqueClasses = [...new Set(students.map(s => s.className))].sort();
         setClasses(uniqueClasses);
       } catch (error) {
-        console.error('Error fetching classes:', error);
+        console.error('Error fetching data:', error);
       }
     };
-    fetchClasses();
+    fetchData();
   }, [token]);
+
+  // 🚀 Jab Class select ho, toh us class ke students filter karein
+  useEffect(() => {
+    if (targetClass) {
+      const filtered = allStudents.filter(s => s.className === targetClass);
+      setFilteredStudents(filtered);
+    } else {
+      setFilteredStudents([]);
+    }
+    setTargetStudentId(''); // Reset student selection
+  }, [targetClass, allStudents]);
 
   // 🚀 History fetch karein
   const fetchHistory = async () => {
@@ -52,18 +70,15 @@ const Broadcast = () => {
     e.preventDefault();
     setMsg({ type: '', text: '' });
 
-    if (!message.trim()) {
-      return setMsg({ type: 'error', text: 'Please enter a message.' });
-    }
-
-    if (targetType === 'class' && !targetClass) {
-      return setMsg({ type: 'error', text: 'Please select a class.' });
-    }
+    if (!message.trim()) return setMsg({ type: 'error', text: 'Please enter a message.' });
+    if (targetType === 'class' && !targetClass) return setMsg({ type: 'error', text: 'Please select a class.' });
+    if (targetType === 'student' && (!targetClass || !targetStudentId)) return setMsg({ type: 'error', text: 'Please select a class and student.' });
 
     // Confirmation Dialog
-    const confirmMessage = targetType === 'all'
-      ? 'Kya aap sach me SAARE students ke parents ko ye message bhejna chahte hain?'
-      : `Kya aap sach me Class ${targetClass} ke parents ko ye message bhejna chahte hain?`;
+    let confirmMessage = '';
+    if (targetType === 'all') confirmMessage = 'Kya aap sach me SAARE students ke parents ko ye message bhejna chahte hain?';
+    else if (targetType === 'class') confirmMessage = `Kya aap sach me Class ${targetClass} ke parents ko ye message bhejna chahte hain?`;
+    else confirmMessage = `Kya aap sach me is student ke parent ko ye message bhejna chahte hain?`;
 
     if (!window.confirm(confirmMessage)) return;
 
@@ -71,15 +86,16 @@ const Broadcast = () => {
     try {
       const res = await axios.post(
         'https://smart-attendance-backend-one.vercel.app/api/broadcast/send',
-        { message, targetType, targetClass },
+        { message, targetType, targetClass, targetStudentId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setMsg({ type: 'success', text: res.data.message });
-      setMessage(''); // Clear form
+      setMessage('');
       setTargetType('all');
       setTargetClass('');
-      fetchHistory(); // Refresh history
+      setTargetStudentId('');
+      fetchHistory();
     } catch (err) {
       setMsg({ type: 'error', text: err.response?.data?.message || 'Failed to send message.' });
     } finally {
@@ -98,7 +114,7 @@ const Broadcast = () => {
           </div>
           <div>
             <h2 className="text-2xl font-bold mb-1">Broadcast Message</h2>
-            <p className="text-indigo-200 text-sm">Send SMS/Email to all parents or a specific class at once.</p>
+            <p className="text-indigo-200 text-sm">Send SMS/Email to all parents, a specific class, or an individual student.</p>
           </div>
         </div>
       </div>
@@ -121,20 +137,25 @@ const Broadcast = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Target Type */}
-            <div>
+            <div className="md:col-span-2">
               <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Send To</label>
               <select
                 value={targetType}
-                onChange={(e) => { setTargetType(e.target.value); setTargetClass(''); }}
+                onChange={(e) => { 
+                  setTargetType(e.target.value); 
+                  setTargetClass(''); 
+                  setTargetStudentId(''); 
+                }}
                 className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-white font-medium cursor-pointer"
               >
                 <option value="all">🌍 All Students (Saare Parents)</option>
                 <option value="class">🎓 Specific Class</option>
+                <option value="student">👤 Specific Student (Sirf Ek Parent)</option>
               </select>
             </div>
 
-            {/* Specific Class (Conditional) */}
-            {targetType === 'class' && (
+            {/* Conditional: Class Selection */}
+            {(targetType === 'class' || targetType === 'student') && (
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Select Class</label>
                 <select
@@ -146,6 +167,24 @@ const Broadcast = () => {
                   <option value="">-- Select Class --</option>
                   {classes.map((cls, idx) => (
                     <option key={idx} value={cls}>Class {cls}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Conditional: Student Selection */}
+            {targetType === 'student' && targetClass && (
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Select Student</label>
+                <select
+                  value={targetStudentId}
+                  onChange={(e) => setTargetStudentId(e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-white font-medium cursor-pointer"
+                  required
+                >
+                  <option value="">-- Select Student --</option>
+                  {filteredStudents.map((s) => (
+                    <option key={s._id} value={s._id}>{s.name} ({s.rollNumber})</option>
                   ))}
                 </select>
               </div>
@@ -238,9 +277,13 @@ const Broadcast = () => {
                         <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1 rounded-full text-xs font-bold">
                           All Students
                         </span>
-                      ) : (
+                      ) : item.targetType === 'class' ? (
                         <span className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 px-3 py-1 rounded-full text-xs font-bold">
                           Class {item.targetClass}
+                        </span>
+                      ) : (
+                        <span className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold">
+                          Student: {item.targetStudentName || 'N/A'}
                         </span>
                       )}
                     </td>
