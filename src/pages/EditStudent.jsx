@@ -8,7 +8,7 @@ const EditStudent = () => {
   const token = localStorage.getItem('adminToken');
   
   const [formData, setFormData] = useState({
-    name: '', rollNumber: '', className: '', section: 'A', fatherName: '', fatherWhatsApp: '', fatherEmail: '', profilePicture: ''
+    name: '', rollNumber: '', className: '', section: 'A', fatherName: '', fatherWhatsApp: '', profilePicture: ''
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -29,7 +29,6 @@ const EditStudent = () => {
           section: student.section || 'A',
           fatherName: student.fatherName || '',
           fatherWhatsApp: student.fatherWhatsApp || '',
-          fatherEmail: student.fatherEmail || '',
           profilePicture: student.profilePicture || ''
         });
       } catch (error) {
@@ -165,17 +164,13 @@ const EditStudent = () => {
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Section</label>
             <input type="text" name="section" value={formData.section} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all" placeholder="Enter section" />
           </div>
-          <div>
+          <div className="md:col-span-2">
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Father Name</label>
             <input type="text" name="fatherName" value={formData.fatherName} onChange={handleChange} required className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all" placeholder="Enter father name" />
           </div>
-          <div>
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Father Email (Gmail)</label>
-            <input type="email" name="fatherEmail" value={formData.fatherEmail} onChange={handleChange} required className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all" placeholder="Enter email address" />
-          </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">WhatsApp No. <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span></label>
-            <input type="text" name="fatherWhatsApp" value={formData.fatherWhatsApp} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all" placeholder="Enter WhatsApp number" />
+            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Phone Number (WhatsApp)</label>
+            <input type="text" name="fatherWhatsApp" value={formData.fatherWhatsApp} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all" placeholder="Enter phone number" />
           </div>
         </div>
         <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
