@@ -155,7 +155,16 @@ const Students = () => {
       <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h3 className="font-extrabold text-xl text-slate-800 dark:text-white">Enrolled Students</h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Showing {filteredStudents.length} students</p>
+          <div className="flex items-center gap-3 mt-1">
+            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+              Showing {filteredStudents.length} students
+            </p>
+            {selectedClass && (
+              <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-0.5 rounded-full font-bold text-xs border border-blue-200 dark:border-blue-800">
+                Total in Class: {filteredStudents.length}
+              </span>
+            )}
+          </div>
         </div>
         
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -214,7 +223,6 @@ const Students = () => {
                       onClick={() => navigate(`/student/${student._id}`)}
                       className="flex items-center gap-3 cursor-pointer group"
                     >
-                      {/* 🚀 Picture or First Letter */}
                       <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold overflow-hidden group-hover:bg-blue-600 group-hover:text-white transition-colors border-2 border-white dark:border-slate-800">
                         {student.profilePicture ? (
                           <img src={student.profilePicture} alt={student.name} className="h-full w-full object-cover" />
@@ -232,18 +240,20 @@ const Students = () => {
                   <td className="p-5 text-slate-600 dark:text-slate-300">{student.fatherName}</td>
                   <td className="p-5 text-center">
                     <div className="flex items-center justify-center gap-2">
+                      {/* 🚀 ID Button Bada */}
                       <button 
                         onClick={() => downloadIDCard(student)}
-                        className="bg-slate-800 dark:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-slate-900 dark:hover:bg-black transition-all shadow-md flex items-center gap-2 border border-transparent dark:border-slate-700"
+                        className="bg-slate-800 dark:bg-slate-900 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 dark:hover:bg-black transition-all shadow-md flex items-center gap-2 border border-transparent dark:border-slate-700"
                       >
                         🪪 ID
                       </button>
+                      {/* 🚀 Delete Button Chota */}
                       <button 
                         onClick={() => handleDelete(student._id, student.name)}
-                        className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2 rounded-xl text-sm font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-all shadow-sm border border-red-200 dark:border-red-800"
+                        className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-3 py-2 rounded-xl text-xs font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-all shadow-sm border border-red-200 dark:border-red-800"
                         title="Delete Student"
                       >
-                        🗑️ Delete
+                        🗑️
                       </button>
                     </div>
                   </td>

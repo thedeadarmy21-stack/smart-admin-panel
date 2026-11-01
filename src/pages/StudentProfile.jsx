@@ -41,7 +41,6 @@ const StudentProfile = () => {
   return (
     <div className="space-y-6 animate-pop">
       
-      {/* 🚀 Header with Back + Edit Button */}
       <div className="flex justify-between items-center">
         <button onClick={() => navigate('/students')} className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 font-bold flex items-center gap-2 transition">
           ← Back to Students
@@ -71,10 +70,14 @@ const StudentProfile = () => {
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Roll No: {student.rollNumber}</span>
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Class: {student.className} - {student.section}</span>
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Father: {student.fatherName}</span>
+            {/* 🚀 WhatsApp sirf tab dikhega jab ho */}
             {student.fatherWhatsApp && (
               <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">WhatsApp: {student.fatherWhatsApp}</span>
             )}
-            <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Email: {student.fatherEmail}</span>
+            {/* 🚀 Email sirf tab dikhega jab ho */}
+            {student.fatherEmail && (
+              <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Email: {student.fatherEmail}</span>
+            )}
           </div>
         </div>
       </div>
