@@ -40,9 +40,19 @@ const StudentProfile = () => {
 
   return (
     <div className="space-y-6 animate-pop">
-      <button onClick={() => navigate('/students')} className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 font-bold flex items-center gap-2 transition">
-        ← Back to Students
-      </button>
+      
+      {/* 🚀 Header with Back + Edit Button */}
+      <div className="flex justify-between items-center">
+        <button onClick={() => navigate('/students')} className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 font-bold flex items-center gap-2 transition">
+          ← Back to Students
+        </button>
+        <button 
+          onClick={() => navigate(`/student/edit/${student._id}`)}
+          className="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/30 flex items-center gap-2"
+        >
+          ✏️ Edit Profile
+        </button>
+      </div>
 
       <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 opacity-5 text-9xl transform translate-x-4 -translate-y-4">🎓</div>
@@ -101,7 +111,7 @@ const StudentProfile = () => {
                 <th className="p-5 font-bold">Date</th>
                 <th className="p-5 font-bold">Time In</th>
                 <th className="p-5 font-bold">Status</th>
-                <th className="p-5 font-bold">Marked By</th> {/* 🚀 NAYA COLUMN */}
+                <th className="p-5 font-bold">Marked By</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
@@ -125,7 +135,6 @@ const StudentProfile = () => {
                         <span>{att.status === 'present' ? '🟢' : att.status === 'late' ? '🟡' : '🔴'}</span> {att.status}
                       </span>
                     </td>
-                    {/* 🚀 NAYA: Teacher Name */}
                     <td className="p-5 text-slate-600 dark:text-slate-300 font-medium">
                       {att.teacherName || 'Unknown'}
                     </td>
