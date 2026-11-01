@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AddStudent = () => {
   const [formData, setFormData] = useState({
-    name: '', rollNumber: '', className: '', section: 'A', fatherName: '', fatherWhatsApp: '', fatherEmail: '', profilePicture: ''
+    name: '', rollNumber: '', className: '', section: 'A', fatherName: '', fatherWhatsApp: '', profilePicture: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -20,12 +20,10 @@ const AddStudent = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Check file type
     if (!file.type.startsWith('image/')) {
       return alert('Please select an image file.');
     }
 
-    // Compress image using Canvas
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (event) => {
@@ -33,12 +31,11 @@ const AddStudent = () => {
       img.src = event.target.result;
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 600; // Resize to max 600px width
+        const MAX_WIDTH = 600;
         const MAX_HEIGHT = 600;
         let width = img.width;
         let height = img.height;
 
-        // Calculate new dimensions
         if (width > height) {
           if (width > MAX_WIDTH) {
             height *= MAX_WIDTH / width;
@@ -56,7 +53,6 @@ const AddStudent = () => {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Convert to compressed Base64 (JPEG, 70% quality)
         const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
         setFormData({ ...formData, profilePicture: compressedBase64 });
       };
@@ -125,17 +121,13 @@ const AddStudent = () => {
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Section</label>
             <input type="text" name="section" value={formData.section} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all" placeholder="Enter section" />
           </div>
-          <div>
+          <div className="md:col-span-2">
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Father Name</label>
             <input type="text" name="fatherName" required onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all" placeholder="Enter father name" />
           </div>
-          <div>
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Father Email (Gmail)</label>
-            <input type="email" name="fatherEmail" required onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all" placeholder="Enter email address" />
-          </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">WhatsApp No. <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span></label>
-            <input type="text" name="fatherWhatsApp" onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all" placeholder="Enter WhatsApp number" />
+            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Phone Number (WhatsApp)</label>
+            <input type="text" name="fatherWhatsApp" onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white transition-all" placeholder="Enter phone number" />
           </div>
         </div>
         <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
