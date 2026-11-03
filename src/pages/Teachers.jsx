@@ -45,11 +45,33 @@ const Teachers = () => {
     }
   };
 
+  // 🚀 Helper: Image URL ko Base64 mein convert karein
+  const getBase64ImageFromUrl = (imageUrl) => {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.setAttribute('crossOrigin', 'anonymous');
+      img.onload = () => {
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL('image/png');
+        resolve(dataURL);
+      };
+      img.onerror = (error) => reject(error);
+      img.src = imageUrl;
+    });
+  };
+
   // 🚀 Generate Professional Teacher ID Card
   const downloadTeacherID = async (teacher) => {
     try {
       const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [85.6, 54] });
       const qrDataUrl = await QRCode.toDataURL(teacher.username, { width: 400, margin: 1 });
+
+      // 🚀 Logo load karein
+      const logoDataUrl = await getBase64ImageFromUrl('/logo.png');
 
       // Background
       doc.setFillColor(255, 255, 255);
@@ -67,23 +89,26 @@ const Teachers = () => {
       doc.setFillColor(238, 242, 255); 
       doc.rect(0, 42, 85.6, 12, 'F');
 
-      // 🚀 School Name (2 Lines)
+      // 🚀 Logo Add Karein (Top Left)
+      doc.addImage(logoDataUrl, 'PNG', 6, 4, 12, 12);
+
+      // 🚀 School Name (2 Lines) - Logo ke bagal mein
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(7);
       doc.setFont('times', 'bold');
-      doc.text('THE PACIFIC CAMBRIDGE', 6, 7);
-      doc.text('SCHOOL', 6, 11);
+      doc.text('THE PACIFIC CAMBRIDGE', 20, 8);
+      doc.text('SCHOOL', 20, 12);
       
       doc.setFontSize(4);
       doc.setFont('helvetica', 'normal');
-      doc.text('Faculty Identification Card', 6, 15);
+      doc.text('Faculty Identification Card', 20, 16);
 
       // Title
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(12);
       doc.setFont('times', 'bold');
-      doc.text('TEACHER', 52, 9);
-      doc.text('ID CARD', 52, 15);
+      doc.text('TEACHER', 58, 9);
+      doc.text('ID CARD', 58, 15);
 
       // Details
       doc.setTextColor(30, 41, 59);
@@ -115,7 +140,7 @@ const Teachers = () => {
       // Footer
       doc.setFontSize(4);
       doc.setTextColor(100, 116, 139); 
-      doc.text('This card is property of the school.', 52, 51);
+      doc.text('This card is property of the school.', 58, 51);
 
       doc.save(`${teacher.name}-Teacher-ID.pdf`);
     } catch (err) {
