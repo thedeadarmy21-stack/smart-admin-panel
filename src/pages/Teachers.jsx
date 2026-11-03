@@ -71,7 +71,7 @@ const Teachers = () => {
       const qrDataUrl = await QRCode.toDataURL(teacher.username, { width: 400, margin: 1 });
 
       // 🚀 Logo load karein
-      const logoDataUrl = await getBase64ImageFromUrl('/logo.png');
+      const logoDataUrl = await getBase64ImageFromUrl('/card.png');
 
       // Background
       doc.setFillColor(255, 255, 255);

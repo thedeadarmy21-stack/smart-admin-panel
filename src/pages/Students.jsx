@@ -74,7 +74,7 @@ const Students = () => {
     const qrDataUrl = await QRCode.toDataURL(student.qrCode, { width: 400, margin: 1 });
     
     // 🚀 Logo load karein
-    const logoDataUrl = await getBase64ImageFromUrl('/logo.png');
+    const logoDataUrl = await getBase64ImageFromUrl('/card.png');
 
     // Background
     doc.setFillColor(255, 255, 255);
