@@ -63,10 +63,11 @@ const Students = () => {
     doc.setFillColor(240, 253, 250);
     doc.rect(0, 42, 85.6, 12, 'F');
 
+    // 🚀 NAYA SCHOOL NAME (Logo ki jagah text, kyunke JS PDF mein direct image URL load nahi hoti easily)
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(12);
+    doc.setFontSize(9);
     doc.setFont('times', 'bold');
-    doc.text('SMART SCHOOL', 10, 9); 
+    doc.text('THE PACIFIC CAMBRIDGE SCHOOL', 10, 9); 
     
     doc.setFontSize(6);
     doc.setFont('helvetica', 'normal');
@@ -240,14 +241,12 @@ const Students = () => {
                   <td className="p-5 text-slate-600 dark:text-slate-300">{student.fatherName}</td>
                   <td className="p-5 text-center">
                     <div className="flex items-center justify-center gap-2">
-                      {/* 🚀 ID Button Bada */}
                       <button 
                         onClick={() => downloadIDCard(student)}
                         className="bg-slate-800 dark:bg-slate-900 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 dark:hover:bg-black transition-all shadow-md flex items-center gap-2 border border-transparent dark:border-slate-700"
                       >
                         🪪 ID
                       </button>
-                      {/* 🚀 Delete Button Chota */}
                       <button 
                         onClick={() => handleDelete(student._id, student.name)}
                         className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-3 py-2 rounded-xl text-xs font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-all shadow-sm border border-red-200 dark:border-red-800"

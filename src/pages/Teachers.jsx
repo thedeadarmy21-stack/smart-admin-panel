@@ -10,7 +10,7 @@ const Teachers = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const token = localStorage.getItem('adminToken');
   const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
-  const schoolName = adminData.schoolName || 'Smart School';
+  const schoolName = adminData.schoolName || 'THE PACIFIC CAMBRIDGE SCHOOL';
   const navigate = useNavigate();
 
   const fetchTeachers = async () => {
@@ -70,9 +70,9 @@ const Teachers = () => {
 
       // 5. Header Text (School Name)
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(11);
+      doc.setFontSize(9);
       doc.setFont('times', 'bold');
-      doc.text(schoolName.toUpperCase(), 10, 8);
+      doc.text('THE PACIFIC CAMBRIDGE SCHOOL', 10, 8);
       
       doc.setFontSize(5);
       doc.setFont('helvetica', 'normal');

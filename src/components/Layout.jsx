@@ -5,8 +5,10 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
-  const schoolName = adminData.schoolName || 'Smart School';
-  const displayName = adminData.name || 'Admin';
+  
+  // 🚀 Naya School Name aur Admin Name fallback
+  const schoolName = adminData.schoolName || 'THE PACIFIC CAMBRIDGE SCHOOL';
+  const displayName = adminData.name || 'Miss Saiqa';
   
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
 
@@ -48,7 +50,6 @@ const Layout = ({ children }) => {
     { name: 'Reports', path: '/reports', icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
     )},
-    // 🚀 NAYA: Broadcast Menu
     { name: 'Broadcast', path: '/broadcast', icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
     )},
@@ -60,13 +61,13 @@ const Layout = ({ children }) => {
       {/* Premium Sidebar */}
       <aside className="w-64 bg-slate-900 dark:bg-slate-950 text-white flex flex-col shadow-2xl z-20 transition-colors duration-300 border-r border-slate-800">
         
-        {/* Logo Area */}
+        {/* 🚀 Logo Area */}
         <div className="h-20 flex items-center px-6 border-b border-slate-800/80 bg-slate-950">
-          <h1 className="text-xl font-extrabold tracking-wide flex items-center gap-3">
-            <div className="h-9 w-9 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/50">
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+          <h1 className="text-sm font-extrabold tracking-wide flex items-center gap-3 leading-tight">
+            <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center shadow-lg overflow-hidden p-1 flex-shrink-0">
+              <img src="/logo.png" alt="Logo" className="h-full w-full object-contain" />
             </div>
-            <span className="truncate max-w-[150px]" title={schoolName}>{schoolName}</span>
+            <span className="truncate max-w-[150px]" title={schoolName}>THE PACIFIC CAMBRIDGE SCHOOL</span>
           </h1>
         </div>
         
@@ -99,8 +100,9 @@ const Layout = ({ children }) => {
             </div>
             
             <div className="overflow-hidden">
+              {/* 🚀 Miss Saiqa */}
               <p className="text-sm font-bold text-white truncate">{displayName}</p>
-              <p className="text-xs font-medium text-slate-500 truncate" title={schoolName}>{schoolName}</p>
+              <p className="text-xs font-medium text-slate-500 truncate" title={schoolName}>Administrator</p>
             </div>
           </div>
           

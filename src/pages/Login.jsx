@@ -42,11 +42,13 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
       <div className="bg-white p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] w-full max-w-md border border-slate-100">
+        
+        {/* 🚀 Logo & School Name */}
         <div className="text-center mb-10">
-          <div className="h-16 w-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <span className="text-3xl">🎓</span>
+          <div className="h-24 w-24 mx-auto mb-4 flex items-center justify-center">
+            <img src="/logo.png" alt="School Logo" className="h-full w-full object-contain" />
           </div>
-          <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Smart School</h2>
+          <h2 className="text-2xl font-extrabold text-slate-800 tracking-tight leading-tight uppercase">The Pacific Cambridge School</h2>
           <p className="text-slate-500 mt-2 font-medium">Admin Portal Login</p>
         </div>
         
