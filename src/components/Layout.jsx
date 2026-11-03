@@ -6,7 +6,6 @@ const Layout = ({ children }) => {
   const navigate = useNavigate();
   const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
   
-  // 🚀 Naya School Name aur Admin Name fallback
   const schoolName = adminData.schoolName || 'THE PACIFIC CAMBRIDGE SCHOOL';
   const displayName = adminData.name || 'Miss Saiqa';
   
@@ -62,13 +61,17 @@ const Layout = ({ children }) => {
       <aside className="w-64 bg-slate-900 dark:bg-slate-950 text-white flex flex-col shadow-2xl z-20 transition-colors duration-300 border-r border-slate-800">
         
         {/* 🚀 Logo Area */}
-        <div className="h-20 flex items-center px-6 border-b border-slate-800/80 bg-slate-950">
-          <h1 className="text-sm font-extrabold tracking-wide flex items-center gap-3 leading-tight">
-            <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center shadow-lg overflow-hidden p-1 flex-shrink-0">
+        <div className="h-20 flex items-center px-5 border-b border-slate-800/80 bg-slate-950">
+          <div className="flex items-center gap-3 w-full">
+            {/* Logo Box - Bada aur Clear */}
+            <div className="h-12 w-12 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden p-0.5 shadow-md">
               <img src="/logo.png" alt="Logo" className="h-full w-full object-contain" />
             </div>
-            <span className="truncate max-w-[150px]" title={schoolName}>THE PACIFIC CAMBRIDGE SCHOOL</span>
-          </h1>
+            {/* School Name - Chota aur Clean */}
+            <h1 className="text-lg font-extrabold tracking-wider text-white">
+              THE PCS
+            </h1>
+          </div>
         </div>
         
         {/* Navigation */}
@@ -100,7 +103,6 @@ const Layout = ({ children }) => {
             </div>
             
             <div className="overflow-hidden">
-              {/* 🚀 Miss Saiqa */}
               <p className="text-sm font-bold text-white truncate">{displayName}</p>
               <p className="text-xs font-medium text-slate-500 truncate" title={schoolName}>Administrator</p>
             </div>
