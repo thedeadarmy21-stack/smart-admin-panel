@@ -57,7 +57,7 @@ const Teachers = () => {
 
       // Top Header Background (Indigo)
       doc.setFillColor(67, 56, 202); 
-      doc.rect(0, 0, 85.6, 18, 'F');
+      doc.rect(0, 0, 85.6, 22, 'F');
 
       // Top Right Blob (Purple)
       doc.setFillColor(147, 51, 234); 
@@ -67,54 +67,55 @@ const Teachers = () => {
       doc.setFillColor(238, 242, 255); 
       doc.rect(0, 42, 85.6, 12, 'F');
 
-      // Header Text
+      // 🚀 School Name (2 Lines)
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(7); 
+      doc.setFontSize(7);
       doc.setFont('times', 'bold');
-      doc.text(schoolName.toUpperCase(), 6, 7);
+      doc.text('THE PACIFIC CAMBRIDGE', 6, 7);
+      doc.text('SCHOOL', 6, 11);
       
       doc.setFontSize(4);
       doc.setFont('helvetica', 'normal');
-      doc.text('Faculty Identification Card', 6, 11);
+      doc.text('Faculty Identification Card', 6, 15);
 
       // Title
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(16);
+      doc.setFontSize(12);
       doc.setFont('times', 'bold');
-      doc.text('TEACHER', 50, 9);
-      doc.text('ID CARD', 50, 16);
+      doc.text('TEACHER', 52, 9);
+      doc.text('ID CARD', 52, 15);
 
       // Details
       doc.setTextColor(30, 41, 59);
       
       doc.setFontSize(6);
       doc.setFont('helvetica', 'bold');
-      doc.text('Name', 38, 25);
-      doc.text('Username', 38, 31);
-      doc.text('Phone', 38, 37);
-      doc.text('Class', 38, 43);
+      doc.text('Name', 38, 27);
+      doc.text('Username', 38, 33);
+      doc.text('Phone', 38, 39);
+      doc.text('Class', 38, 45);
 
-      doc.text(':', 50, 25);
-      doc.text(':', 50, 31);
-      doc.text(':', 50, 37);
-      doc.text(':', 50, 43);
+      doc.text(':', 50, 27);
+      doc.text(':', 50, 33);
+      doc.text(':', 50, 39);
+      doc.text(':', 50, 45);
 
       doc.setFont('helvetica', 'normal');
-      doc.text(teacher.name.toUpperCase(), 54, 25);
-      doc.text(teacher.username, 54, 31);
-      doc.text(teacher.phone || 'N/A', 54, 37);
-      doc.text(teacher.assignedClass ? `Class ${teacher.assignedClass}` : 'N/A', 54, 43);
+      doc.text(teacher.name.toUpperCase(), 54, 27);
+      doc.text(teacher.username, 54, 33);
+      doc.text(teacher.phone || 'N/A', 54, 39);
+      doc.text(teacher.assignedClass ? `Class ${teacher.assignedClass}` : 'N/A', 54, 45);
 
       // QR Code
       doc.setDrawColor(67, 56, 202); 
       doc.setLineWidth(0.8);
-      doc.rect(8, 21, 26, 26, 'S'); 
-      doc.addImage(qrDataUrl, 'PNG', 9, 22, 24, 24);
+      doc.rect(8, 24, 26, 26, 'S'); 
+      doc.addImage(qrDataUrl, 'PNG', 9, 25, 24, 24);
 
       // Footer
       doc.setFontSize(4);
       doc.setTextColor(100, 116, 139); 
-      doc.text('This card is property of the school.', 50, 50);
+      doc.text('This card is property of the school.', 52, 51);
 
       doc.save(`${teacher.name}-Teacher-ID.pdf`);
     } catch (err) {

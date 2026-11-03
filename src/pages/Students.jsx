@@ -60,7 +60,7 @@ const Students = () => {
 
     // Top Header Background (Teal)
     doc.setFillColor(15, 118, 110); 
-    doc.rect(0, 0, 85.6, 18, 'F');
+    doc.rect(0, 0, 85.6, 22, 'F');
     
     // Top Right Green Blob
     doc.setFillColor(22, 163, 74); 
@@ -70,49 +70,50 @@ const Students = () => {
     doc.setFillColor(240, 253, 250); 
     doc.rect(0, 42, 85.6, 12, 'F');
 
-    // 🚀 Header Text
+    // 🚀 School Name (2 Lines)
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(7); // Chota font school name ke liye
+    doc.setFontSize(7);
     doc.setFont('times', 'bold');
-    doc.text(schoolName.toUpperCase(), 6, 7); // Top Left mein School Name
+    doc.text('THE PACIFIC CAMBRIDGE', 6, 7);
+    doc.text('SCHOOL', 6, 11);
     
     doc.setFontSize(4);
     doc.setFont('helvetica', 'normal');
-    doc.text('Excellence in Education', 6, 11);
+    doc.text('Excellence in Education', 6, 15);
 
     // Title (STUDENT ID CARD)
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(16);
+    doc.setFontSize(12);
     doc.setFont('times', 'bold');
-    doc.text('STUDENT', 50, 9);
-    doc.text('ID CARD', 50, 16);
+    doc.text('STUDENT', 52, 9);
+    doc.text('ID CARD', 52, 15);
 
     // Details
     doc.setTextColor(30, 41, 59);
     
     doc.setFontSize(6);
     doc.setFont('helvetica', 'bold');
-    doc.text('Name', 38, 25);
-    doc.text('Roll No', 38, 31);
-    doc.text('Class', 38, 37);
-    doc.text('Father', 38, 43);
+    doc.text('Name', 38, 27);
+    doc.text('Roll No', 38, 33);
+    doc.text('Class', 38, 39);
+    doc.text('Father', 38, 45);
 
-    doc.text(':', 50, 25);
-    doc.text(':', 50, 31);
-    doc.text(':', 50, 37);
-    doc.text(':', 50, 43);
+    doc.text(':', 50, 27);
+    doc.text(':', 50, 33);
+    doc.text(':', 50, 39);
+    doc.text(':', 50, 45);
 
     doc.setFont('helvetica', 'normal');
-    doc.text(student.name.toUpperCase(), 54, 25);
-    doc.text(student.rollNumber, 54, 31);
-    doc.text(`${student.className} - ${student.section}`, 54, 37);
-    doc.text(student.fatherName, 54, 43);
+    doc.text(student.name.toUpperCase(), 54, 27);
+    doc.text(student.rollNumber, 54, 33);
+    doc.text(`${student.className} - ${student.section}`, 54, 39);
+    doc.text(student.fatherName, 54, 45);
 
     // QR Code (Left Side)
     doc.setDrawColor(15, 118, 110); 
     doc.setLineWidth(0.8);
-    doc.rect(8, 21, 26, 26, 'S'); 
-    doc.addImage(qrDataUrl, 'PNG', 9, 22, 24, 24); 
+    doc.rect(8, 24, 26, 26, 'S'); 
+    doc.addImage(qrDataUrl, 'PNG', 9, 25, 24, 24); 
   };
 
   const downloadIDCard = async (student) => {
