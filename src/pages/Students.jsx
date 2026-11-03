@@ -11,6 +11,8 @@ const Students = () => {
   const [loading, setLoading] = useState(true);
   const [downloadingAll, setDownloadingAll] = useState(false);
   const token = localStorage.getItem('adminToken');
+  const adminData = JSON.parse(localStorage.getItem('adminData') || '{}');
+  const schoolName = adminData.schoolName || 'THE PACIFIC CAMBRIDGE SCHOOL';
   const navigate = useNavigate();
 
   const fetchStudents = async () => {
@@ -46,61 +48,68 @@ const Students = () => {
     }
   };
 
+  // 🚀 Generate Professional Student ID Card
   const generateIDCardPDF = async (doc, student, isFirst) => {
     if (!isFirst) doc.addPage([85.6, 54], 'landscape');
     
     const qrDataUrl = await QRCode.toDataURL(student.qrCode, { width: 400, margin: 1 });
     
+    // Background
     doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, 85.6, 54, 'F');
 
-    doc.setFillColor(15, 118, 110);
-    doc.rect(0, 0, 85.6, 20, 'F');
+    // Top Header Background (Teal)
+    doc.setFillColor(15, 118, 110); 
+    doc.rect(0, 0, 85.6, 18, 'F');
     
-    doc.setFillColor(22, 163, 74);
+    // Top Right Green Blob
+    doc.setFillColor(22, 163, 74); 
     doc.ellipse(85.6, 0, 30, 18, 'F');
 
-    doc.setFillColor(240, 253, 250);
+    // Bottom Wave
+    doc.setFillColor(240, 253, 250); 
     doc.rect(0, 42, 85.6, 12, 'F');
 
-    // 🚀 NAYA SCHOOL NAME (Logo ki jagah text, kyunke JS PDF mein direct image URL load nahi hoti easily)
+    // 🚀 Header Text
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(9);
+    doc.setFontSize(7); // Chota font school name ke liye
     doc.setFont('times', 'bold');
-    doc.text('THE PACIFIC CAMBRIDGE SCHOOL', 10, 9); 
+    doc.text(schoolName.toUpperCase(), 6, 7); // Top Left mein School Name
     
-    doc.setFontSize(6);
+    doc.setFontSize(4);
     doc.setFont('helvetica', 'normal');
-    doc.setTextColor(200, 250, 240);
-    doc.text('Excellence in Education', 10, 14);
+    doc.text('Excellence in Education', 6, 11);
 
+    // Title (STUDENT ID CARD)
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(18);
+    doc.setFontSize(16);
     doc.setFont('times', 'bold');
-    doc.text('STUDENT', 45, 11);
-    doc.text('ID CARD', 45, 18);
+    doc.text('STUDENT', 50, 9);
+    doc.text('ID CARD', 50, 16);
 
+    // Details
     doc.setTextColor(30, 41, 59);
     
-    doc.setFontSize(7);
+    doc.setFontSize(6);
     doc.setFont('helvetica', 'bold');
-    doc.text('Name', 38, 26);
-    doc.text('Roll No', 38, 32);
-    doc.text('Class', 38, 38);
-    doc.text('Father', 38, 44);
+    doc.text('Name', 38, 25);
+    doc.text('Roll No', 38, 31);
+    doc.text('Class', 38, 37);
+    doc.text('Father', 38, 43);
 
-    doc.text(':', 50, 26);
-    doc.text(':', 50, 32);
-    doc.text(':', 50, 38);
-    doc.text(':', 50, 44);
+    doc.text(':', 50, 25);
+    doc.text(':', 50, 31);
+    doc.text(':', 50, 37);
+    doc.text(':', 50, 43);
 
     doc.setFont('helvetica', 'normal');
-    doc.text(student.name.toUpperCase(), 54, 26);
-    doc.text(student.rollNumber, 54, 32);
-    doc.text(`${student.className} - ${student.section}`, 54, 38);
-    doc.text(student.fatherName, 54, 44);
+    doc.text(student.name.toUpperCase(), 54, 25);
+    doc.text(student.rollNumber, 54, 31);
+    doc.text(`${student.className} - ${student.section}`, 54, 37);
+    doc.text(student.fatherName, 54, 43);
 
-    doc.setDrawColor(15, 118, 110);
+    // QR Code (Left Side)
+    doc.setDrawColor(15, 118, 110); 
     doc.setLineWidth(0.8);
     doc.rect(8, 21, 26, 26, 'S'); 
     doc.addImage(qrDataUrl, 'PNG', 9, 22, 24, 24); 

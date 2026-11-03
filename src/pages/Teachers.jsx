@@ -30,7 +30,6 @@ const Teachers = () => {
     fetchTeachers();
   }, [token]);
 
-  // 🚀 Download QR Code (PNG)
   const downloadQR = async (teacher) => {
     try {
       const qrDataUrl = await QRCode.toDataURL(teacher.username, { width: 400, margin: 2 });
@@ -46,77 +45,76 @@ const Teachers = () => {
     }
   };
 
-  // 🚀 Generate & Download Teacher ID Card (PDF)
+  // 🚀 Generate Professional Teacher ID Card
   const downloadTeacherID = async (teacher) => {
     try {
       const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [85.6, 54] });
       const qrDataUrl = await QRCode.toDataURL(teacher.username, { width: 400, margin: 1 });
 
-      // 1. Background
+      // Background
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 85.6, 54, 'F');
 
-      // 2. Top Header (Indigo/Purple Theme)
-      doc.setFillColor(67, 56, 202); // Indigo-700
-      doc.rect(0, 0, 85.6, 20, 'F');
+      // Top Header Background (Indigo)
+      doc.setFillColor(67, 56, 202); 
+      doc.rect(0, 0, 85.6, 18, 'F');
 
-      // 3. Top Right Blob (Purple)
-      doc.setFillColor(147, 51, 234); // Purple-600
+      // Top Right Blob (Purple)
+      doc.setFillColor(147, 51, 234); 
       doc.ellipse(85.6, 0, 30, 18, 'F');
 
-      // 4. Bottom Wave (Light Indigo)
-      doc.setFillColor(238, 242, 255); // Indigo-50
+      // Bottom Wave
+      doc.setFillColor(238, 242, 255); 
       doc.rect(0, 42, 85.6, 12, 'F');
 
-      // 5. Header Text (School Name)
+      // Header Text
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(9);
+      doc.setFontSize(7); 
       doc.setFont('times', 'bold');
-      doc.text('THE PACIFIC CAMBRIDGE SCHOOL', 10, 8);
+      doc.text(schoolName.toUpperCase(), 6, 7);
       
-      doc.setFontSize(5);
+      doc.setFontSize(4);
       doc.setFont('helvetica', 'normal');
-      doc.setTextColor(199, 210, 254); // Indigo-200
-      doc.text('Faculty Identification Card', 10, 13);
+      doc.text('Faculty Identification Card', 6, 11);
 
-      // 6. Big Title
+      // Title
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(18);
+      doc.setFontSize(16);
       doc.setFont('times', 'bold');
-      doc.text('TEACHER', 45, 11);
-      doc.text('ID CARD', 45, 18);
+      doc.text('TEACHER', 50, 9);
+      doc.text('ID CARD', 50, 16);
 
-      // 7. Teacher Details
-      doc.setTextColor(30, 41, 59); // Slate-800
+      // Details
+      doc.setTextColor(30, 41, 59);
       
       doc.setFontSize(6);
       doc.setFont('helvetica', 'bold');
-      doc.text('Name', 38, 26);
-      doc.text('Username', 38, 32);
-      doc.text('Phone', 38, 38);
-      doc.text('Class', 38, 44);
+      doc.text('Name', 38, 25);
+      doc.text('Username', 38, 31);
+      doc.text('Phone', 38, 37);
+      doc.text('Class', 38, 43);
 
-      doc.text(':', 52, 26);
-      doc.text(':', 52, 32);
-      doc.text(':', 52, 38);
-      doc.text(':', 52, 44);
+      doc.text(':', 50, 25);
+      doc.text(':', 50, 31);
+      doc.text(':', 50, 37);
+      doc.text(':', 50, 43);
 
       doc.setFont('helvetica', 'normal');
-      doc.text(teacher.name.toUpperCase(), 56, 26);
-      doc.text(teacher.username, 56, 32);
-      doc.text(teacher.phone || 'N/A', 56, 38);
-      doc.text(teacher.assignedClass ? `Class ${teacher.assignedClass}` : 'N/A', 56, 44);
+      doc.text(teacher.name.toUpperCase(), 54, 25);
+      doc.text(teacher.username, 54, 31);
+      doc.text(teacher.phone || 'N/A', 54, 37);
+      doc.text(teacher.assignedClass ? `Class ${teacher.assignedClass}` : 'N/A', 54, 43);
 
-      // 8. QR Code (Left Side)
-      doc.setDrawColor(67, 56, 202); // Indigo Border
+      // QR Code
+      doc.setDrawColor(67, 56, 202); 
       doc.setLineWidth(0.8);
       doc.rect(8, 21, 26, 26, 'S'); 
       doc.addImage(qrDataUrl, 'PNG', 9, 22, 24, 24);
 
-      // 9. Footer Text
-      doc.setFontSize(5);
-      doc.setTextColor(100, 116, 139); // Slate-500
-      doc.text('This card is property of the school.', 45, 50);
+      // Footer
+      doc.setFontSize(4);
+      doc.setTextColor(100, 116, 139); 
+      doc.text('This card is property of the school.', 50, 50);
 
       doc.save(`${teacher.name}-Teacher-ID.pdf`);
     } catch (err) {
@@ -125,7 +123,6 @@ const Teachers = () => {
     }
   };
 
-  // 🚀 Delete Teacher
   const handleDelete = async (teacherId, teacherName) => {
     if (!window.confirm(`Kya aap sach me "${teacherName}" ko delete karna chahte hain? Iski saari attendance bhi delete ho jayegi.`)) {
       return;
