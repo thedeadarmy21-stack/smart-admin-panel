@@ -45,7 +45,8 @@ const Login = () => {
         {/* 🚀 Logo & School Name */}
         <div className="text-center mb-10">
           <div className="h-28 w-28 mx-auto mb-4 flex items-center justify-center">
-            <img src="/logo.png" alt="School Logo" className="h-full w-full object-contain" />
+            {/* 🚀 SVG Logo Updated */}
+            <img src="/logo.svg" alt="School Logo" className="h-full w-full object-contain" />
           </div>
           <h2 className="text-xl font-extrabold text-slate-800 tracking-tight leading-tight uppercase">The Pacific Cambridge School</h2>
           <p className="text-slate-500 mt-2 font-medium text-sm">Admin Portal Login</p>

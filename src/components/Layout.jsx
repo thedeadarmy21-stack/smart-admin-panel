@@ -63,11 +63,10 @@ const Layout = ({ children }) => {
         {/* 🚀 Logo Area */}
         <div className="h-20 flex items-center px-5 border-b border-slate-800/80 bg-slate-950">
           <div className="flex items-center gap-3 w-full">
-            {/* Logo Box - Bada aur Clear */}
-            <div className="h-12 w-12 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden p-0.5 shadow-md">
-              <img src="/logo.png" alt="Logo" className="h-full w-full object-contain" />
+            {/* 🚀 Logo Box - SVG Updated */}
+            <div className="h-12 w-12 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden p-1 shadow-md">
+              <img src="/logo.svg" alt="Logo" className="h-full w-full object-contain" />
             </div>
-            {/* School Name - Chota aur Clean */}
             <h1 className="text-lg font-extrabold tracking-wider text-white">
               THE PCS
             </h1>
