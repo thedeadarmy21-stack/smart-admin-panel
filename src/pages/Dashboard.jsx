@@ -119,12 +119,13 @@ const Dashboard = () => {
   return (
     <div className="space-y-6 md:space-y-8 animate-pop relative">
       
-      {/* WELCOME BANNER */}
+      {/* 🚀 WELCOME BANNER (New Professional Text) */}
       <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-6 md:p-8 rounded-3xl shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h3 className="text-xl md:text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name || 'Principal'}!</h3>
-          <p className="text-blue-100 text-sm md:text-base relative z-10 max-w-xl">
-            Here is the live overview of {schoolName}.
+          <p className="text-blue-100 text-sm md:text-base relative z-10 max-w-2xl leading-relaxed">
+            You are now logged into the centralized management portal for <span className="font-bold text-white">{schoolName}</span>. 
+            From here, you can seamlessly track student and teacher attendance, generate comprehensive reports, manage profiles, and oversee the entire school's daily operations.
           </p>
         </div>
         <button onClick={() => setShowModal(true)} className="w-full md:w-auto justify-center bg-white/10 hover:bg-white/20 transition-all px-5 py-2.5 rounded-xl text-sm font-bold backdrop-blur-md border border-white/20 z-10 whitespace-nowrap flex items-center gap-2 shadow-lg">
@@ -133,7 +134,7 @@ const Dashboard = () => {
         </button>
       </div>
 
-      {/* SECURITY MODAL (Same as before, no changes needed for mobile) */}
+      {/* SECURITY MODAL */}
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[90vh] overflow-y-auto">
@@ -241,7 +242,6 @@ const Dashboard = () => {
       )}
 
       {/* LIVE STATS CARDS */}
-      {/* 🚀 Mobile par 2 columns, Laptop par 5 columns */}
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4">
         <div className="bg-white dark:bg-slate-800 p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0">
           <div className="p-2.5 md:p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl">
