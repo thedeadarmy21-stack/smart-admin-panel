@@ -54,7 +54,11 @@ const StudentProfile = () => {
       </div>
 
       <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 opacity-5 text-9xl transform translate-x-4 -translate-y-4">🎓</div>
+        
+        {/* 🚀 Background Watermark Logo (Center) */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-10 w-96 h-96 pointer-events-none">
+          <img src="/card.png" alt="Watermark" className="w-full h-full object-contain" />
+        </div>
         
         <div className="h-32 w-32 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-6xl font-bold border-4 border-white dark:border-slate-700 shadow-lg z-10 overflow-hidden">
           {student.profilePicture ? (
@@ -70,11 +74,9 @@ const StudentProfile = () => {
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Roll No: {student.rollNumber}</span>
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Class: {student.className} - {student.section}</span>
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Father: {student.fatherName}</span>
-            {/* 🚀 WhatsApp sirf tab dikhega jab ho */}
             {student.fatherWhatsApp && (
               <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">WhatsApp: {student.fatherWhatsApp}</span>
             )}
-            {/* 🚀 Email sirf tab dikhega jab ho */}
             {student.fatherEmail && (
               <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Email: {student.fatherEmail}</span>
             )}

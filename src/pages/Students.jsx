@@ -48,7 +48,6 @@ const Students = () => {
     }
   };
 
-  // 🚀 Helper: Image URL ko Base64 mein convert karein
   const getBase64ImageFromUrl = (imageUrl) => {
     return new Promise((resolve, reject) => {
       var img = new Image();
@@ -67,35 +66,26 @@ const Students = () => {
     });
   };
 
-  // 🚀 Generate Professional Student ID Card
   const generateIDCardPDF = async (doc, student, isFirst) => {
     if (!isFirst) doc.addPage([85.6, 54], 'landscape');
     
     const qrDataUrl = await QRCode.toDataURL(student.qrCode, { width: 400, margin: 1 });
-    
-    // 🚀 Logo load karein
     const logoDataUrl = await getBase64ImageFromUrl('/card.png');
 
-    // Background
     doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, 85.6, 54, 'F');
 
-    // Top Header Background (Teal)
     doc.setFillColor(15, 118, 110); 
     doc.rect(0, 0, 85.6, 22, 'F');
     
-    // Top Right Green Blob
     doc.setFillColor(22, 163, 74); 
     doc.ellipse(85.6, 0, 30, 18, 'F');
 
-    // Bottom Wave
     doc.setFillColor(240, 253, 250); 
     doc.rect(0, 42, 85.6, 12, 'F');
 
-    // 🚀 Logo Add Karein (Top Left)
     doc.addImage(logoDataUrl, 'PNG', 6, 4, 12, 12);
 
-    // 🚀 School Name (2 Lines) - Logo ke bagal mein
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(7);
     doc.setFont('times', 'bold');
@@ -106,14 +96,12 @@ const Students = () => {
     doc.setFont('helvetica', 'normal');
     doc.text('Excellence in Education', 20, 16);
 
-    // Title (STUDENT ID CARD)
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(12);
     doc.setFont('times', 'bold');
     doc.text('STUDENT', 58, 9);
     doc.text('ID CARD', 58, 15);
 
-    // Details
     doc.setTextColor(30, 41, 59);
     
     doc.setFontSize(6);
@@ -134,7 +122,6 @@ const Students = () => {
     doc.text(`${student.className} - ${student.section}`, 54, 39);
     doc.text(student.fatherName, 54, 45);
 
-    // QR Code (Left Side)
     doc.setDrawColor(15, 118, 110); 
     doc.setLineWidth(0.8);
     doc.rect(8, 24, 26, 26, 'S'); 
@@ -276,9 +263,10 @@ const Students = () => {
                   <td className="p-5 text-slate-600 dark:text-slate-300">{student.fatherName}</td>
                   <td className="p-5 text-center">
                     <div className="flex items-center justify-center gap-2">
+                      {/* 🚀 ID Button - Ab Blue/Indigo hai */}
                       <button 
                         onClick={() => downloadIDCard(student)}
-                        className="bg-slate-800 dark:bg-slate-900 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 dark:hover:bg-black transition-all shadow-md flex items-center gap-2 border border-transparent dark:border-slate-700"
+                        className="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-indigo-700 transition-all shadow-md flex items-center gap-2 border border-transparent dark:border-slate-700"
                       >
                         🪪 ID
                       </button>
