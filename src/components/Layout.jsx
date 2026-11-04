@@ -10,6 +10,7 @@ const Layout = ({ children }) => {
   const displayName = adminData.name || 'Miss Saiqa';
   
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // 🚀 Mobile Menu State
 
   useEffect(() => {
     if (isDark) {
@@ -20,6 +21,11 @@ const Layout = ({ children }) => {
       localStorage.setItem('theme', 'light');
     }
   }, [isDark]);
+
+  // 🚀 Jab bhi route change ho, mobile menu band ho jaye
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
@@ -55,23 +61,40 @@ const Layout = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+    <div className="flex h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300 overflow-hidden">
       
+      {/* 🚀 Mobile Overlay (Jab menu khula ho) */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-30 md:hidden backdrop-blur-sm transition-opacity"
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
+      )}
+
       {/* Premium Sidebar */}
-      <aside className="w-64 bg-slate-900 dark:bg-slate-950 text-white flex flex-col shadow-2xl z-20 transition-colors duration-300 border-r border-slate-800">
+      <aside className={`
+        fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 dark:bg-slate-950 text-white flex flex-col shadow-2xl transition-all duration-300 ease-in-out border-r border-slate-800
+        md:relative md:translate-x-0
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
         
-        {/* 🚀 Logo Area */}
-        <div className="h-20 flex items-center px-5 border-b border-slate-800/80 bg-slate-950">
+        {/* Logo Area */}
+        <div className="h-20 flex items-center justify-between px-5 border-b border-slate-800/80 bg-slate-950">
           <div className="flex items-center gap-3 w-full">
-            {/* Logo Box - Bada aur Clear */}
             <div className="h-14 w-14 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden shadow-md">
               <img src="/card.png" alt="Logo" className="h-full w-full object-contain p-1" />
             </div>
-            {/* School Name - Chota aur Clean */}
             <h1 className="text-lg font-extrabold tracking-wider text-white">
               THE PCS
             </h1>
           </div>
+          {/* Mobile Close Button */}
+          <button 
+            className="md:hidden text-slate-400 hover:text-white"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
         </div>
         
         {/* Navigation */}
@@ -96,12 +119,10 @@ const Layout = ({ children }) => {
 
         {/* User Profile Section */}
         <div className="p-5 border-t border-slate-800/80 bg-slate-950">
-          
           <div className="flex items-center gap-3 mb-5">
             <div className="h-11 w-11 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-900/50 border-2 border-slate-800">
               {displayName.charAt(0).toUpperCase()}
             </div>
-            
             <div className="overflow-hidden">
               <p className="text-sm font-bold text-white truncate">{displayName}</p>
               <p className="text-xs font-medium text-slate-500 truncate" title={schoolName}>Administrator</p>
@@ -121,24 +142,41 @@ const Layout = ({ children }) => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto relative">
-        <header className="h-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 flex justify-between items-center px-8 sticky top-0 z-10 transition-colors duration-300">
-          <h2 className="text-xl font-bold text-slate-800 dark:text-white capitalize tracking-tight">
-            {location.pathname.replace('/', '').replace('-', ' ')}
-          </h2>
+      <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+        
+        {/* Header */}
+        <header className="h-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300">
+          
+          <div className="flex items-center gap-4">
+            {/* 🚀 Mobile Hamburger Menu */}
+            <button 
+              className="md:hidden p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-white"
+              onClick={() => setIsMobileMenuOpen(true)}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+
+            <h2 className="text-lg md:text-xl font-bold text-slate-800 dark:text-white capitalize tracking-tight truncate">
+              {location.pathname.replace('/', '').replace('-', ' ')}
+            </h2>
+          </div>
           
           <button 
             onClick={() => setIsDark(!isDark)}
-            className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm flex items-center gap-2 font-bold text-sm"
+            className="p-2 md:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm flex items-center gap-2 font-bold text-sm"
           >
             {isDark ? (
-              <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg> Light</>
+              <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg> <span className="hidden md:inline">Light</span></>
             ) : (
-              <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg> Dark</>
+              <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg> <span className="hidden md:inline">Dark</span></>
             )}
           </button>
         </header>
-        <div className="p-8 max-w-7xl mx-auto">{children}</div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="max-w-7xl mx-auto">{children}</div>
+        </div>
       </main>
     </div>
   );
