@@ -43,10 +43,7 @@ const TeachersAttendance = () => {
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: { facingMode: 'environment' } 
       });
-      
-      // Permission mil gayi, ab stream band karein (zxing khud kholega)
       stream.getTracks().forEach(track => track.stop());
-      
     } catch (err) {
       console.error('Permission Error:', err);
       if (err.name === 'NotAllowedError') {
@@ -153,10 +150,16 @@ const TeachersAttendance = () => {
         </button>
       </div>
 
-      {/* Scanner Area */}
+      {/* 🚀 Scanner Area (Ab sahi jagah par hai) */}
       {scanning && (
         <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
-          <div id="reader" className="w-full rounded-2xl overflow-hidden border-2 border-dashed border-blue-500"></div>
+          <video 
+            id="reader" 
+            className="w-full rounded-2xl overflow-hidden border-2 border-dashed border-blue-500" 
+            autoPlay 
+            muted 
+            playsInline
+          ></video>
           <button
             onClick={stopScanner}
             className="mt-3 md:mt-4 w-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold py-2.5 md:py-3 rounded-xl hover:bg-red-200 transition text-sm md:text-base"
