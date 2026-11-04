@@ -372,7 +372,7 @@ const Dashboard = () => {
             </p>
           ) : lowAttendance.length === 0 ? (
             <p className="text-slate-500 text-xs md:text-sm col-span-full text-center py-6 md:py-8">
-              All students in this class have good attendance. 🎉
+              SARKAR
             </p>
           ) : (
             lowAttendance.map((student) => (
