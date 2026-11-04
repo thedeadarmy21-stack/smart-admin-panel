@@ -148,24 +148,32 @@ const TeachersAttendance = () => {
         </button>
       </div>
 
-      {/* 🚀 Scanner Area (Bilkul Sahi Jagah) */}
-      {scanning && (
-        <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
-          <video 
-            id="reader" 
-            className="w-full rounded-2xl overflow-hidden border-2 border-dashed border-blue-500" 
-            autoPlay 
-            muted 
-            playsInline
-          ></video>
-          <button
-            onClick={stopScanner}
-            className="mt-3 md:mt-4 w-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold py-2.5 md:py-3 rounded-xl hover:bg-red-200 transition text-sm md:text-base"
-          >
-            Cancel Scanning
-          </button>
-        </div>
-      )}
+      {/* 🚀 Scanner Area (Compact & Professional) */}
+{scanning && (
+  <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col items-center">
+    <div className="w-full max-w-xs md:max-w-sm relative rounded-2xl overflow-hidden border-2 border-dashed border-blue-500 bg-slate-900">
+      <video 
+        id="reader" 
+        className="w-full h-auto object-cover" 
+        autoPlay 
+        muted 
+        playsInline
+      ></video>
+      
+      {/* Scanner Line Animation */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-0.5 bg-red-500 shadow-[0_0_10px_2px_rgba(239,68,68,0.8)] animate-scanline"></div>
+      </div>
+    </div>
+    
+    <button
+      onClick={stopScanner}
+      className="mt-4 w-full max-w-xs md:max-w-sm bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold py-2.5 md:py-3 rounded-xl hover:bg-red-200 transition text-sm md:text-base"
+    >
+      Cancel Scanning
+    </button>
+  </div>
+)}
 
       {/* Messages */}
       {scanMessage && (
