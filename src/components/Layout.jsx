@@ -64,8 +64,8 @@ const Layout = ({ children }) => {
         <div className="h-20 flex items-center px-5 border-b border-slate-800/80 bg-slate-950">
           <div className="flex items-center gap-3 w-full">
             {/* Logo Box - Bada aur Clear */}
-            <div className="h-12 w-12 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden p-0.5 shadow-md">
-              <img src="/card.png" alt="Logo" className="h-full w-full object-contain" />
+            <div className="h-14 w-14 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden shadow-md">
+              <img src="/card.png" alt="Logo" className="h-full w-full object-contain p-1" />
             </div>
             {/* School Name - Chota aur Clean */}
             <h1 className="text-lg font-extrabold tracking-wider text-white">

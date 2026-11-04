@@ -41,12 +41,12 @@ const TeacherProfile = () => {
         ← Back to Teachers
       </button>
 
-      {/* 🚀 Profile Header with Real Logo */}
+      {/* 🚀 Profile Header with Real Logo Watermark */}
       <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
         
-        {/* Background Watermark Logo */}
-        <div className="absolute top-0 right-0 opacity-5 w-64 h-64 transform translate-x-12 -translate-y-12 pointer-events-none">
-          <img src="/card.png" alt="Watermark" className="w-full h-full object-contain grayscale" />
+        {/* 🚀 Background Watermark Logo (Center & Professional) */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-10 w-96 h-96 pointer-events-none">
+          <img src="/card.png" alt="Watermark" className="w-full h-full object-contain" />
         </div>
         
         <div className="h-32 w-32 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-6xl font-bold border-4 border-white dark:border-slate-700 shadow-lg z-10">
@@ -59,11 +59,13 @@ const TeacherProfile = () => {
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Username: {teacher.username}</span>
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Role: {teacher.role}</span>
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">School: {teacher.schoolName}</span>
-            {/* 🚀 NAYA: Assigned Class */}
+            
+            {/* Assigned Class */}
             <span className="bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 px-3 py-1 rounded-lg border border-indigo-200 dark:border-indigo-800 font-bold">
               Class: {teacher.assignedClass || 'Not Assigned'}
             </span>
-            {/* 🚀 NAYA: Phone Number */}
+            
+            {/* Phone Number */}
             {teacher.phone && (
               <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Phone: {teacher.phone}</span>
             )}
