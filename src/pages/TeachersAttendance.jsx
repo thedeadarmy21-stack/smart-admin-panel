@@ -150,7 +150,7 @@ const TeachersAttendance = () => {
         </button>
       </div>
 
-      {/* 🚀 Scanner Area (Ab sahi jagah par hai) */}
+      {/* 🚀 Scanner Area (Bilkul Sahi Jagah) */}
       {scanning && (
         <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
           <video 
@@ -197,7 +197,7 @@ const TeachersAttendance = () => {
           </div>
         ) : (
           <>
-            {/* 🚀 DESKTOP TABLE */}
+            {/* DESKTOP TABLE */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="bg-white dark:bg-slate-900 text-slate-400 text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
@@ -242,7 +242,7 @@ const TeachersAttendance = () => {
               </table>
             </div>
 
-            {/* 🚀 MOBILE CARDS */}
+            {/* MOBILE CARDS */}
             <div className="md:hidden p-4 space-y-2.5">
               {attendance.length === 0 ? (
                 <p className="text-center text-slate-500 dark:text-slate-400 py-6 text-sm">No teacher marked attendance.</p>
