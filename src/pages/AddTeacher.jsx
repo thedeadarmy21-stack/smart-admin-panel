@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,8 +17,24 @@ const AddTeacher = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [classes, setClasses] = useState([]); // 🚀 Dynamic Classes State
   const navigate = useNavigate();
   const token = localStorage.getItem('adminToken');
+
+  // 🚀 Classes fetch karein
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const res = await axios.get('https://smart-attendance-backend-one.vercel.app/api/auth/classes', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setClasses(res.data.classes);
+      } catch (err) {
+        console.error('Error fetching classes:', err);
+      }
+    };
+    fetchClasses();
+  }, [token]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -123,6 +139,7 @@ const AddTeacher = () => {
             />
           </div>
 
+          {/* 🚀 Dynamic Assigned Class */}
           <div>
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Assigned Class</label>
             <select
@@ -132,16 +149,9 @@ const AddTeacher = () => {
               className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white cursor-pointer"
             >
               <option value="">Select Class</option>
-              <option value="1">Class 1</option>
-              <option value="2">Class 2</option>
-              <option value="3">Class 3</option>
-              <option value="4">Class 4</option>
-              <option value="5">Class 5</option>
-              <option value="6">Class 6</option>
-              <option value="7">Class 7</option>
-              <option value="8">Class 8</option>
-              <option value="9">Class 9</option>
-              <option value="10">Class 10</option>
+              {classes.map((cls, idx) => (
+                <option key={idx} value={cls}>{cls}</option>
+              ))}
             </select>
           </div>
 
