@@ -38,7 +38,6 @@ const TeachersAttendance = () => {
     setScanMessage('');
     setScanError('');
 
-    // 🚀 Step 1: Pehle browser se seedha camera permission maangein
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: { facingMode: 'environment' } 
@@ -57,7 +56,6 @@ const TeachersAttendance = () => {
       return;
     }
 
-    // 🚀 Step 2: Ab scanner start karein
     setTimeout(() => {
       try {
         const codeReader = new BrowserMultiFormatReader();
