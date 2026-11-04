@@ -43,8 +43,13 @@ const TeachersAttendance = () => {
         const codeReader = new BrowserMultiFormatReader();
         codeReaderRef.current = codeReader;
 
-        codeReader.decodeFromVideoDevice(
-          undefined,
+        // 🚀 MOBILE FIX: Back camera force karein
+        const constraints = {
+          video: { facingMode: { ideal: 'environment' } }
+        };
+
+        codeReader.decodeFromConstraints(
+          constraints,
           'reader',
           async (result, err) => {
             if (result) {
@@ -57,9 +62,16 @@ const TeachersAttendance = () => {
           controlsRef.current = controls;
         }).catch((err) => {
           console.error('Camera Error:', err);
-          setScanError('Camera start nahi ho raha.');
+          if (err.name === 'NotAllowedError') {
+            setScanError('Camera permission denied. Phone settings se allow karein.');
+          } else if (err.name === 'NotFoundError') {
+            setScanError('Is device par camera nahi mila.');
+          } else {
+            setScanError('Camera start nahi ho raha. Page refresh karein.');
+          }
           setScanning(false);
         });
+
       } catch (err) {
         console.error('Scanner Error:', err);
         setScanError('Camera start nahi ho raha.');
