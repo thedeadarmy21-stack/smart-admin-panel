@@ -46,7 +46,7 @@ const TeacherProfile = () => {
         
         {/* Background Watermark Logo */}
         <div className="absolute top-0 right-0 opacity-5 w-64 h-64 transform translate-x-12 -translate-y-12 pointer-events-none">
-          <img src="/logo.png" alt="Watermark" className="w-full h-full object-contain grayscale" />
+          <img src="/card.png" alt="Watermark" className="w-full h-full object-contain grayscale" />
         </div>
         
         <div className="h-32 w-32 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-6xl font-bold border-4 border-white dark:border-slate-700 shadow-lg z-10">

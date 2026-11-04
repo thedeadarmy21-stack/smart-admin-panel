@@ -77,7 +77,7 @@ const Login = () => {
         {/* 🚀 Logo & School Name */}
         <div className="text-center mb-10">
           <div className={`h-28 w-28 mx-auto mb-4 flex items-center justify-center rounded-2xl p-2 shadow-inner ${isDark ? 'bg-slate-900' : 'bg-slate-50'}`}>
-            <img src="/logo.png" alt="School Logo" className="h-full w-full object-contain" />
+            <img src="/card.png" alt="School Logo" className="h-full w-full object-contain" />
           </div>
           <h2 className={`text-xl font-extrabold tracking-tight leading-tight uppercase ${isDark ? 'text-white' : 'text-slate-800'}`}>
             The Pacific Cambridge School
