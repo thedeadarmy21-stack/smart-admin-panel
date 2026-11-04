@@ -70,29 +70,22 @@ const Teachers = () => {
       const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [85.6, 54] });
       const qrDataUrl = await QRCode.toDataURL(teacher.username, { width: 400, margin: 1 });
 
-      // 🚀 Logo load karein
       const logoDataUrl = await getBase64ImageFromUrl('/card.png');
 
-      // Background
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 85.6, 54, 'F');
 
-      // Top Header Background (Indigo)
       doc.setFillColor(67, 56, 202); 
       doc.rect(0, 0, 85.6, 22, 'F');
 
-      // Top Right Blob (Purple)
       doc.setFillColor(147, 51, 234); 
       doc.ellipse(85.6, 0, 30, 18, 'F');
 
-      // Bottom Wave
       doc.setFillColor(238, 242, 255); 
       doc.rect(0, 42, 85.6, 12, 'F');
 
-      // 🚀 Logo Add Karein (Top Left)
       doc.addImage(logoDataUrl, 'PNG', 6, 4, 12, 12);
 
-      // 🚀 School Name (2 Lines) - Logo ke bagal mein
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(7);
       doc.setFont('times', 'bold');
@@ -103,14 +96,12 @@ const Teachers = () => {
       doc.setFont('helvetica', 'normal');
       doc.text('Faculty Identification Card', 20, 16);
 
-      // Title
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(12);
       doc.setFont('times', 'bold');
       doc.text('TEACHER', 58, 9);
       doc.text('ID CARD', 58, 15);
 
-      // Details
       doc.setTextColor(30, 41, 59);
       
       doc.setFontSize(6);
@@ -131,13 +122,11 @@ const Teachers = () => {
       doc.text(teacher.phone || 'N/A', 54, 39);
       doc.text(teacher.assignedClass ? `Class ${teacher.assignedClass}` : 'N/A', 54, 45);
 
-      // QR Code
       doc.setDrawColor(67, 56, 202); 
       doc.setLineWidth(0.8);
       doc.rect(8, 24, 26, 26, 'S'); 
       doc.addImage(qrDataUrl, 'PNG', 9, 25, 24, 24);
 
-      // Footer
       doc.setFontSize(4);
       doc.setTextColor(100, 116, 139); 
       doc.text('This card is property of the school.', 58, 51);
@@ -226,9 +215,15 @@ const Teachers = () => {
                       <div className="h-10 w-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                         {teacher.name.charAt(0)}
                       </div>
-                      <span className="font-bold text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors underline-offset-4 group-hover:underline">
-                        {teacher.name}
-                      </span>
+                      <div>
+                        <span className="font-bold text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors underline-offset-4 group-hover:underline block">
+                          {teacher.name}
+                        </span>
+                        {/* 🚀 NAYA: Class in List */}
+                        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-0.5 block">
+                          Class: {teacher.assignedClass || 'Not Assigned'}
+                        </span>
+                      </div>
                     </div>
                   </td>
                   <td className="p-5 text-slate-600 dark:text-slate-300 font-mono text-sm">{teacher.username}</td>

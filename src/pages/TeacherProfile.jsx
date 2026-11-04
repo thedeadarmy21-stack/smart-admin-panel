@@ -41,10 +41,15 @@ const TeacherProfile = () => {
         ← Back to Teachers
       </button>
 
+      {/* 🚀 Profile Header with Real Logo */}
       <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 opacity-5 text-9xl transform translate-x-4 -translate-y-4">👨‍🏫</div>
         
-        <div className="h-32 w-32 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-6xl font-bold border-4 border-white dark:border-slate-700 shadow-lg z-10">
+        {/* Background Watermark Logo */}
+        <div className="absolute top-0 right-0 opacity-5 w-64 h-64 transform translate-x-12 -translate-y-12 pointer-events-none">
+          <img src="/logo.png" alt="Watermark" className="w-full h-full object-contain grayscale" />
+        </div>
+        
+        <div className="h-32 w-32 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-6xl font-bold border-4 border-white dark:border-slate-700 shadow-lg z-10">
           {teacher.name.charAt(0).toUpperCase()}
         </div>
         
@@ -54,10 +59,19 @@ const TeacherProfile = () => {
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Username: {teacher.username}</span>
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Role: {teacher.role}</span>
             <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">School: {teacher.schoolName}</span>
+            {/* 🚀 NAYA: Assigned Class */}
+            <span className="bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 px-3 py-1 rounded-lg border border-indigo-200 dark:border-indigo-800 font-bold">
+              Class: {teacher.assignedClass || 'Not Assigned'}
+            </span>
+            {/* 🚀 NAYA: Phone Number */}
+            {teacher.phone && (
+              <span className="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Phone: {teacher.phone}</span>
+            )}
           </div>
         </div>
       </div>
 
+      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
           <p className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-wider mb-1">Attendance %</p>
@@ -79,6 +93,7 @@ const TeacherProfile = () => {
         </div>
       </div>
 
+      {/* History Table */}
       <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
         <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
           <h3 className="text-lg font-extrabold text-slate-800 dark:text-white">Full Attendance History</h3>
