@@ -33,23 +33,41 @@ const TeachersAttendance = () => {
     fetchAttendance();
   }, [date]);
 
-  const startScanner = () => {
+  const startScanner = async () => {
     setScanning(true);
     setScanMessage('');
     setScanError('');
 
+    // 🚀 Step 1: Pehle browser se seedha camera permission maangein
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: 'environment' } 
+      });
+      
+      // Permission mil gayi, ab stream band karein (zxing khud kholega)
+      stream.getTracks().forEach(track => track.stop());
+      
+    } catch (err) {
+      console.error('Permission Error:', err);
+      if (err.name === 'NotAllowedError') {
+        setScanError('Camera permission denied. Phone settings se allow karein.');
+      } else if (err.name === 'NotFoundError') {
+        setScanError('Is device par camera nahi mila.');
+      } else {
+        setScanError('Camera access failed: ' + err.message);
+      }
+      setScanning(false);
+      return;
+    }
+
+    // 🚀 Step 2: Ab scanner start karein
     setTimeout(() => {
       try {
         const codeReader = new BrowserMultiFormatReader();
         codeReaderRef.current = codeReader;
 
-        // 🚀 MOBILE FIX: Back camera force karein
-        const constraints = {
-          video: { facingMode: { ideal: 'environment' } }
-        };
-
         codeReader.decodeFromConstraints(
-          constraints,
+          { video: { facingMode: 'environment' } },
           'reader',
           async (result, err) => {
             if (result) {
@@ -61,20 +79,14 @@ const TeachersAttendance = () => {
         ).then((controls) => {
           controlsRef.current = controls;
         }).catch((err) => {
-          console.error('Camera Error:', err);
-          if (err.name === 'NotAllowedError') {
-            setScanError('Camera permission denied. Phone settings se allow karein.');
-          } else if (err.name === 'NotFoundError') {
-            setScanError('Is device par camera nahi mila.');
-          } else {
-            setScanError('Camera start nahi ho raha. Page refresh karein.');
-          }
+          console.error('Scanner Start Error:', err);
+          setScanError('Scanner start nahi ho raha: ' + err.message);
           setScanning(false);
         });
 
       } catch (err) {
-        console.error('Scanner Error:', err);
-        setScanError('Camera start nahi ho raha.');
+        console.error('Scanner Init Error:', err);
+        setScanError('Scanner initialize nahi ho raha.');
         setScanning(false);
       }
     }, 500);
