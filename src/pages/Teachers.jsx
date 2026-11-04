@@ -169,30 +169,36 @@ const Teachers = () => {
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
-      <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div>
-          <h3 className="font-extrabold text-xl text-slate-800 dark:text-white">All Teachers</h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Showing {filteredTeachers.length} teachers</p>
-        </div>
+      
+      {/* Header & Filters */}
+      <div className="p-4 md:p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col gap-4">
         
-        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-          <div className="relative">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4">
+          <div>
+            <h3 className="font-extrabold text-lg md:text-xl text-slate-800 dark:text-white">All Teachers</h3>
+            <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Showing {filteredTeachers.length} teachers</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-row gap-2 md:gap-3 w-full">
+          <div className="relative lg:w-64">
             <span className="absolute left-3 top-2.5 text-slate-400">🔍</span>
             <input
               type="text"
               placeholder="Search teacher..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-56"
+              className="pl-9 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
             />
           </div>
-          <Link to="/add-teacher" className="bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2">
+          <Link to="/add-teacher" className="bg-blue-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2">
             <span>➕</span> Add Teacher
           </Link>
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      {/* 🚀 DESKTOP TABLE */}
+      <div className="hidden lg:block overflow-x-auto">
         <table className="w-full text-left">
           <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-bold border-b border-slate-200 dark:border-slate-700">
             <tr>
@@ -219,7 +225,6 @@ const Teachers = () => {
                         <span className="font-bold text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors underline-offset-4 group-hover:underline block">
                           {teacher.name}
                         </span>
-                        {/* 🚀 NAYA: Class in List */}
                         <span className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-0.5 block">
                           Class: {teacher.assignedClass || 'Not Assigned'}
                         </span>
@@ -232,21 +237,18 @@ const Teachers = () => {
                       <button
                         onClick={() => downloadTeacherID(teacher)}
                         className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-indigo-700 transition-all shadow-md flex items-center gap-2"
-                        title="Download ID Card"
                       >
                         🪪 ID
                       </button>
                       <button
                         onClick={() => downloadQR(teacher)}
                         className="bg-slate-800 dark:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-slate-900 dark:hover:bg-black transition-all shadow-md flex items-center gap-2"
-                        title="Download QR"
                       >
                         📱 QR
                       </button>
                       <button
                         onClick={() => handleDelete(teacher._id, teacher.name)}
                         className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2 rounded-xl text-sm font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-all shadow-sm border border-red-200 dark:border-red-800"
-                        title="Delete Teacher"
                       >
                         🗑️
                       </button>
@@ -257,6 +259,71 @@ const Teachers = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* 🚀 MOBILE CARDS */}
+      <div className="lg:hidden p-4 space-y-4">
+        {filteredTeachers.length === 0 ? (
+          <p className="text-center text-slate-500 dark:text-slate-400 font-medium py-8">No teachers found.</p>
+        ) : (
+          filteredTeachers.map((teacher) => (
+            <div key={teacher._id} className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm">
+              
+              {/* Card Header */}
+              <div className="flex items-center gap-3">
+                <div 
+                  onClick={() => navigate(`/teacher/${teacher._id}`)}
+                  className="h-12 w-12 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold border-2 border-white dark:border-slate-800 shadow-sm flex-shrink-0"
+                >
+                  {teacher.name.charAt(0)}
+                </div>
+                <div className="overflow-hidden">
+                  <h4 
+                    onClick={() => navigate(`/teacher/${teacher._id}`)}
+                    className="font-bold text-slate-800 dark:text-white text-base truncate"
+                  >
+                    {teacher.name}
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">@{teacher.username}</p>
+                </div>
+              </div>
+
+              {/* Card Details */}
+              <div className="grid grid-cols-2 gap-2 text-xs bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-100 dark:border-slate-700">
+                <div>
+                  <p className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Class</p>
+                  <p className="text-slate-700 dark:text-slate-300 font-medium truncate">{teacher.assignedClass || 'Not Assigned'}</p>
+                </div>
+                <div>
+                  <p className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Phone</p>
+                  <p className="text-slate-700 dark:text-slate-300 font-medium truncate">{teacher.phone || 'N/A'}</p>
+                </div>
+              </div>
+
+              {/* Card Actions */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => downloadTeacherID(teacher)}
+                  className="flex-1 bg-indigo-600 text-white py-2.5 rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all shadow-md flex items-center justify-center gap-1.5"
+                >
+                  🪪 ID Card
+                </button>
+                <button
+                  onClick={() => downloadQR(teacher)}
+                  className="flex-1 bg-slate-800 dark:bg-slate-900 text-white py-2.5 rounded-xl text-xs font-bold hover:bg-slate-900 dark:hover:bg-black transition-all shadow-md flex items-center justify-center gap-1.5"
+                >
+                  📱 QR
+                </button>
+                <button
+                  onClick={() => handleDelete(teacher._id, teacher.name)}
+                  className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-all shadow-sm border border-red-200 dark:border-red-800"
+                >
+                  🗑️
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

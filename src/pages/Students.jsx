@@ -175,36 +175,43 @@ const Students = () => {
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
-      <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div>
-          <h3 className="font-extrabold text-xl text-slate-800 dark:text-white">Enrolled Students</h3>
-          <div className="flex items-center gap-3 mt-1">
-            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-              Showing {filteredStudents.length} students
-            </p>
-            {selectedClass && (
-              <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-0.5 rounded-full font-bold text-xs border border-blue-200 dark:border-blue-800">
-                Total in Class: {filteredStudents.length}
-              </span>
-            )}
+      
+      {/* Header & Filters */}
+      <div className="p-4 md:p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col gap-4">
+        
+        {/* Title Row */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4">
+          <div>
+            <h3 className="font-extrabold text-lg md:text-xl text-slate-800 dark:text-white">Enrolled Students</h3>
+            <div className="flex items-center gap-2 md:gap-3 mt-1">
+              <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium">
+                Showing {filteredStudents.length}
+              </p>
+              {selectedClass && (
+                <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 md:px-3 py-0.5 rounded-full font-bold text-[10px] md:text-xs border border-blue-200 dark:border-blue-800">
+                  In Class: {filteredStudents.length}
+                </span>
+              )}
+            </div>
           </div>
         </div>
-        
-        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-          <div className="relative">
+
+        {/* Filter Row - Mobile par stack hoga */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-row gap-2 md:gap-3 w-full">
+          <div className="relative lg:w-56">
             <span className="absolute left-3 top-2.5 text-slate-400">🔍</span>
             <input 
               type="text" 
               placeholder="Search..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-56"
+              className="pl-9 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm"
             />
           </div>
           <select 
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
-            className="px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 lg:w-40 text-sm"
           >
             <option value="">All Classes</option>
             {uniqueClasses.map((cls, idx) => (
@@ -214,17 +221,18 @@ const Students = () => {
           <button 
             onClick={downloadAllIDCards}
             disabled={downloadingAll}
-            className="bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2"
+            className="bg-emerald-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2"
           >
-            <span>🖨️</span> {downloadingAll ? 'Printing...' : 'Print All IDs'}
+            <span>🖨️</span> {downloadingAll ? 'Printing...' : 'Print All'}
           </button>
-          <Link to="/add-student" className="bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2">
+          <Link to="/add-student" className="bg-blue-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2">
             <span>➕</span> Add Student
           </Link>
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      {/* 🚀 DESKTOP TABLE (Sirf Laptop/Tablet par dikhega) */}
+      <div className="hidden lg:block overflow-x-auto">
         <table className="w-full text-left">
           <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-bold border-b border-slate-200 dark:border-slate-700">
             <tr>
@@ -263,7 +271,6 @@ const Students = () => {
                   <td className="p-5 text-slate-600 dark:text-slate-300">{student.fatherName}</td>
                   <td className="p-5 text-center">
                     <div className="flex items-center justify-center gap-2">
-                      {/* 🚀 ID Button - Ab Blue/Indigo hai */}
                       <button 
                         onClick={() => downloadIDCard(student)}
                         className="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-indigo-700 transition-all shadow-md flex items-center gap-2 border border-transparent dark:border-slate-700"
@@ -284,6 +291,69 @@ const Students = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* 🚀 MOBILE CARDS (Sirf Mobile par dikhega) */}
+      <div className="lg:hidden p-4 space-y-4">
+        {filteredStudents.length === 0 ? (
+          <p className="text-center text-slate-500 dark:text-slate-400 font-medium py-8">No students found.</p>
+        ) : (
+          filteredStudents.map((student) => (
+            <div key={student._id} className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col gap-3 shadow-sm">
+              
+              {/* Card Header */}
+              <div className="flex items-center gap-3">
+                <div 
+                  onClick={() => navigate(`/student/${student._id}`)}
+                  className="h-12 w-12 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold overflow-hidden border-2 border-white dark:border-slate-800 shadow-sm flex-shrink-0"
+                >
+                  {student.profilePicture ? (
+                    <img src={student.profilePicture} alt={student.name} className="h-full w-full object-cover" />
+                  ) : (
+                    student.name.charAt(0)
+                  )}
+                </div>
+                <div className="overflow-hidden">
+                  <h4 
+                    onClick={() => navigate(`/student/${student._id}`)}
+                    className="font-bold text-slate-800 dark:text-white text-base truncate"
+                  >
+                    {student.name}
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Roll: {student.rollNumber}</p>
+                </div>
+              </div>
+
+              {/* Card Details */}
+              <div className="grid grid-cols-2 gap-2 text-xs bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-100 dark:border-slate-700">
+                <div>
+                  <p className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Class</p>
+                  <p className="text-slate-700 dark:text-slate-300 font-medium">{student.className} - {student.section}</p>
+                </div>
+                <div>
+                  <p className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Father</p>
+                  <p className="text-slate-700 dark:text-slate-300 font-medium truncate">{student.fatherName}</p>
+                </div>
+              </div>
+
+              {/* Card Actions */}
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => downloadIDCard(student)}
+                  className="flex-1 bg-indigo-600 text-white py-2.5 rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all shadow-md flex items-center justify-center gap-1.5"
+                >
+                  🪪 ID Card
+                </button>
+                <button 
+                  onClick={() => handleDelete(student._id, student.name)}
+                  className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-all shadow-sm border border-red-200 dark:border-red-800"
+                >
+                  🗑️
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

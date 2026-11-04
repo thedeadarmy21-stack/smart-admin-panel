@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable'; // 🚀 Naya import tarika
+import autoTable from 'jspdf-autotable';
 
 const Reports = () => {
   const [reportType, setReportType] = useState('student'); 
@@ -91,7 +91,6 @@ const Reports = () => {
     }
   };
 
-  // 🚀 FIXED: PDF Download Function
   const downloadPDF = () => {
     if (!report) return alert('Pehle report generate karein.');
 
@@ -102,7 +101,6 @@ const Reports = () => {
         ? students.find(s => s._id === selectedStudent)?.name || 'Student'
         : teachers.find(t => t._id === selectedTeacher)?.name || 'Teacher';
 
-      // 🚀 HEADER
       doc.setFillColor(15, 118, 110);
       doc.rect(0, 0, 210, 35, 'F');
       doc.setTextColor(255, 255, 255);
@@ -113,7 +111,6 @@ const Reports = () => {
       doc.setFont('helvetica', 'normal');
       doc.text(title, 14, 28);
 
-      // 🚀 INFO
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(11);
       doc.text(`Name: ${name}`, 14, 50);
@@ -130,14 +127,12 @@ const Reports = () => {
       doc.setFont('helvetica', 'bold');
       doc.text(`Attendance: ${percentage}%`, 14, 92);
 
-      // 🚀 TABLE (Fixed)
       const tableData = report.attendance.map(att => [
         att.date,
         att.timeIn,
         att.status.toUpperCase()
       ]);
 
-      // Ye tarika hamesha kaam karta hai
       autoTable(doc, {
         startY: 100,
         head: [['Date', 'Time In', 'Status']],
@@ -148,7 +143,6 @@ const Reports = () => {
         alternateRowStyles: { fillColor: [240, 253, 250] },
       });
 
-      // 🚀 SAVE
       doc.save(`${name}-${month}-Report.pdf`);
     } catch (err) {
       console.error('PDF Error:', err);
@@ -161,44 +155,46 @@ const Reports = () => {
   const percentage = totalDays === 0 ? 0 : Math.round((presentDays / totalDays) * 100);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 md:space-y-8">
       
+      {/* Tabs */}
       <div className="flex justify-center">
-        <div className="bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl inline-flex shadow-inner border border-slate-200 dark:border-slate-700">
+        <div className="bg-slate-100 dark:bg-slate-800 p-1 md:p-1.5 rounded-2xl inline-flex shadow-inner border border-slate-200 dark:border-slate-700 w-full md:w-auto">
           <button
             onClick={() => { setReportType('student'); setReport(null); }}
-            className={`px-8 py-2.5 rounded-xl text-sm font-bold transition-all ${
+            className={`flex-1 md:flex-none px-3 md:px-8 py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all ${
               reportType === 'student' 
                 ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-md' 
                 : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
             }`}
           >
-            🎓 Student Report
+            🎓 Student
           </button>
           <button
             onClick={() => { setReportType('teacher'); setReport(null); }}
-            className={`px-8 py-2.5 rounded-xl text-sm font-bold transition-all ${
+            className={`flex-1 md:flex-none px-3 md:px-8 py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all ${
               reportType === 'teacher' 
                 ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-md' 
                 : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
             }`}
           >
-            👨‍🏫 Teacher Report
+            👨‍🏫 Teacher
           </button>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors duration-300">
-        <div className="flex flex-col md:flex-row gap-6 items-end">
+      {/* Filters */}
+      <div className="bg-white dark:bg-slate-800 p-5 md:p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors duration-300">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-end">
           
           {reportType === 'student' ? (
             <>
               <div className="flex-1 w-full">
-                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Select Class</label>
+                <label className="block text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 md:mb-2">Select Class</label>
                 <select
                   value={selectedClass}
                   onChange={(e) => { setSelectedClass(e.target.value); setSelectedStudent(''); setReport(null); }}
-                  className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 dark:text-white font-medium cursor-pointer"
+                  className="w-full px-3 md:px-4 py-2.5 md:py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 dark:text-white font-medium cursor-pointer text-sm md:text-base"
                 >
                   <option value="">All Classes</option>
                   {uniqueClasses.map((cls, idx) => (
@@ -208,11 +204,11 @@ const Reports = () => {
               </div>
 
               <div className="flex-1 w-full">
-                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Select Student</label>
+                <label className="block text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 md:mb-2">Select Student</label>
                 <select
                   value={selectedStudent}
                   onChange={(e) => setSelectedStudent(e.target.value)}
-                  className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 dark:text-white font-medium cursor-pointer"
+                  className="w-full px-3 md:px-4 py-2.5 md:py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 dark:text-white font-medium cursor-pointer text-sm md:text-base"
                 >
                   <option value="">-- Choose Student --</option>
                   {filteredStudents.map((s) => (
@@ -222,12 +218,12 @@ const Reports = () => {
               </div>
             </>
           ) : (
-            <div className="flex-1 w-full md:w-1/2">
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Select Teacher</label>
+            <div className="flex-1 w-full">
+              <label className="block text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 md:mb-2">Select Teacher</label>
               <select
                 value={selectedTeacher}
                 onChange={(e) => setSelectedTeacher(e.target.value)}
-                className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-700 dark:text-white font-medium cursor-pointer"
+                className="w-full px-3 md:px-4 py-2.5 md:py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-700 dark:text-white font-medium cursor-pointer text-sm md:text-base"
               >
                 <option value="">-- Choose Teacher --</option>
                 {teachers.map((t) => (
@@ -237,33 +233,33 @@ const Reports = () => {
             </div>
           )}
 
-          <div className="flex-1 w-full md:w-auto">
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Select Month</label>
+          <div className="flex-1 w-full">
+            <label className="block text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 md:mb-2">Select Month</label>
             <input
               type="month"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 dark:text-white font-medium"
+              className="w-full px-3 md:px-4 py-2.5 md:py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 dark:text-white font-medium text-sm md:text-base"
             />
           </div>
 
-          <div className="flex gap-3 w-full md:w-auto">
+          <div className="flex flex-col sm:flex-row gap-2 md:gap-3 w-full md:w-auto">
             <button
               onClick={fetchReport}
               disabled={loading}
-              className={`w-full md:w-auto text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg whitespace-nowrap ${
+              className={`w-full md:w-auto text-white font-bold px-6 md:px-8 py-3 md:py-3.5 rounded-xl transition-all shadow-lg whitespace-nowrap text-sm md:text-base ${
                 reportType === 'student' 
                   ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/30' 
                   : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/30'
               }`}
             >
-              {loading ? 'Generating...' : 'Generate Report'}
+              {loading ? 'Generating...' : 'Generate'}
             </button>
             {reportType === 'student' && (
               <button
                 onClick={handleMarkAbsent}
                 disabled={markingAbsent}
-                className="w-full md:w-auto bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold px-6 py-3.5 rounded-xl hover:bg-red-200 dark:hover:bg-red-900/50 transition-all whitespace-nowrap border border-red-200 dark:border-red-800"
+                className="w-full md:w-auto bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold px-4 md:px-6 py-3 md:py-3.5 rounded-xl hover:bg-red-200 dark:hover:bg-red-900/50 transition-all whitespace-nowrap border border-red-200 dark:border-red-800 text-sm md:text-base"
               >
                 {markingAbsent ? 'Marking...' : '❌ Mark Absentees'}
               </button>
@@ -272,30 +268,35 @@ const Reports = () => {
         </div>
       </div>
 
+      {/* Report Display */}
       {report && (
         <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
-          <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
-            <h3 className="text-lg font-extrabold text-slate-800 dark:text-white">
-              {reportType === 'student' ? 'Monthly Student Summary' : 'Monthly Teacher Summary'}
+          
+          {/* Report Header */}
+          <div className="p-4 md:p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+            <h3 className="text-base md:text-lg font-extrabold text-slate-800 dark:text-white">
+              {reportType === 'student' ? 'Student Summary' : 'Teacher Summary'}
             </h3>
-            <div className="flex flex-wrap gap-3">
-              <div className={`px-5 py-2 rounded-xl font-bold text-sm border flex items-center gap-2 shadow-sm ${percentage >= 75 ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800'}`}>
-                <span>📊</span> {percentage}% Attendance
+            
+            <div className="flex flex-wrap gap-2 w-full md:w-auto">
+              <div className={`px-3 md:px-5 py-1.5 md:py-2 rounded-xl font-bold text-[10px] md:text-sm border flex items-center gap-1.5 shadow-sm ${percentage >= 75 ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800'}`}>
+                <span>📊</span> {percentage}%
               </div>
-              <div className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-5 py-2 rounded-xl font-bold text-sm border border-emerald-200 dark:border-emerald-800 flex items-center gap-2 shadow-sm">
-                <span>✅</span> {report.totalDaysAttended} Days Present
+              <div className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 md:px-5 py-1.5 md:py-2 rounded-xl font-bold text-[10px] md:text-sm border border-emerald-200 dark:border-emerald-800 flex items-center gap-1.5 shadow-sm">
+                <span>✅</span> {report.totalDaysAttended} Days
               </div>
               
               <button
                 onClick={downloadPDF}
-                className="bg-purple-600 text-white px-5 py-2 rounded-xl font-bold text-sm hover:bg-purple-700 transition-all shadow-md flex items-center gap-2"
+                className="flex-1 md:flex-none bg-purple-600 text-white px-3 md:px-5 py-1.5 md:py-2 rounded-xl font-bold text-[10px] md:text-sm hover:bg-purple-700 transition-all shadow-md flex items-center justify-center gap-1.5"
               >
-                📥 Download PDF
+                📥 PDF
               </button>
             </div>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* 🚀 DESKTOP TABLE */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left">
               <thead className="bg-white dark:bg-slate-900 text-slate-400 text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
                 <tr>
@@ -306,7 +307,7 @@ const Reports = () => {
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                 {report.attendance.length === 0 ? (
-                  <tr><td colSpan="3" className="p-10 text-center text-slate-500 dark:text-slate-400 font-medium">No attendance records found for this month.</td></tr>
+                  <tr><td colSpan="3" className="p-10 text-center text-slate-500 dark:text-slate-400 font-medium">No records found.</td></tr>
                 ) : (
                   report.attendance.map((att) => (
                     <tr key={att._id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition">
@@ -330,6 +331,29 @@ const Reports = () => {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* 🚀 MOBILE CARDS */}
+          <div className="md:hidden p-4 space-y-2.5">
+            {report.attendance.length === 0 ? (
+              <p className="text-center text-slate-500 dark:text-slate-400 font-medium py-6 text-sm">No records found.</p>
+            ) : (
+              report.attendance.map((att) => (
+                <div key={att._id} className="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                  <div>
+                    <p className="text-sm font-bold text-slate-800 dark:text-white">{att.date}</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">{att.timeIn}</p>
+                  </div>
+                  <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border flex items-center gap-1 ${
+                    att.status === 'present' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' :
+                    att.status === 'late' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800' :
+                    'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800'
+                  }`}>
+                    {att.status === 'present' ? '🟢' : att.status === 'late' ? '🟡' : '🔴'} {att.status}
+                  </span>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}
