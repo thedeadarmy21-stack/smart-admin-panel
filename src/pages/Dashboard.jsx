@@ -119,13 +119,13 @@ const Dashboard = () => {
   return (
     <div className="space-y-6 md:space-y-8 animate-pop relative">
       
-      {/* 🚀 WELCOME BANNER (New Professional Text) */}
+      {/* WELCOME BANNER */}
       <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-6 md:p-8 rounded-3xl shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h3 className="text-xl md:text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name || 'Principal'}!</h3>
           <p className="text-blue-100 text-sm md:text-base relative z-10 max-w-2xl leading-relaxed">
-  Manage students, teachers, and attendance for <span className="font-bold text-white">{schoolName}</span>.
-</p>
+            Manage students, teachers, and attendance for <span className="font-bold text-white">{schoolName}</span>.
+          </p>
         </div>
         <button onClick={() => setShowModal(true)} className="w-full md:w-auto justify-center bg-white/10 hover:bg-white/20 transition-all px-5 py-2.5 rounded-xl text-sm font-bold backdrop-blur-md border border-white/20 z-10 whitespace-nowrap flex items-center gap-2 shadow-lg">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
@@ -180,18 +180,20 @@ const Dashboard = () => {
                   <div className="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
                   
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username (Optional)</label>
-                    <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username</label>
+                    <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password (Optional)</label>
-                    <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
+                    <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
                   </div>
                   
                   <div className="flex gap-3 pt-4">
                     <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
-                    <button type="submit" disabled={updating} className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition flex justify-center items-center">
+                    <button type="submit" disabled={updating} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition flex justify-center items-center shadow-lg shadow-blue-600/20">
                       {updating ? 'Updating...' : 'Update Profile'}
                     </button>
                   </div>
@@ -218,18 +220,20 @@ const Dashboard = () => {
                   <div className="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
                   
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username (Optional)</label>
-                    <input type="text" value={teacherUpdateData.newUsername} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username</label>
+                    <input type="text" value={teacherUpdateData.newUsername} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password (Optional)</label>
-                    <input type="password" value={teacherUpdateData.newPassword} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep same" />
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
+                    <input type="password" value={teacherUpdateData.newPassword} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
                   </div>
                   
                   <div className="flex gap-3 pt-4">
                     <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
-                    <button type="submit" disabled={updating} className="flex-1 bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition flex justify-center items-center">
+                    <button type="submit" disabled={updating} className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 rounded-xl hover:from-emerald-700 hover:to-teal-700 transition flex justify-center items-center shadow-lg shadow-emerald-600/20">
                       {updating ? 'Updating...' : 'Update Teacher'}
                     </button>
                   </div>
@@ -372,7 +376,7 @@ const Dashboard = () => {
             </p>
           ) : lowAttendance.length === 0 ? (
             <p className="text-slate-500 text-xs md:text-sm col-span-full text-center py-6 md:py-8">
-              SARKAR
+              All students in this SARKAR...
             </p>
           ) : (
             lowAttendance.map((student) => (
