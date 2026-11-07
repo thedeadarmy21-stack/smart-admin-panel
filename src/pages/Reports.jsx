@@ -5,7 +5,6 @@ import autoTable from 'jspdf-autotable';
 
 const Reports = () => {
   const [reportType, setReportType] = useState('student'); 
-
   const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
   const [loading, setLoading] = useState(false);
   const [report, setReport] = useState(null);
@@ -91,42 +90,87 @@ const Reports = () => {
     }
   };
 
-  const downloadPDF = () => {
+  // 🚀 Helper: Image URL to Base64
+  const getBase64ImageFromUrl = (imageUrl) => {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.setAttribute('crossOrigin', 'anonymous');
+      img.onload = () => {
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL('image/png');
+        resolve(dataURL);
+      };
+      img.onerror = (error) => reject(error);
+      img.src = imageUrl;
+    });
+  };
+
+  const downloadPDF = async () => {
     if (!report) return alert('Pehle report generate karein.');
 
     try {
       const doc = new jsPDF();
-      const title = report.type === 'student' ? 'Student Report' : 'Teacher Report';
-      const name = report.type === 'student' 
+      const isStudent = report.type === 'student';
+      const title = isStudent ? 'Student Report' : 'Teacher Report';
+      const name = isStudent 
         ? students.find(s => s._id === selectedStudent)?.name || 'Student'
         : teachers.find(t => t._id === selectedTeacher)?.name || 'Teacher';
 
-      doc.setFillColor(15, 118, 110);
-      doc.rect(0, 0, 210, 35, 'F');
+      // 🚀 Theme Colors (Student = Teal, Teacher = Indigo)
+      const primaryColor = isStudent ? [15, 118, 110] : [67, 56, 202]; // Teal-700 : Indigo-700
+      const lightBgColor = isStudent ? [240, 253, 250] : [238, 242, 255]; // Teal-50 : Indigo-50
+
+      // 🚀 Header Background
+      doc.setFillColor(...primaryColor);
+      doc.rect(0, 0, 210, 40, 'F');
+
+      // 🚀 Logo
+      const logoDataUrl = await getBase64ImageFromUrl('/card.png');
+      doc.addImage(logoDataUrl, 'PNG', 14, 8, 24, 24);
+
+      // 🚀 School Name & Title
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(22);
+      doc.setFontSize(18);
       doc.setFont('helvetica', 'bold');
-      doc.text('SMART SCHOOL', 14, 18);
+      doc.text('THE PACIFIC CAMBRIDGE SCHOOL', 45, 18);
+      
       doc.setFontSize(12);
       doc.setFont('helvetica', 'normal');
-      doc.text(title, 14, 28);
+      doc.text(title, 45, 26);
 
+      // 🚀 Info Section
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(11);
-      doc.text(`Name: ${name}`, 14, 50);
-      doc.text(`Month: ${month}`, 14, 57);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`Name:`, 14, 50);
+      doc.text(`Month:`, 14, 57);
+      doc.text(`Total Records:`, 14, 64);
+      doc.text(`Present:`, 14, 71);
+      doc.text(`Late:`, 14, 78);
+      doc.text(`Absent:`, 14, 85);
       
+      doc.setFont('helvetica', 'normal');
+      doc.text(`${name}`, 50, 50);
+      doc.text(`${month}`, 50, 57);
+      doc.text(`${report.attendance.length}`, 50, 64);
+      doc.text(`${report.totalDaysPresent || 0}`, 50, 71);
+      doc.text(`${report.totalDaysLate || 0}`, 50, 78);
+      doc.text(`${report.totalDaysAbsent || 0}`, 50, 85);
+
       const totalDays = report.attendance.length;
       const presentDays = report.attendance.filter(a => a.status === 'present' || a.status === 'late').length;
       const percentage = totalDays === 0 ? 0 : Math.round((presentDays / totalDays) * 100);
 
-      doc.text(`Total Records: ${totalDays}`, 14, 64);
-      doc.text(`Present: ${report.totalDaysPresent || 0}`, 14, 71);
-      doc.text(`Late: ${report.totalDaysLate || 0}`, 14, 78);
-      doc.text(`Absent: ${report.totalDaysAbsent || 0}`, 14, 85);
       doc.setFont('helvetica', 'bold');
-      doc.text(`Attendance: ${percentage}%`, 14, 92);
+      doc.setFontSize(14);
+      doc.setTextColor(...primaryColor);
+      doc.text(`Attendance: ${percentage}%`, 14, 95);
 
+      // 🚀 Table
       const tableData = report.attendance.map(att => [
         att.date,
         att.timeIn,
@@ -134,13 +178,13 @@ const Reports = () => {
       ]);
 
       autoTable(doc, {
-        startY: 100,
+        startY: 105,
         head: [['Date', 'Time In', 'Status']],
         body: tableData,
         theme: 'grid',
-        headStyles: { fillColor: [15, 118, 110], textColor: [255, 255, 255], fontStyle: 'bold' },
+        headStyles: { fillColor: primaryColor, textColor: [255, 255, 255], fontStyle: 'bold' },
         bodyStyles: { fontSize: 10 },
-        alternateRowStyles: { fillColor: [240, 253, 250] },
+        alternateRowStyles: { fillColor: lightBgColor },
       });
 
       doc.save(`${name}-${month}-Report.pdf`);
@@ -272,7 +316,6 @@ const Reports = () => {
       {report && (
         <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
           
-          {/* Report Header */}
           <div className="p-4 md:p-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
             <h3 className="text-base md:text-lg font-extrabold text-slate-800 dark:text-white">
               {reportType === 'student' ? 'Student Summary' : 'Teacher Summary'}
@@ -295,7 +338,6 @@ const Reports = () => {
             </div>
           </div>
 
-          {/* 🚀 DESKTOP TABLE */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left">
               <thead className="bg-white dark:bg-slate-900 text-slate-400 text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
@@ -333,7 +375,6 @@ const Reports = () => {
             </table>
           </div>
 
-          {/* 🚀 MOBILE CARDS */}
           <div className="md:hidden p-4 space-y-2.5">
             {report.attendance.length === 0 ? (
               <p className="text-center text-slate-500 dark:text-slate-400 font-medium py-6 text-sm">No records found.</p>
