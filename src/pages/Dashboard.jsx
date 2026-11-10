@@ -345,12 +345,16 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* LOW ATTENDANCE ALERT (OPTION 1 - SMART DASHBOARD) */}
+            {/* LOW ATTENDANCE ALERT (SMART DASHBOARD) */}
       <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-4 mb-4 md:mb-6">
+          
+          {/* Problem 1 Fixed: Title aur Badge */}
           <div className="flex items-center gap-2">
             <span className="text-xl md:text-2xl">⚠️</span>
-            <h4 className="font-bold text-base md:text-lg text-red-600 dark:text-red-400">Low Attendance Alert</h4>
+            <h4 className="font-bold text-base md:text-lg text-red-600 dark:text-red-400">
+              LOW ATTENDANCE ALERT (SMART DASHBOARD)
+            </h4>
             {selectedClassFilter && lowAttendance.length > 0 && (
               <span className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 px-2.5 py-0.5 rounded-full text-xs font-bold border border-red-200 dark:border-red-800 ml-2">
                 Total: {lowAttendance.length}
@@ -377,12 +381,16 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {!selectedClassFilter ? (
             <p className="text-slate-500 text-xs md:text-sm col-span-full text-center py-6 md:py-8">
-              Please select a class from the dropdown above to view students at risk.
+              Please select a class from the dropdown above.
             </p>
           ) : lowAttendance.length === 0 ? (
-            <p className="text-slate-500 text-xs md:text-sm col-span-full text-center py-6 md:py-8">
-              All students have good attendance in this selection.
-            </p>
+            /* Problem 2 Fixed: Professional Text */
+            <div className="col-span-full flex flex-col items-center justify-center py-8 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-900/30">
+              <span className="text-3xl mb-2">🎉</span>
+              <p className="text-emerald-700 dark:text-emerald-400 text-sm md:text-base font-bold">
+                Excellent! No students found with low attendance in this class.
+              </p>
+            </div>
           ) : (
             lowAttendance.map((student) => {
               const isCritical = student.status === 'Critical';
@@ -406,8 +414,5 @@ const Dashboard = () => {
           )}
         </div>
       </div>
-    </div>
-  );
-};
 
 export default Dashboard;
