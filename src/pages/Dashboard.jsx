@@ -345,11 +345,10 @@ const Dashboard = () => {
         </div>
       </div>
 
-            {/* LOW ATTENDANCE ALERT (SMART DASHBOARD) */}
+      {/* LOW ATTENDANCE ALERT (SMART DASHBOARD) */}
       <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-4 mb-4 md:mb-6">
           
-          {/* Problem 1 Fixed: Title aur Badge */}
           <div className="flex items-center gap-2">
             <span className="text-xl md:text-2xl">⚠️</span>
             <h4 className="font-bold text-base md:text-lg text-red-600 dark:text-red-400">
@@ -384,7 +383,6 @@ const Dashboard = () => {
               Please select a class from the dropdown above.
             </p>
           ) : lowAttendance.length === 0 ? (
-            /* Problem 2 Fixed: Professional Text */
             <div className="col-span-full flex flex-col items-center justify-center py-8 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-900/30">
               <span className="text-3xl mb-2">🎉</span>
               <p className="text-emerald-700 dark:text-emerald-400 text-sm md:text-base font-bold">
@@ -414,5 +412,8 @@ const Dashboard = () => {
           )}
         </div>
       </div>
+    </div>
+  );
+};
 
 export default Dashboard;
