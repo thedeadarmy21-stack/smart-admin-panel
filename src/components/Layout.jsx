@@ -9,9 +9,8 @@ const Layout = ({ children }) => {
   const schoolName = adminData.schoolName || 'THE PACIFIC CAMBRIDGE SCHOOL';
   const displayName = adminData.name || 'Miss Saiqa';
   
-  // 🚀 Default theme ko LIGHT rakha hai taaki naya look dikhe
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // 🚀 Mobile Menu State
 
   useEffect(() => {
     if (isDark) {
@@ -23,6 +22,7 @@ const Layout = ({ children }) => {
     }
   }, [isDark]);
 
+  // 🚀 Jab bhi route change ho, mobile menu band ho jaye
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
@@ -61,9 +61,9 @@ const Layout = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-[#F8FAFC] dark:bg-slate-900 transition-colors duration-300 overflow-hidden">
+    <div className="flex h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300 overflow-hidden">
       
-      {/* Mobile Overlay */}
+      {/* 🚀 Mobile Overlay (Jab menu khula ho) */}
       {isMobileMenuOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-30 md:hidden backdrop-blur-sm transition-opacity"
@@ -71,15 +71,15 @@ const Layout = ({ children }) => {
         ></div>
       )}
 
-      {/* 🚀 Premium Sidebar (Deep Navy Blue Theme) */}
+      {/* Premium Sidebar */}
       <aside className={`
-        fixed inset-y-0 left-0 z-40 w-64 bg-[#0F172A] text-slate-200 flex flex-col shadow-2xl transition-all duration-300 ease-in-out border-r border-slate-800
+        fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 dark:bg-slate-950 text-white flex flex-col shadow-2xl transition-all duration-300 ease-in-out border-r border-slate-800
         md:relative md:translate-x-0
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         
         {/* Logo Area */}
-        <div className="h-20 flex items-center justify-between px-5 border-b border-slate-700/50">
+        <div className="h-20 flex items-center justify-between px-5 border-b border-slate-800/80 bg-slate-950">
           <div className="flex items-center gap-3 w-full">
             <div className="h-14 w-14 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden shadow-md">
               <img src="/card.png" alt="Logo" className="h-full w-full object-contain p-1" />
@@ -88,6 +88,7 @@ const Layout = ({ children }) => {
               THE PCS
             </h1>
           </div>
+          {/* Mobile Close Button */}
           <button 
             className="md:hidden text-slate-400 hover:text-white"
             onClick={() => setIsMobileMenuOpen(false)}
@@ -104,8 +105,8 @@ const Layout = ({ children }) => {
               to={item.path}
               className={`flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${
                 location.pathname === item.path
-                  ? 'bg-[#1E3A8A] text-white shadow-lg shadow-blue-900/30 font-semibold translate-x-1'
-                  : 'text-slate-400 hover:bg-[#1E293B] hover:text-white'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-900/30 font-semibold translate-x-1'
+                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-white'
               }`}
             >
               <span className={`${location.pathname === item.path ? 'text-white' : 'text-slate-500 group-hover:text-white'}`}>
@@ -117,20 +118,20 @@ const Layout = ({ children }) => {
         </nav>
 
         {/* User Profile Section */}
-        <div className="p-5 border-t border-slate-700/50">
+        <div className="p-5 border-t border-slate-800/80 bg-slate-950">
           <div className="flex items-center gap-3 mb-5">
-            <div className="h-11 w-11 rounded-full bg-gradient-to-br from-[#1E3A8A] to-[#1D4ED8] flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-900/50 border-2 border-slate-700">
+            <div className="h-11 w-11 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-900/50 border-2 border-slate-800">
               {displayName.charAt(0).toUpperCase()}
             </div>
             <div className="overflow-hidden">
               <p className="text-sm font-bold text-white truncate">{displayName}</p>
-              <p className="text-xs font-medium text-slate-400 truncate" title={schoolName}>Administrator</p>
+              <p className="text-xs font-medium text-slate-500 truncate" title={schoolName}>Administrator</p>
             </div>
           </div>
           
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300 group"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-red-500 bg-red-500/10 border border-red-500/20 rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300 group"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -144,27 +145,28 @@ const Layout = ({ children }) => {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         
         {/* Header */}
-        <header className="h-20 bg-white/70 backdrop-blur-md border-b border-slate-200 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300">
+        <header className="h-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300">
           
           <div className="flex items-center gap-4">
+            {/* 🚀 Mobile Hamburger Menu */}
             <button 
-              className="md:hidden p-2 rounded-lg bg-slate-100 text-slate-600"
+              className="md:hidden p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-white"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
 
-            <h2 className="text-lg md:text-xl font-bold text-slate-800 capitalize tracking-tight truncate">
+            <h2 className="text-lg md:text-xl font-bold text-slate-800 dark:text-white capitalize tracking-tight truncate">
               {location.pathname.replace('/', '').replace('-', ' ')}
             </h2>
           </div>
           
           <button 
             onClick={() => setIsDark(!isDark)}
-            className="p-2 md:p-2.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all shadow-sm flex items-center gap-2 font-bold text-sm"
+            className="p-2 md:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm flex items-center gap-2 font-bold text-sm"
           >
             {isDark ? (
-              <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg> <span className="hidden md:inline">Light</span></> 
+              <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg> <span className="hidden md:inline">Light</span></>
             ) : (
               <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg> <span className="hidden md:inline">Dark</span></>
             )}
@@ -172,7 +174,7 @@ const Layout = ({ children }) => {
         </header>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-[#F8FAFC] dark:bg-slate-900">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8">
           <div className="max-w-7xl mx-auto">{children}</div>
         </div>
       </main>
