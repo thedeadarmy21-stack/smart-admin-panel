@@ -250,6 +250,7 @@ const Broadcast = () => {
                     <th className="p-5 font-bold">Date & Time</th>
                     <th className="p-5 font-bold">Message</th>
                     <th className="p-5 font-bold">Target</th>
+                    <th className="p-5 font-bold">Delivery</th>
                     <th className="p-5 font-bold">Status</th>
                   </tr>
                 </thead>
@@ -271,6 +272,20 @@ const Broadcast = () => {
                           <span className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold">{item.targetStudentName || 'N/A'}</span>
                         )}
                       </td>
+                      
+                      {/* 🚀 NAYA COLUMN: Delivery Status (Sent/Replied) */}
+                      <td className="p-5">
+                        {item.status === 'replied' ? (
+                          <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold border border-emerald-200 flex items-center gap-1 w-max">
+                            💬 Replied
+                          </span>
+                        ) : (
+                          <span className="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-3 py-1 rounded-full text-xs font-bold border border-slate-200 dark:border-slate-600 flex items-center gap-1 w-max">
+                            ✔️ Sent
+                          </span>
+                        )}
+                      </td>
+
                       <td className="p-5">
                         <div className="flex flex-col gap-1 text-xs font-bold">
                           <span className="text-emerald-500 flex items-center gap-1">
@@ -297,7 +312,12 @@ const Broadcast = () => {
                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                       {new Date(item.createdAt).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
                     </p>
-                    <div>
+                    <div className="flex gap-2">
+                      {item.status === 'replied' ? (
+                        <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-[10px] font-bold">💬 Replied</span>
+                      ) : (
+                        <span className="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-full text-[10px] font-bold">✔️ Sent</span>
+                      )}
                       {item.targetType === 'all' ? (
                         <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded-full text-[10px] font-bold">All</span>
                       ) : item.targetType === 'class' ? (
