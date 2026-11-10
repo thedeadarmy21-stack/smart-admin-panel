@@ -345,12 +345,17 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* LOW ATTENDANCE ALERT */}
+      {/* LOW ATTENDANCE ALERT (OPTION 1 - SMART DASHBOARD) */}
       <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-4 mb-4 md:mb-6">
           <div className="flex items-center gap-2">
             <span className="text-xl md:text-2xl">⚠️</span>
             <h4 className="font-bold text-base md:text-lg text-red-600 dark:text-red-400">Low Attendance Alert</h4>
+            {selectedClassFilter && lowAttendance.length > 0 && (
+              <span className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 px-2.5 py-0.5 rounded-full text-xs font-bold border border-red-200 dark:border-red-800 ml-2">
+                Total: {lowAttendance.length}
+              </span>
+            )}
           </div>
           
           <div className="w-full md:w-64">
@@ -372,24 +377,32 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {!selectedClassFilter ? (
             <p className="text-slate-500 text-xs md:text-sm col-span-full text-center py-6 md:py-8">
-              Please select a class from the dropdown above.
+              Please select a class from the dropdown above to view students at risk.
             </p>
           ) : lowAttendance.length === 0 ? (
             <p className="text-slate-500 text-xs md:text-sm col-span-full text-center py-6 md:py-8">
-              All students in this SARKAR...
+              All students have good attendance in this selection.
             </p>
           ) : (
-            lowAttendance.map((student) => (
-              <Link to={`/student/${student._id}`} key={student._id} className="flex items-center justify-between p-2.5 md:p-3 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-900/30 hover:shadow-md transition">
-                <div className="overflow-hidden pr-2">
-                  <p className="font-bold text-slate-800 dark:text-white text-xs md:text-sm truncate">{student.name}</p>
-                  <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 truncate">Roll: {student.rollNumber}</p>
-                </div>
-                <div className="bg-red-600 text-white text-[10px] md:text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0">
-                  {student.percentage}%
-                </div>
-              </Link>
-            ))
+            lowAttendance.map((student) => {
+              const isCritical = student.status === 'Critical';
+              const bgClass = isCritical ? 'bg-red-50 dark:bg-red-900/10' : 'bg-yellow-50 dark:bg-yellow-900/10';
+              const borderClass = isCritical ? 'border-red-100 dark:border-red-900/30' : 'border-yellow-200 dark:border-yellow-900/30';
+              const badgeClass = isCritical ? 'bg-red-600' : 'bg-yellow-500';
+
+              return (
+                <Link to={`/student/${student._id}`} key={student._id} className={`flex items-center justify-between p-2.5 md:p-3 ${bgClass} rounded-xl border ${borderClass} hover:shadow-md transition`}>
+                  <div className="overflow-hidden pr-2">
+                    <p className="font-bold text-slate-800 dark:text-white text-xs md:text-sm truncate">{student.name}</p>
+                    <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 truncate">Roll: {student.rollNumber}</p>
+                  </div>
+                  <div className={`${badgeClass} text-white text-[10px] md:text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0 flex flex-col items-center`}>
+                    <span>{student.percentage}%</span>
+                    <span className="text-[8px] uppercase tracking-wider opacity-90">{student.status}</span>
+                  </div>
+                </Link>
+              );
+            })
           )}
         </div>
       </div>
