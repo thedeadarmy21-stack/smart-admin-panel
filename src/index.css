@@ -1,23 +1,20 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-/* Tailwind v4 me Dark Mode enable karne ka sahi tarika */
 @custom-variant dark (&:where(.dark, .dark *));
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #f8fafc; /* Light Mode Background */
+  background-color: #F8FAFC; /* Light Mode Background (Slate-50) */
   color: #1e293b;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark Mode me body ka background */
 .dark body {
-  background-color: #0f172a; /* Slate-900 */
-  color: #f8fafc; /* Slate-50 */
+  background-color: #0F172A; /* Dark Mode Background (Deep Navy) */
+  color: #f8fafc;
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f1f5f9; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
