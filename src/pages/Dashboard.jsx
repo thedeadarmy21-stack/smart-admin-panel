@@ -300,25 +300,33 @@ const Dashboard = () => {
       {/* GRAPH & CLASS-WISE OVERVIEW */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         
+        {/* PREMIUM WEEKLY GRAPH */}
         <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
-          <h4 className="font-bold text-base md:text-lg text-slate-800 dark:text-white mb-4 md:mb-6">Weekly Attendance Overview</h4>
-          <div className="flex items-end justify-between h-32 md:h-48 gap-1 md:gap-2">
+          <div className="flex justify-between items-center mb-6">
+            <h4 className="font-bold text-base md:text-lg text-slate-800 dark:text-white">Weekly Attendance Overview</h4>
+            <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-slate-900 px-2 py-1 rounded-lg">Last 7 Days</span>
+          </div>
+          
+          <div className="flex items-end justify-between h-40 md:h-56 gap-2 md:gap-4">
             {weeklyData.length === 0 ? (
               <p className="text-slate-500 text-xs md:text-sm w-full text-center">No data available.</p>
             ) : (
               weeklyData.map((day, idx) => (
-                <div key={idx} className="flex flex-col items-center flex-1 group">
-                  <div className="w-full relative">
+                <div key={idx} className="flex flex-col items-center flex-1 group h-full justify-end">
+                  <div className="w-full relative flex justify-center">
                     <div 
-                      className="w-full bg-gradient-to-t from-blue-500 to-indigo-600 rounded-t-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-sm"
+                      className="w-full max-w-[40px] md:max-w-[50px] bg-gradient-to-t from-blue-500 to-indigo-400 rounded-t-lg hover:from-blue-600 hover:to-indigo-500 transition-all duration-500 shadow-md shadow-blue-500/20 relative"
                       style={{ height: `${Math.max((day.count / maxWeeklyCount) * (window.innerWidth < 768 ? 100 : 160), 6)}px` }}
                     >
-                      <div className="absolute -top-6 md:-top-8 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-[10px] md:text-xs py-1 px-1.5 md:px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 shadow-lg">
-                        {day.count}
+                      {/* Hover Tooltip */}
+                      <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-[10px] py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-10 shadow-xl flex flex-col items-center">
+                        <span className="font-bold text-sm">{day.count} Present</span>
+                        <span className="text-emerald-400 font-bold">{day.percentage}% Attendance</span>
+                        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45"></div>
                       </div>
                     </div>
                   </div>
-                  <span className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 mt-2 font-bold">{day.dayName}</span>
+                  <span className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 mt-3 font-bold group-hover:text-blue-500 transition-colors">{day.dayName}</span>
                 </div>
               ))
             )}
@@ -384,7 +392,7 @@ const Dashboard = () => {
             </p>
           ) : lowAttendance.length === 0 ? (
             <div className="col-span-full flex flex-col items-center justify-center py-8 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-900/30">
-              <span className="text-3xl mb-2">🎉</span>
+              <span className="text-3xl mb-2">SARKAR</span>
               <p className="text-emerald-700 dark:text-emerald-400 text-sm md:text-base font-bold">
                 Excellent! No students found with low attendance in this class.
               </p>
