@@ -17,31 +17,79 @@ body {
   color: #f8fafc;
 }
 
-/* 🚀 Smooth & Elegant Scrollbar (Light Mode) */
-::-webkit-scrollbar { 
-  width: 8px; 
-}
-::-webkit-scrollbar-track { 
-  background: transparent; 
-}
-::-webkit-scrollbar-thumb { 
-  background: #cbd5e1; 
-  border-radius: 10px; 
-  border: 2px solid #f8fafc; /* Track ke sath blend karne ke liye */
-}
-::-webkit-scrollbar-thumb:hover { 
-  background: #94a3b8; 
+/* ========================================================
+   🚀 THE MAGIC OVERRIDES (Global Theme Change)
+   Yeh code poore project ke Blue, Indigo, Slate colors ko 
+   automatically Black + Royal Red me badal dega.
+   ======================================================== */
+
+.dark {
+  /* Backgrounds ko Deep Black aur Elevated Black karna */
+  --tw-bg-opacity: 1;
 }
 
-/* 🚀 Dark Mode Premium Scrollbar */
-.dark ::-webkit-scrollbar-track { 
-  background: #0c0c0e; 
+.dark .bg-slate-50 { background-color: #121212 !important; }
+.dark .bg-slate-100 { background-color: #1a1a1a !important; }
+.dark .bg-slate-800 { background-color: #121212 !important; }
+.dark .bg-slate-900 { background-color: #0c0c0e !important; }
+.dark .bg-slate-950 { background-color: #050505 !important; }
+
+/* Blue aur Indigo Backgrounds ko Royal Red karna */
+.dark .bg-blue-50 { background-color: rgba(153, 27, 27, 0.1) !important; }
+.dark .bg-blue-100 { background-color: rgba(153, 27, 27, 0.2) !important; }
+.dark .bg-blue-600 { background-color: #b91c1c !important; } /* Buttons */
+.dark .bg-blue-700 { background-color: #991b1b !important; }
+.dark .bg-indigo-50 { background-color: rgba(153, 27, 27, 0.1) !important; }
+.dark .bg-indigo-600 { background-color: #b91c1c !important; }
+.dark .bg-indigo-800 { background-color: #7f1d1d !important; }
+
+/* Blue aur Indigo Text ko Royal Red karna */
+.dark .text-blue-600 { color: #ef4444 !important; }
+.dark .text-blue-700 { color: #ef4444 !important; }
+.dark .text-indigo-600 { color: #ef4444 !important; }
+.dark .text-indigo-400 { color: #f87171 !important; }
+
+/* Hover States (Blue to Red) */
+.dark .hover\:bg-blue-700:hover { background-color: #991b1b !important; }
+.dark .hover\:bg-slate-200:hover { background-color: #27272a !important; }
+.dark .hover\:bg-slate-600:hover { background-color: #27272a !important; }
+.dark .hover\:bg-slate-700:hover { background-color: #27272a !important; }
+
+/* Borders ko subtle Red ya Dark Grey karna */
+.dark .border-slate-200 { border-color: #27272a !important; }
+.dark .border-slate-700 { border-color: rgba(153, 27, 27, 0.3) !important; }
+.dark .border-blue-200 { border-color: rgba(153, 27, 27, 0.4) !important; }
+.dark .border-blue-600 { border-color: #b91c1c !important; }
+
+/* Login Button Gradients */
+.dark .from-blue-600 { --tw-gradient-from: #b91c1c !important; }
+.dark .to-indigo-600 { --tw-gradient-to: #7f1d1d !important; }
+.dark .hover\:from-blue-700:hover { --tw-gradient-from: #991b1b !important; }
+.dark .hover\:to-indigo-700:hover { --tw-gradient-to: #450a0a !important; }
+
+/* Sidebar aur Header specific changes */
+.dark aside { background-color: #0a0a0a !important; border-right-color: rgba(153, 27, 27, 0.2) !important; }
+.dark header { background-color: rgba(10, 10, 10, 0.9) !important; border-bottom-color: rgba(153, 27, 27, 0.2) !important; }
+
+/* Input fields (Forms) */
+.dark input, .dark select, .dark textarea {
+  background-color: #1a1a1a !important;
+  border-color: rgba(153, 27, 27, 0.3) !important;
+  color: white !important;
 }
-.dark ::-webkit-scrollbar-thumb { 
-  background: #27272a; /* Dark Grey */
-  border-radius: 10px;
-  border: 2px solid #0c0c0e; /* Background ke sath blend */
+.dark input:focus, .dark select:focus, .dark textarea:focus {
+  border-color: #b91c1c !important;
+  ring-color: #b91c1c !important;
 }
-.dark ::-webkit-scrollbar-thumb:hover { 
-  background: #b91c1c; /* Royal Red hover */
-}
+
+/* ========================================================
+   Scrollbar Styling
+   ======================================================== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid #f8fafc; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+.dark ::-webkit-scrollbar-track { background: #0c0c0e; }
+.dark ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; border: 2px solid #0c0c0e; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #b91c1c; }
