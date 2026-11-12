@@ -11,19 +11,37 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 🚀 Dark Mode me body ka background (Deep Black + Professional) */
+/* 🚀 Dark Mode me body ka background (Premium Rich Black) */
 .dark body {
-  background-color: #050505; /* Deep Black */
+  background-color: #0c0c0e; /* Deep, Rich Charcoal Black (Ekdum Premium) */
   color: #f8fafc;
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #f1f5f9; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+/* 🚀 Smooth & Elegant Scrollbar (Light Mode) */
+::-webkit-scrollbar { 
+  width: 8px; 
+}
+::-webkit-scrollbar-track { 
+  background: transparent; 
+}
+::-webkit-scrollbar-thumb { 
+  background: #cbd5e1; 
+  border-radius: 10px; 
+  border: 2px solid #f8fafc; /* Track ke sath blend karne ke liye */
+}
+::-webkit-scrollbar-thumb:hover { 
+  background: #94a3b8; 
+}
 
-/* Dark Mode Scrollbar */
-.dark ::-webkit-scrollbar-track { background: #0a0a0a; }
-.dark ::-webkit-scrollbar-thumb { background: #333333; }
-.dark ::-webkit-scrollbar-thumb:hover { background: #991b1b; /* Royal Red hover */ }
+/* 🚀 Dark Mode Premium Scrollbar */
+.dark ::-webkit-scrollbar-track { 
+  background: #0c0c0e; 
+}
+.dark ::-webkit-scrollbar-thumb { 
+  background: #27272a; /* Dark Grey */
+  border-radius: 10px;
+  border: 2px solid #0c0c0e; /* Background ke sath blend */
+}
+.dark ::-webkit-scrollbar-thumb:hover { 
+  background: #b91c1c; /* Royal Red hover */
+}

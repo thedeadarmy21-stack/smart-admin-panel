@@ -119,26 +119,27 @@ const Dashboard = () => {
   return (
     <div className="space-y-6 md:space-y-8 animate-pop relative">
       
-      {/* WELCOME BANNER (Royal Red Gradient) */}
-      <div className="bg-gradient-to-r from-[#4a0404] via-[#800000] to-[#b91c1c] p-6 md:p-8 rounded-3xl shadow-xl shadow-red-900/20 text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-red-900/30">
-        <div>
-          <h3 className="text-xl md:text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name || 'Principal'}!</h3>
-          <p className="text-red-100 text-sm md:text-base relative z-10 max-w-2xl leading-relaxed">
+      {/* WELCOME BANNER (High-Class Premium Red) */}
+      <div className="bg-gradient-to-r from-[#2a0000] via-[#5c0000] to-[#991b1b] p-6 md:p-8 rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(153,27,27,0.3)] text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-red-900/40">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+        <div className="relative z-10">
+          <h3 className="text-xl md:text-2xl font-extrabold mb-2 tracking-tight">Welcome back, {adminData.name || 'Principal'}!</h3>
+          <p className="text-red-100/90 text-sm md:text-base max-w-2xl leading-relaxed">
             Manage your school with confidence. <span className="font-bold text-white">{schoolName}</span>.
           </p>
         </div>
-        <button onClick={() => setShowModal(true)} className="w-full md:w-auto justify-center bg-white/10 hover:bg-white/20 transition-all px-5 py-2.5 rounded-xl text-sm font-bold backdrop-blur-md border border-white/20 z-10 whitespace-nowrap flex items-center gap-2 shadow-lg">
+        <button onClick={() => setShowModal(true)} className="w-full md:w-auto justify-center bg-white/10 hover:bg-white/20 transition-all px-6 py-3 rounded-xl text-sm font-bold backdrop-blur-md border border-white/20 z-10 whitespace-nowrap flex items-center gap-2 shadow-lg">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
           Security
         </button>
       </div>
 
-      {/* SECURITY MODAL */}
+      {/* SECURITY MODAL (Premium Black) */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#0a0a0a] rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-red-900/30 overflow-hidden max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-[#121212] rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-red-900/30 overflow-hidden max-h-[90vh] overflow-y-auto">
             
-            <div className="p-6 bg-slate-50 dark:bg-[#111] border-b border-slate-200 dark:border-red-900/30 flex items-center gap-3">
+            <div className="p-6 bg-slate-50 dark:bg-[#0a0a0a] border-b border-slate-200 dark:border-red-900/30 flex items-center gap-3">
               <div className="h-10 w-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center text-red-600 dark:text-red-500">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
               </div>
@@ -174,21 +175,19 @@ const Dashboard = () => {
                 <form onSubmit={handleUpdateAdmin} className="space-y-5 animate-fadeIn">
                   <div>
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Password <span className="text-red-500">*</span></label>
-                    <input type="password" value={profileData.currentPassword} onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" required placeholder="Enter current password" />
+                    <input type="password" value={profileData.currentPassword} onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" required placeholder="Enter current password" />
                   </div>
                   
                   <div className="h-px bg-slate-200 dark:bg-red-900/30 my-2"></div>
                   
                   <div>
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username</label>
-                    <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
-                    <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
+                    <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
-                    <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
-                    <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
+                    <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
                   </div>
                   
                   <div className="flex gap-3 pt-4">
@@ -207,7 +206,7 @@ const Dashboard = () => {
                     <select 
                       value={selectedTeacherId} 
                       onChange={(e) => setSelectedTeacherId(e.target.value)} 
-                      className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white cursor-pointer"
+                      className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white cursor-pointer"
                       required
                     >
                       <option value="">-- Select a Teacher --</option>
@@ -221,14 +220,12 @@ const Dashboard = () => {
                   
                   <div>
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username</label>
-                    <input type="text" value={teacherUpdateData.newUsername} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
-                    <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
+                    <input type="text" value={teacherUpdateData.newUsername} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
-                    <input type="password" value={teacherUpdateData.newPassword} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
-                    <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
+                    <input type="password" value={teacherUpdateData.newPassword} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
                   </div>
                   
                   <div className="flex gap-3 pt-4">
@@ -244,67 +241,67 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* LIVE STATS CARDS (Black + Red Theme) */}
+      {/* LIVE STATS CARDS (Premium Elevated Black) */}
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4">
-        <div className="bg-white dark:bg-[#0a0a0a] p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 transition-colors">
+        <div className="bg-white dark:bg-[#121212] p-4 md:p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-2 md:space-y-0 transition-all duration-300">
           <div className="p-2.5 md:p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-500 rounded-xl">
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider">Students</p>
+            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Students</p>
             <p className="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white">{loading ? '-' : stats.totalStudents}</p>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#0a0a0a] p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 transition-colors">
+        <div className="bg-white dark:bg-[#121212] p-4 md:p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-2 md:space-y-0 transition-all duration-300">
           <div className="p-2.5 md:p-3 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-500 rounded-xl">
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider">Present</p>
+            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Present</p>
             <p className="text-xl md:text-2xl font-extrabold text-emerald-600 dark:text-emerald-500">{loading ? '-' : stats.presentToday}</p>
           </div>
         </div>
 
-        <Link to="/reports" className="bg-white dark:bg-[#0a0a0a] p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 hover:shadow-md transition">
+        <Link to="/reports" className="bg-white dark:bg-[#121212] p-4 md:p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-2 md:space-y-0 transition-all duration-300">
           <div className="p-2.5 md:p-3 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-500 rounded-xl">
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider">Absent</p>
+            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Absent</p>
             <p className="text-xl md:text-2xl font-extrabold text-amber-600 dark:text-amber-500">{loading ? '-' : absentStudents.length}</p>
           </div>
         </Link>
 
-        <Link to="/teachers-attendance" className="bg-white dark:bg-[#0a0a0a] p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 hover:shadow-md transition">
+        <Link to="/teachers-attendance" className="bg-white dark:bg-[#121212] p-4 md:p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-2 md:space-y-0 transition-all duration-300">
           <div className="p-2.5 md:p-3 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-500 rounded-xl">
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider">Teachers</p>
+            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Teachers</p>
             <p className="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white">{loading ? '-' : teacherStats.totalTeachers}</p>
           </div>
         </Link>
 
-        <Link to="/teachers-attendance" className="bg-white dark:bg-[#0a0a0a] p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 hover:shadow-md transition">
+        <Link to="/teachers-attendance" className="bg-white dark:bg-[#121212] p-4 md:p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-2 md:space-y-0 transition-all duration-300">
           <div className="p-2.5 md:p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-500 rounded-xl">
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider">T. Present</p>
+            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5">T. Present</p>
             <p className="text-xl md:text-2xl font-extrabold text-red-600 dark:text-red-500">{loading ? '-' : teacherStats.presentTeachers}</p>
           </div>
         </Link>
       </div>
 
-      {/* GRAPH & CLASS-WISE OVERVIEW */}
+      {/* GRAPH & CLASS-WISE OVERVIEW (Premium Black) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         
-        {/* PREMIUM WEEKLY GRAPH (Royal Red Bars) */}
-        <div className="bg-white dark:bg-[#0a0a0a] p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 transition-colors">
+        {/* PREMIUM WEEKLY GRAPH */}
+        <div className="bg-white dark:bg-[#121212] p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 transition-colors">
           <div className="flex justify-between items-center mb-6">
             <h4 className="font-bold text-base md:text-lg text-slate-800 dark:text-white">Weekly Attendance Overview</h4>
-            <span className="text-xs font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-[#111] px-2 py-1 rounded-lg border border-transparent dark:border-red-900/30">Last 7 Days</span>
+            <span className="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-[#0a0a0a] px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-red-900/20">Last 7 Days</span>
           </div>
           
           <div className="flex items-end justify-between h-40 md:h-56 gap-2 md:gap-4">
@@ -315,13 +312,13 @@ const Dashboard = () => {
                 <div key={idx} className="flex flex-col items-center flex-1 group h-full justify-end">
                   <div className="w-full relative flex justify-center">
                     <div 
-                      className="w-full max-w-[40px] md:max-w-[50px] bg-gradient-to-t from-red-800 to-red-600 rounded-t-lg hover:from-red-700 hover:to-red-500 transition-all duration-500 shadow-md shadow-red-900/30 relative"
+                      className="w-full max-w-[36px] md:max-w-[48px] bg-gradient-to-t from-red-900 to-red-600 rounded-t-md hover:from-red-800 hover:to-red-500 transition-all duration-500 shadow-lg shadow-red-900/20 relative"
                       style={{ height: `${Math.max((day.count / maxWeeklyCount) * (window.innerWidth < 768 ? 100 : 160), 6)}px` }}
                     >
-                      <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-[#111] border border-red-900/30 text-white text-[10px] py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-10 shadow-xl flex flex-col items-center">
+                      <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-[#0a0a0a] border border-red-900/30 text-white text-[10px] py-2 px-3 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-10 shadow-2xl flex flex-col items-center gap-0.5">
                         <span className="font-bold text-sm">{day.count} Present</span>
                         <span className="text-red-400 font-bold">{day.percentage}% Attendance</span>
-                        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#111] border-b border-r border-red-900/30 rotate-45"></div>
+                        <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2.5 h-2.5 bg-[#0a0a0a] border-b border-r border-red-900/30 rotate-45"></div>
                       </div>
                     </div>
                   </div>
@@ -332,14 +329,14 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#0a0a0a] p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 transition-colors">
+        <div className="bg-white dark:bg-[#121212] p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 transition-colors">
           <h4 className="font-bold text-base md:text-lg text-slate-800 dark:text-white mb-3 md:mb-4">Class-wise Overview (Today)</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 max-h-32 md:max-h-48 overflow-y-auto pr-1 md:pr-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 max-h-32 md:max-h-48 overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
             {classStats.length === 0 ? (
               <p className="text-slate-500 text-xs md:text-sm col-span-full">No data available.</p>
             ) : (
               classStats.map((cls, idx) => (
-                <div key={idx} className="flex items-center justify-between p-2.5 md:p-3 bg-slate-50 dark:bg-[#111] rounded-xl border border-slate-100 dark:border-red-900/30">
+                <div key={idx} className="flex items-center justify-between p-2.5 md:p-3 bg-slate-50 dark:bg-[#0a0a0a] rounded-xl border border-slate-100 dark:border-red-900/20">
                   <span className="font-bold text-slate-700 dark:text-slate-300 text-xs md:text-sm truncate max-w-[80px] md:max-w-none">Class {cls.className}</span>
                   <div className="flex gap-2 md:gap-3 text-[10px] md:text-xs font-bold">
                     <span className="text-emerald-500 flex items-center gap-1"><span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-500"></span> {cls.present}</span>
@@ -352,8 +349,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* LOW ATTENDANCE ALERT (SMART DASHBOARD) */}
-      <div className="bg-white dark:bg-[#0a0a0a] p-4 md:p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50 transition-colors">
+      {/* LOW ATTENDANCE ALERT (Premium Black) */}
+      <div className="bg-white dark:bg-[#121212] p-4 md:p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/30 transition-colors">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-4 mb-4 md:mb-6">
           
           <div className="flex items-center gap-2">
@@ -372,7 +369,7 @@ const Dashboard = () => {
             <select
               value={selectedClassFilter}
               onChange={(e) => setSelectedClassFilter(e.target.value)}
-              className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-white dark:bg-[#111] border border-red-200 dark:border-red-900/50 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-xs md:text-sm cursor-pointer shadow-sm appearance-none"
+              className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-red-200 dark:border-red-900/30 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-xs md:text-sm cursor-pointer shadow-sm appearance-none"
               style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ef4444'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1.2em' }}
             >
               <option value="">-- Select Class --</option>
