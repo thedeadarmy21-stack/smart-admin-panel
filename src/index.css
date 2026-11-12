@@ -18,51 +18,61 @@ body {
 }
 
 /* ========================================================
-   🚀 THE MAGIC OVERRIDES (Global Theme Change)
-   Yeh code poore project ke Blue, Indigo, Slate colors ko 
-   automatically Black + Royal Red me badal dega.
+   🚀 THE ULTIMATE MAGIC OVERRIDES 
+   (Yeh poore project ke Blue/Indigo ko Royal Red kar dega)
    ======================================================== */
 
-/* 🟢 BACKGROUND COLORS */
+/* 1. BORDERS (Light & Dark Dono me) */
+.border-blue-100, .border-blue-200, .border-blue-500, .border-blue-600 { 
+  border-color: #fca5a5 !important; /* Light Red border */
+}
+.dark .border-blue-100, .dark .border-blue-200, .dark .border-blue-500, .dark .border-blue-600 {
+  border-color: rgba(153, 27, 27, 0.4) !important; /* Dark Red border */
+}
+
+/* 2. BACKGROUNDS (Light Mode) */
+.bg-blue-50 { background-color: #fef2f2 !important; }
+.bg-blue-100 { background-color: #fee2e2 !important; }
+.bg-blue-500 { background-color: #ef4444 !important; }
+.bg-blue-600 { background-color: #dc2626 !important; }
+.bg-blue-700 { background-color: #b91c1c !important; }
+
+/* 3. BACKGROUNDS (Dark Mode) */
 .dark .bg-slate-50 { background-color: #121212 !important; }
 .dark .bg-slate-100 { background-color: #18181b !important; }
-.dark .bg-slate-800 { background-color: #121212 !important; /* Tables aur Cards ko deep black kiya */ }
+.dark .bg-slate-800 { background-color: #121212 !important; }
 .dark .bg-slate-900 { background-color: #0c0c0e !important; }
 .dark .bg-slate-950 { background-color: #050505 !important; }
 
-/* 🔵 BLUE TO ROYAL RED (Backgrounds) */
-.dark .bg-blue-50 { background-color: rgba(153, 27, 27, 0.15) !important; }
-.dark .bg-blue-100 { background-color: rgba(153, 27, 27, 0.25) !important; }
-.dark .bg-blue-600 { background-color: #991b1b !important; } /* Blue buttons to Red */
-.dark .bg-blue-700 { background-color: #7f1d1d !important; }
-.dark .bg-indigo-50 { background-color: rgba(153, 27, 27, 0.15) !important; }
-.dark .bg-indigo-600 { background-color: #991b1b !important; }
+.dark .bg-blue-50, .dark .bg-blue-100 { background-color: rgba(153, 27, 27, 0.15) !important; }
+.dark .bg-blue-500, .dark .bg-blue-600, .dark .bg-blue-700 { background-color: #991b1b !important; }
 
-/* 🔴 TEXT COLORS */
-.dark .text-blue-600 { color: #ef4444 !important; }
-.dark .text-blue-700 { color: #ef4444 !important; }
-.dark .text-indigo-600 { color: #ef4444 !important; }
-.dark .text-indigo-400 { color: #f87171 !important; }
+/* 4. TEXT COLORS */
+.text-blue-400, .text-blue-500, .text-blue-600, .text-blue-700, .text-indigo-600 {
+  color: #dc2626 !important;
+}
+.dark .text-blue-400, .dark .text-blue-500, .dark .text-blue-600, .dark .text-blue-700, .dark .text-indigo-600 {
+  color: #f87171 !important;
+}
 
-/* ⚪ BORDERS (Subtle Red for Premium Look) */
-.dark .border-slate-200 { border-color: rgba(255, 255, 255, 0.05) !important; }
-.dark .border-slate-700 { border-color: rgba(153, 27, 27, 0.25) !important; }
-.dark .border-blue-200 { border-color: rgba(153, 27, 27, 0.4) !important; }
-.dark .border-blue-600 { border-color: #991b1b !important; }
+/* 5. HOVER EFFECTS */
+.hover\:bg-blue-700:hover { background-color: #b91c1c !important; }
+.hover\:bg-blue-800:hover { background-color: #991b1b !important; }
+.dark .hover\:bg-blue-700:hover, .dark .hover\:bg-blue-800:hover { background-color: #7f1d1d !important; }
 
-/* 🖱️ HOVER EFFECTS */
+.hover\:bg-slate-50:hover { background-color: #fef2f2 !important; }
 .dark .hover\:bg-slate-50:hover { background-color: #1a1a1a !important; }
-.dark .hover\:bg-slate-200:hover { background-color: #27272a !important; }
-.dark .hover\:bg-slate-700:hover { background-color: #27272a !important; }
-.dark .hover\:bg-blue-700:hover { background-color: #7f1d1d !important; }
 
-/* 🎨 GRADIENTS (Login Buttons & Welcome Banner) */
+/* 6. GRADIENTS (Login Button & Welcome Banner) */
+.from-blue-600 { --tw-gradient-from: #b91c1c !important; }
+.to-indigo-600 { --tw-gradient-to: #7f1d1d !important; }
+.hover\:from-blue-700:hover { --tw-gradient-from: #991b1b !important; }
+.hover\:to-indigo-700:hover { --tw-gradient-to: #450a0a !important; }
+
 .dark .from-blue-600 { --tw-gradient-from: #991b1b !important; }
 .dark .to-indigo-600 { --tw-gradient-to: #7f1d1d !important; }
-.dark .hover\:from-blue-700:hover { --tw-gradient-from: #7f1d1d !important; }
-.dark .hover\:to-indigo-700:hover { --tw-gradient-to: #450a0a !important; }
 
-/* 🧊 GLASSMORPHISM & SIDEBAR */
+/* 7. DARK MODE HEADER & SIDEBAR */
 .dark aside { 
   background-color: #0a0a0a !important; 
   border-right-color: rgba(153, 27, 27, 0.2) !important; 
@@ -72,7 +82,12 @@ body {
   border-bottom-color: rgba(153, 27, 27, 0.2) !important; 
 }
 
-/* 📝 FORMS & INPUTS */
+/* 8. FORMS & INPUTS (Light & Dark) */
+input:focus, select:focus, textarea:focus {
+  border-color: #dc2626 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2) !important;
+}
 .dark input, .dark select, .dark textarea {
   background-color: #121212 !important;
   border-color: rgba(153, 27, 27, 0.3) !important;
@@ -80,7 +95,6 @@ body {
 }
 .dark input:focus, .dark select:focus, .dark textarea:focus {
   border-color: #991b1b !important;
-  outline: none !important;
   box-shadow: 0 0 0 2px rgba(153, 27, 27, 0.3) !important;
 }
 
