@@ -119,12 +119,12 @@ const Dashboard = () => {
   return (
     <div className="space-y-6 md:space-y-8 animate-pop relative">
       
-      {/* WELCOME BANNER */}
-      <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-6 md:p-8 rounded-3xl shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      {/* WELCOME BANNER (Royal Red Gradient) */}
+      <div className="bg-gradient-to-r from-[#4a0404] via-[#800000] to-[#b91c1c] p-6 md:p-8 rounded-3xl shadow-xl shadow-red-900/20 text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-red-900/30">
         <div>
           <h3 className="text-xl md:text-2xl font-bold mb-2 relative z-10">Welcome back, {adminData.name || 'Principal'}!</h3>
-          <p className="text-blue-100 text-sm md:text-base relative z-10 max-w-2xl leading-relaxed">
-            Manage students, teachers, and attendance for <span className="font-bold text-white">{schoolName}</span>.
+          <p className="text-red-100 text-sm md:text-base relative z-10 max-w-2xl leading-relaxed">
+            Manage your school with confidence. <span className="font-bold text-white">{schoolName}</span>.
           </p>
         </div>
         <button onClick={() => setShowModal(true)} className="w-full md:w-auto justify-center bg-white/10 hover:bg-white/20 transition-all px-5 py-2.5 rounded-xl text-sm font-bold backdrop-blur-md border border-white/20 z-10 whitespace-nowrap flex items-center gap-2 shadow-lg">
@@ -135,11 +135,11 @@ const Dashboard = () => {
 
       {/* SECURITY MODAL */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-red-900/30 overflow-hidden max-h-[90vh] overflow-y-auto">
             
-            <div className="p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 flex items-center gap-3">
-              <div className="h-10 w-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400">
+            <div className="p-6 bg-slate-50 dark:bg-[#111] border-b border-slate-200 dark:border-red-900/30 flex items-center gap-3">
+              <div className="h-10 w-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center text-red-600 dark:text-red-500">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
               </div>
               <div>
@@ -148,16 +148,16 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="flex border-b border-slate-200 dark:border-slate-700">
+            <div className="flex border-b border-slate-200 dark:border-red-900/30">
               <button 
                 onClick={() => { setActiveTab('admin'); setMsg({type:'',text:''}); }}
-                className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'admin' ? 'text-blue-600 border-b-2 border-blue-600 dark:text-blue-400' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'admin' ? 'text-red-600 border-b-2 border-red-600 dark:text-red-500 dark:border-red-500' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
               >
                 My Account
               </button>
               <button 
                 onClick={() => { setActiveTab('teacher'); setMsg({type:'',text:''}); }}
-                className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'teacher' ? 'text-blue-600 border-b-2 border-blue-600 dark:text-blue-400' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'teacher' ? 'text-red-600 border-b-2 border-red-600 dark:text-red-500 dark:border-red-500' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
               >
                 Manage Teacher
               </button>
@@ -174,26 +174,26 @@ const Dashboard = () => {
                 <form onSubmit={handleUpdateAdmin} className="space-y-5 animate-fadeIn">
                   <div>
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Password <span className="text-red-500">*</span></label>
-                    <input type="password" value={profileData.currentPassword} onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" required placeholder="Enter current password" />
+                    <input type="password" value={profileData.currentPassword} onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" required placeholder="Enter current password" />
                   </div>
                   
-                  <div className="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
+                  <div className="h-px bg-slate-200 dark:bg-red-900/30 my-2"></div>
                   
                   <div>
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username</label>
-                    <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
                     <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
                   </div>
                   
                   <div>
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
-                    <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
                     <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
                   </div>
                   
                   <div className="flex gap-3 pt-4">
-                    <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
-                    <button type="submit" disabled={updating} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition flex justify-center items-center shadow-lg shadow-blue-600/20">
+                    <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-[#1a1a1a] text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
+                    <button type="submit" disabled={updating} className="flex-1 bg-gradient-to-r from-red-700 to-red-900 text-white font-bold py-3 rounded-xl hover:from-red-600 hover:to-red-800 transition flex justify-center items-center shadow-lg shadow-red-900/20">
                       {updating ? 'Updating...' : 'Update Profile'}
                     </button>
                   </div>
@@ -207,7 +207,7 @@ const Dashboard = () => {
                     <select 
                       value={selectedTeacherId} 
                       onChange={(e) => setSelectedTeacherId(e.target.value)} 
-                      className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white cursor-pointer"
+                      className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white cursor-pointer"
                       required
                     >
                       <option value="">-- Select a Teacher --</option>
@@ -217,22 +217,22 @@ const Dashboard = () => {
                     </select>
                   </div>
                   
-                  <div className="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
+                  <div className="h-px bg-slate-200 dark:bg-red-900/30 my-2"></div>
                   
                   <div>
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username</label>
-                    <input type="text" value={teacherUpdateData.newUsername} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <input type="text" value={teacherUpdateData.newUsername} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
                     <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
                   </div>
                   
                   <div>
                     <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
-                    <input type="password" value={teacherUpdateData.newPassword} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <input type="password" value={teacherUpdateData.newPassword} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
                     <p className="text-[10px] text-slate-400 mt-1">Only fill if you want to change it.</p>
                   </div>
                   
                   <div className="flex gap-3 pt-4">
-                    <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
+                    <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-[#1a1a1a] text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
                     <button type="submit" disabled={updating} className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 rounded-xl hover:from-emerald-700 hover:to-teal-700 transition flex justify-center items-center shadow-lg shadow-emerald-600/20">
                       {updating ? 'Updating...' : 'Update Teacher'}
                     </button>
@@ -244,10 +244,10 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* LIVE STATS CARDS */}
+      {/* LIVE STATS CARDS (Black + Red Theme) */}
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4">
-        <div className="bg-white dark:bg-slate-800 p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0">
-          <div className="p-2.5 md:p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl">
+        <div className="bg-white dark:bg-[#0a0a0a] p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 transition-colors">
+          <div className="p-2.5 md:p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-500 rounded-xl">
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
           </div>
           <div>
@@ -256,28 +256,28 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-800 p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0">
-          <div className="p-2.5 md:p-3 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl">
+        <div className="bg-white dark:bg-[#0a0a0a] p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 transition-colors">
+          <div className="p-2.5 md:p-3 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-500 rounded-xl">
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <div>
             <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider">Present</p>
-            <p className="text-xl md:text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">{loading ? '-' : stats.presentToday}</p>
+            <p className="text-xl md:text-2xl font-extrabold text-emerald-600 dark:text-emerald-500">{loading ? '-' : stats.presentToday}</p>
           </div>
         </div>
 
-        <Link to="/reports" className="bg-white dark:bg-slate-800 p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 hover:shadow-md transition">
-          <div className="p-2.5 md:p-3 bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-xl">
+        <Link to="/reports" className="bg-white dark:bg-[#0a0a0a] p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 hover:shadow-md transition">
+          <div className="p-2.5 md:p-3 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-500 rounded-xl">
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <div>
             <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider">Absent</p>
-            <p className="text-xl md:text-2xl font-extrabold text-amber-600 dark:text-amber-400">{loading ? '-' : absentStudents.length}</p>
+            <p className="text-xl md:text-2xl font-extrabold text-amber-600 dark:text-amber-500">{loading ? '-' : absentStudents.length}</p>
           </div>
         </Link>
 
-        <Link to="/teachers-attendance" className="bg-white dark:bg-slate-800 p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 hover:shadow-md transition">
-          <div className="p-2.5 md:p-3 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl">
+        <Link to="/teachers-attendance" className="bg-white dark:bg-[#0a0a0a] p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 hover:shadow-md transition">
+          <div className="p-2.5 md:p-3 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-500 rounded-xl">
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
           </div>
           <div>
@@ -286,13 +286,13 @@ const Dashboard = () => {
           </div>
         </Link>
 
-        <Link to="/teachers-attendance" className="bg-white dark:bg-slate-800 p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 hover:shadow-md transition">
-          <div className="p-2.5 md:p-3 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl">
+        <Link to="/teachers-attendance" className="bg-white dark:bg-[#0a0a0a] p-4 md:p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 flex flex-col md:flex-row items-start md:items-center md:space-x-3 space-y-2 md:space-y-0 hover:shadow-md transition">
+          <div className="p-2.5 md:p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-500 rounded-xl">
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <div>
             <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider">T. Present</p>
-            <p className="text-xl md:text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">{loading ? '-' : teacherStats.presentTeachers}</p>
+            <p className="text-xl md:text-2xl font-extrabold text-red-600 dark:text-red-500">{loading ? '-' : teacherStats.presentTeachers}</p>
           </div>
         </Link>
       </div>
@@ -300,11 +300,11 @@ const Dashboard = () => {
       {/* GRAPH & CLASS-WISE OVERVIEW */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         
-        {/* PREMIUM WEEKLY GRAPH */}
-        <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
+        {/* PREMIUM WEEKLY GRAPH (Royal Red Bars) */}
+        <div className="bg-white dark:bg-[#0a0a0a] p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 transition-colors">
           <div className="flex justify-between items-center mb-6">
             <h4 className="font-bold text-base md:text-lg text-slate-800 dark:text-white">Weekly Attendance Overview</h4>
-            <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-slate-900 px-2 py-1 rounded-lg">Last 7 Days</span>
+            <span className="text-xs font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-[#111] px-2 py-1 rounded-lg border border-transparent dark:border-red-900/30">Last 7 Days</span>
           </div>
           
           <div className="flex items-end justify-between h-40 md:h-56 gap-2 md:gap-4">
@@ -315,32 +315,31 @@ const Dashboard = () => {
                 <div key={idx} className="flex flex-col items-center flex-1 group h-full justify-end">
                   <div className="w-full relative flex justify-center">
                     <div 
-                      className="w-full max-w-[40px] md:max-w-[50px] bg-gradient-to-t from-blue-500 to-indigo-400 rounded-t-lg hover:from-blue-600 hover:to-indigo-500 transition-all duration-500 shadow-md shadow-blue-500/20 relative"
+                      className="w-full max-w-[40px] md:max-w-[50px] bg-gradient-to-t from-red-800 to-red-600 rounded-t-lg hover:from-red-700 hover:to-red-500 transition-all duration-500 shadow-md shadow-red-900/30 relative"
                       style={{ height: `${Math.max((day.count / maxWeeklyCount) * (window.innerWidth < 768 ? 100 : 160), 6)}px` }}
                     >
-                      {/* Hover Tooltip */}
-                      <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-[10px] py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-10 shadow-xl flex flex-col items-center">
+                      <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-[#111] border border-red-900/30 text-white text-[10px] py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-10 shadow-xl flex flex-col items-center">
                         <span className="font-bold text-sm">{day.count} Present</span>
-                        <span className="text-emerald-400 font-bold">{day.percentage}% Attendance</span>
-                        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45"></div>
+                        <span className="text-red-400 font-bold">{day.percentage}% Attendance</span>
+                        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#111] border-b border-r border-red-900/30 rotate-45"></div>
                       </div>
                     </div>
                   </div>
-                  <span className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 mt-3 font-bold group-hover:text-blue-500 transition-colors">{day.dayName}</span>
+                  <span className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 mt-3 font-bold group-hover:text-red-500 transition-colors">{day.dayName}</span>
                 </div>
               ))
             )}
           </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700">
+        <div className="bg-white dark:bg-[#0a0a0a] p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 transition-colors">
           <h4 className="font-bold text-base md:text-lg text-slate-800 dark:text-white mb-3 md:mb-4">Class-wise Overview (Today)</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 max-h-32 md:max-h-48 overflow-y-auto pr-1 md:pr-2">
             {classStats.length === 0 ? (
               <p className="text-slate-500 text-xs md:text-sm col-span-full">No data available.</p>
             ) : (
               classStats.map((cls, idx) => (
-                <div key={idx} className="flex items-center justify-between p-2.5 md:p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                <div key={idx} className="flex items-center justify-between p-2.5 md:p-3 bg-slate-50 dark:bg-[#111] rounded-xl border border-slate-100 dark:border-red-900/30">
                   <span className="font-bold text-slate-700 dark:text-slate-300 text-xs md:text-sm truncate max-w-[80px] md:max-w-none">Class {cls.className}</span>
                   <div className="flex gap-2 md:gap-3 text-[10px] md:text-xs font-bold">
                     <span className="text-emerald-500 flex items-center gap-1"><span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-500"></span> {cls.present}</span>
@@ -354,12 +353,12 @@ const Dashboard = () => {
       </div>
 
       {/* LOW ATTENDANCE ALERT (SMART DASHBOARD) */}
-      <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50">
+      <div className="bg-white dark:bg-[#0a0a0a] p-4 md:p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/50 transition-colors">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-4 mb-4 md:mb-6">
           
           <div className="flex items-center gap-2">
             <span className="text-xl md:text-2xl">⚠️</span>
-            <h4 className="font-bold text-base md:text-lg text-red-600 dark:text-red-400">
+            <h4 className="font-bold text-base md:text-lg text-red-600 dark:text-red-500">
               LOW ATTENDANCE ALERT (SMART DASHBOARD)
             </h4>
             {selectedClassFilter && lowAttendance.length > 0 && (
@@ -373,7 +372,7 @@ const Dashboard = () => {
             <select
               value={selectedClassFilter}
               onChange={(e) => setSelectedClassFilter(e.target.value)}
-              className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-white dark:bg-slate-900 border border-red-200 dark:border-red-800 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-xs md:text-sm cursor-pointer shadow-sm appearance-none"
+              className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-white dark:bg-[#111] border border-red-200 dark:border-red-900/50 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-xs md:text-sm cursor-pointer shadow-sm appearance-none"
               style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ef4444'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1.2em' }}
             >
               <option value="">-- Select Class --</option>
@@ -392,7 +391,7 @@ const Dashboard = () => {
             </p>
           ) : lowAttendance.length === 0 ? (
             <div className="col-span-full flex flex-col items-center justify-center py-8 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-900/30">
-              <span className="text-3xl mb-2">SARKAR</span>
+              <span className="text-3xl mb-2">🎉</span>
               <p className="text-emerald-700 dark:text-emerald-400 text-sm md:text-base font-bold">
                 Excellent! No students found with low attendance in this class.
               </p>
@@ -402,7 +401,7 @@ const Dashboard = () => {
               const isCritical = student.status === 'Critical';
               const bgClass = isCritical ? 'bg-red-50 dark:bg-red-900/10' : 'bg-yellow-50 dark:bg-yellow-900/10';
               const borderClass = isCritical ? 'border-red-100 dark:border-red-900/30' : 'border-yellow-200 dark:border-yellow-900/30';
-              const badgeClass = isCritical ? 'bg-red-600' : 'bg-yellow-500';
+              const badgeClass = isCritical ? 'bg-red-700' : 'bg-yellow-600';
 
               return (
                 <Link to={`/student/${student._id}`} key={student._id} className={`flex items-center justify-between p-2.5 md:p-3 ${bgClass} rounded-xl border ${borderClass} hover:shadow-md transition`}>
@@ -410,7 +409,7 @@ const Dashboard = () => {
                     <p className="font-bold text-slate-800 dark:text-white text-xs md:text-sm truncate">{student.name}</p>
                     <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 truncate">Roll: {student.rollNumber}</p>
                   </div>
-                  <div className={`${badgeClass} text-white text-[10px] md:text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0 flex flex-col items-center`}>
+                  <div className={`${badgeClass} text-white text-[10px] md:text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0 flex flex-col items-center shadow-sm`}>
                     <span>{student.percentage}%</span>
                     <span className="text-[8px] uppercase tracking-wider opacity-90">{student.status}</span>
                   </div>

@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
   const displayName = adminData.name || 'Miss Saiqa';
   
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // 🚀 Mobile Menu State
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (isDark) {
@@ -22,7 +22,6 @@ const Layout = ({ children }) => {
     }
   }, [isDark]);
 
-  // 🚀 Jab bhi route change ho, mobile menu band ho jaye
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
@@ -61,25 +60,24 @@ const Layout = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300 overflow-hidden">
+    <div className="flex h-screen bg-slate-50 dark:bg-[#050505] transition-colors duration-300 overflow-hidden">
       
-      {/* 🚀 Mobile Overlay (Jab menu khula ho) */}
       {isMobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-30 md:hidden backdrop-blur-sm transition-opacity"
+          className="fixed inset-0 bg-black/70 z-30 md:hidden backdrop-blur-sm transition-opacity"
           onClick={() => setIsMobileMenuOpen(false)}
         ></div>
       )}
 
       {/* Premium Sidebar */}
       <aside className={`
-        fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 dark:bg-slate-950 text-white flex flex-col shadow-2xl transition-all duration-300 ease-in-out border-r border-slate-800
+        fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 dark:bg-[#0a0a0a] text-white flex flex-col shadow-2xl transition-all duration-300 ease-in-out border-r border-slate-800 dark:border-red-900/30
         md:relative md:translate-x-0
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         
         {/* Logo Area */}
-        <div className="h-20 flex items-center justify-between px-5 border-b border-slate-800/80 bg-slate-950">
+        <div className="h-20 flex items-center justify-between px-5 border-b border-slate-800/80 dark:border-red-900/30 bg-slate-950 dark:bg-[#050505]">
           <div className="flex items-center gap-3 w-full">
             <div className="h-14 w-14 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden shadow-md">
               <img src="/card.png" alt="Logo" className="h-full w-full object-contain p-1" />
@@ -88,7 +86,6 @@ const Layout = ({ children }) => {
               THE PCS
             </h1>
           </div>
-          {/* Mobile Close Button */}
           <button 
             className="md:hidden text-slate-400 hover:text-white"
             onClick={() => setIsMobileMenuOpen(false)}
@@ -105,11 +102,11 @@ const Layout = ({ children }) => {
               to={item.path}
               className={`flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${
                 location.pathname === item.path
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-900/30 font-semibold translate-x-1'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-white'
+                  ? 'bg-gradient-to-r from-red-700 to-red-900 text-white shadow-lg shadow-red-900/40 font-semibold translate-x-1 border border-red-500/20'
+                  : 'text-slate-400 hover:bg-slate-800/60 dark:hover:bg-[#1a1a1a] hover:text-white'
               }`}
             >
-              <span className={`${location.pathname === item.path ? 'text-white' : 'text-slate-500 group-hover:text-white'}`}>
+              <span className={`${location.pathname === item.path ? 'text-white' : 'text-slate-500 group-hover:text-red-400'}`}>
                 {item.icon}
               </span>
               <span>{item.name}</span>
@@ -118,9 +115,9 @@ const Layout = ({ children }) => {
         </nav>
 
         {/* User Profile Section */}
-        <div className="p-5 border-t border-slate-800/80 bg-slate-950">
+        <div className="p-5 border-t border-slate-800/80 dark:border-red-900/30 bg-slate-950 dark:bg-[#050505]">
           <div className="flex items-center gap-3 mb-5">
-            <div className="h-11 w-11 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-900/50 border-2 border-slate-800">
+            <div className="h-11 w-11 rounded-full bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-red-900/50 border-2 border-slate-800 dark:border-red-900/50">
               {displayName.charAt(0).toUpperCase()}
             </div>
             <div className="overflow-hidden">
@@ -131,7 +128,7 @@ const Layout = ({ children }) => {
           
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-red-500 bg-red-500/10 border border-red-500/20 rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300 group"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-red-500 bg-red-500/10 border border-red-500/20 rounded-xl hover:bg-red-700 hover:text-white hover:border-red-600 transition-all duration-300 group"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -145,12 +142,11 @@ const Layout = ({ children }) => {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         
         {/* Header */}
-        <header className="h-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300">
+        <header className="h-20 bg-white/80 dark:bg-[#0a0a0a]/90 backdrop-blur-md border-b border-slate-200 dark:border-red-900/30 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300">
           
           <div className="flex items-center gap-4">
-            {/* 🚀 Mobile Hamburger Menu */}
             <button 
-              className="md:hidden p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-white"
+              className="md:hidden p-2 rounded-lg bg-slate-100 dark:bg-[#1a1a1a] text-slate-600 dark:text-white border border-transparent dark:border-red-900/30"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -163,13 +159,12 @@ const Layout = ({ children }) => {
           
           <button 
             onClick={() => setIsDark(!isDark)}
-            className="p-2 md:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm flex items-center gap-2 font-bold text-sm"
+            className="p-2 md:p-2.5 rounded-xl bg-slate-100 dark:bg-[#1a1a1a] text-slate-600 dark:text-red-400 hover:bg-slate-200 dark:hover:bg-[#222] transition-all shadow-sm flex items-center gap-2 font-bold text-sm border border-transparent dark:border-red-900/30"
           >
             {isDark ? (
               <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg> <span className="hidden md:inline">Light</span></>
             ) : (
-              <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg> <span className="hidden md:inline">Dark</span></>
-            )}
+              <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg> <span className="hidden md:inline">Dark</span></>)}
           </button>
         </header>
 
