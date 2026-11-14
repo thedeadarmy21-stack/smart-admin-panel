@@ -20,28 +20,25 @@ body {
 }
 
 /* ========================================================
-   🚀 1. THE ULTIMATE SHADOW FIX (Blue to Red)
+   🚀 1. REMOVE BUTTON SHADOWS (No Glow/Shadow)
    ======================================================== */
-/* Saare buttons ki shadow ko zabardasti Red karna */
-.shadow-blue-600\/20,
+button, 
+a.bg-indigo-600, 
+a.bg-blue-600, 
+.shadow-lg, 
+.shadow-md, 
+.shadow-xl,
+.shadow-blue-600\/20, 
 .shadow-indigo-600\/20,
-.shadow-blue-500\/20,
-.shadow-red-600\/20,
-.shadow-lg,
-.shadow-md,
-.shadow-xl {
-  box-shadow: 0 10px 20px -5px rgba(185, 28, 28, 0.5) !important; /* Premium Red Glow */
-}
-
 .shadow-blue-900\/30, 
 .shadow-blue-900\/40, 
-.shadow-blue-900\/50,
+.shadow-blue-900\/50, 
 .shadow-indigo-900\/50 {
-  box-shadow: 0 10px 20px -5px rgba(153, 27, 27, 0.6) !important; /* Deep Red Glow */
+  box-shadow: none !important; /* Saari shadows khatam */
 }
 
 /* ========================================================
-   🚀 2. THE PERFECT PROFESSIONAL THEME (Global Overrides)
+   🚀 2. THE PERFECT PROFESSIONAL THEME
    ======================================================== */
 
 /* CARDS & BOXES */
@@ -52,9 +49,10 @@ body {
 .dark .bg-slate-900 { 
   background-color: #0f0f11 !important; 
   border-color: #27272a !important; 
+  box-shadow: none !important; /* Cards ki shadow bhi clean */
 }
 
-/* LOGIN BOX SPECIFIC */
+/* LOGIN BOX */
 .dark .max-w-md { 
   background-color: #0f0f11 !important; 
   border: 1px solid #27272a !important;
@@ -69,7 +67,7 @@ body {
 input:focus, select:focus, textarea:focus {
   border-color: #b91c1c !important;
   outline: none !important;
-  box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2) !important; /* Sirf input pe red border glow rahega */
 }
 
 /* BUTTONS */
@@ -88,7 +86,7 @@ input:focus, select:focus, textarea:focus {
 .text-emerald-500 { color: #10b981 !important; }
 
 /* ========================================================
-   🚀 3. SIDEBAR SPECIFIC OVERRIDES (Pitch Black)
+   🚀 3. SIDEBAR (Pitch Black)
    ======================================================== */
 .dark aside {
   background-color: #000000 !important;
