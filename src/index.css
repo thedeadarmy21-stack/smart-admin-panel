@@ -95,18 +95,17 @@ input:focus, select:focus, textarea:focus {
 .dark .hover\:bg-slate-50:hover, .dark .hover\:bg-slate-700:hover { background-color: #1a1a1a !important; }
 
 /* ========================================================
-   🚀 3. SIDEBAR FIX (Force Pure Black Everywhere)
+   🚀 SIDEBAR DIVIDER LINES FIX (Making them pure black)
    ======================================================== */
-/* Main Sidebar */
-aside {
-  background-color: #000000 !important; 
-  border-right: 1px solid #1a1a1a !important;
+
+/* Logo ke neeche wali line ko black karna */
+aside > div:first-child {
+  border-bottom: 1px solid #000000 !important;
 }
 
-/* Logo Area (Top) */
-aside > div:first-child {
-  background-color: #000000 !important;
-  border-bottom: 1px solid #1a1a1a !important;
+/* Profile area ke upar wali line ko black karna */
+aside > div:last-child {
+  border-top: 1px solid #000000 !important;
 }
 
 /* Navigation Area (Middle) */
