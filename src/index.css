@@ -95,27 +95,31 @@ input:focus, select:focus, textarea:focus {
 .dark .hover\:bg-slate-50:hover, .dark .hover\:bg-slate-700:hover { background-color: #1a1a1a !important; }
 
 /* ========================================================
-   🚀 3. SIDEBAR FIX (100% SOLID PITCH BLACK)
+   🚀 3. SIDEBAR NUCLEAR FIX (100% SOLID PITCH BLACK)
    ======================================================== */
 
-/* Puri Sidebar ka background */
+/* 1. Puri Sidebar ka background */
 aside {
   background-color: #000000 !important; 
-  border-right: 1px solid #000000 !important; /* Right border bi black */
 }
 
-/* Sidebar ke har ek div (Logo, Nav, Profile) ka background aur border */
+/* 2. Sidebar ke andar jahan bhi border lagi hai, usko 0 (Gayab) kar do */
+aside * {
+  border-color: transparent !important; 
+  border-width: 0 !important;
+}
+
+/* 3. Sirf Right side ki ek line ko black rakho (taake main content se alag lage) */
+aside {
+  border-right: 1px solid #000000 !important;
+}
+
+/* 4. Sidebar ke andar ke saare divs ko pure black karo */
 aside > div {
   background-color: #000000 !important;
-  border-color: #000000 !important; /* Har line ko zabardasti black karna */
 }
 
-/* Sidebar ke andar ki koi bhi border line */
-aside * {
-  border-color: #000000 !important;
-}
-
-/* Hover effect on menu items (No grey background) */
+/* 5. Hover effect on menu items */
 aside nav a:hover {
   background-color: #000000 !important; 
   color: #ffffff !important; 
