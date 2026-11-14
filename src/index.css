@@ -95,31 +95,27 @@ input:focus, select:focus, textarea:focus {
 .dark .hover\:bg-slate-50:hover, .dark .hover\:bg-slate-700:hover { background-color: #1a1a1a !important; }
 
 /* ========================================================
-   🚀 SIDEBAR DIVIDER LINES FIX (Making them pure black)
+   🚀 3. SIDEBAR FIX (100% SOLID PITCH BLACK)
    ======================================================== */
 
-/* Logo ke neeche wali line ko black karna */
-aside > div:first-child {
-  border-bottom: 1px solid #000000 !important;
+/* Puri Sidebar ka background */
+aside {
+  background-color: #000000 !important; 
+  border-right: 1px solid #000000 !important; /* Right border bi black */
 }
 
-/* Profile area ke upar wali line ko black karna */
-aside > div:last-child {
-  border-top: 1px solid #000000 !important;
-}
-
-/* Navigation Area (Middle) */
-aside nav {
+/* Sidebar ke har ek div (Logo, Nav, Profile) ka background aur border */
+aside > div {
   background-color: #000000 !important;
+  border-color: #000000 !important; /* Har line ko zabardasti black karna */
 }
 
-/* Profile Area (Bottom) */
-aside > div:last-child {
-  background-color: #000000 !important;
-  border-top: 1px solid #1a1a1a !important;
+/* Sidebar ke andar ki koi bhi border line */
+aside * {
+  border-color: #000000 !important;
 }
 
-/* Hover effect on menu items */
+/* Hover effect on menu items (No grey background) */
 aside nav a:hover {
   background-color: #000000 !important; 
   color: #ffffff !important; 
@@ -130,7 +126,7 @@ aside nav a:hover {
    ======================================================== */
 .dark header { 
   background-color: #000000 !important; 
-  border-bottom-color: #1a1a1a !important; 
+  border-bottom-color: #000000 !important; 
 }
 header { 
   background-color: #ffffff !important; 
