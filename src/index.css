@@ -5,41 +5,62 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ========================================================
-   BASE STYLES (Light & Dark Background)
+   BASE STYLES
    ======================================================== */
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #ffffff; /* Full White Background */
-  color: #111827; /* Dark Text */
+  background-color: #ffffff; 
+  color: #111827; 
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dark body {
-  background-color: #000000; /* Full Pitch Black */
+  background-color: #000000; 
   color: #f8fafc;
 }
 
 /* ========================================================
-   🚀 THE PERFECT PROFESSIONAL THEME (Global Overrides)
+   🚀 1. THE ULTIMATE SHADOW FIX (Blue to Red)
+   ======================================================== */
+/* Saare buttons ki shadow ko zabardasti Red karna */
+.shadow-blue-600\/20,
+.shadow-indigo-600\/20,
+.shadow-blue-500\/20,
+.shadow-red-600\/20,
+.shadow-lg,
+.shadow-md,
+.shadow-xl {
+  box-shadow: 0 10px 20px -5px rgba(185, 28, 28, 0.5) !important; /* Premium Red Glow */
+}
+
+.shadow-blue-900\/30, 
+.shadow-blue-900\/40, 
+.shadow-blue-900\/50,
+.shadow-indigo-900\/50 {
+  box-shadow: 0 10px 20px -5px rgba(153, 27, 27, 0.6) !important; /* Deep Red Glow */
+}
+
+/* ========================================================
+   🚀 2. THE PERFECT PROFESSIONAL THEME (Global Overrides)
    ======================================================== */
 
-/* 1. CARDS & BOXES (Dark Mode: Elevated Black | Light Mode: Pure White) */
+/* CARDS & BOXES */
 .dark .bg-white, 
 .dark .bg-slate-50, 
 .dark .bg-slate-100, 
 .dark .bg-slate-800, 
 .dark .bg-slate-900 { 
-  background-color: #0f0f11 !important; /* Elevated Pitch Black for Cards */
+  background-color: #0f0f11 !important; 
   border-color: #27272a !important; 
 }
 
-/* 2. LOGIN BOX SPECIFIC */
+/* LOGIN BOX SPECIFIC */
 .dark .max-w-md { 
   background-color: #0f0f11 !important; 
   border: 1px solid #27272a !important;
 }
 
-/* 3. INPUTS (Deep Black) */
+/* INPUTS */
 .dark input, .dark select, .dark textarea {
   background-color: #000000 !important;
   border-color: #27272a !important; 
@@ -51,65 +72,48 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2) !important;
 }
 
-/* 4. BUTTONS (Royal Red) */
+/* BUTTONS */
 .bg-indigo-600, .bg-blue-600 { background-color: #b91c1c !important; } 
 .hover\:bg-indigo-700:hover, .hover\:bg-blue-700:hover { background-color: #991b1b !important; }
 
-/* 5. HEADERS & GRADIENTS */
+/* HEADERS & GRADIENTS */
 .from-indigo-700, .from-blue-700 { --tw-gradient-from: #7f1d1d !important; }
 .to-purple-800, .to-indigo-800, .to-indigo-600 { --tw-gradient-to: #450a0a !important; }
 .from-blue-600 { --tw-gradient-from: #991b1b !important; }
 .hover\:from-blue-700:hover { --tw-gradient-from: #7f1d1d !important; }
 .hover\:to-indigo-700:hover { --tw-gradient-to: #450a0a !important; }
 
-/* 6. SHADOWS (Blue to Red) */
-.shadow-blue-600\/20 { box-shadow: 0 10px 15px -3px rgba(185, 28, 28, 0.3), 0 4px 6px -4px rgba(185, 28, 28, 0.3) !important; }
-.shadow-indigo-600\/20 { box-shadow: 0 10px 15px -3px rgba(185, 28, 28, 0.3), 0 4px 6px -4px rgba(185, 28, 28, 0.3) !important; }
-.shadow-blue-900\/30, .shadow-blue-900\/40, .shadow-blue-900\/50 { box-shadow: 0 10px 15px -3px rgba(153, 27, 27, 0.4), 0 4px 6px -4px rgba(153, 27, 27, 0.4) !important; }
-.shadow-red-900\/20 { box-shadow: 0 10px 15px -3px rgba(153, 27, 27, 0.3), 0 4px 6px -4px rgba(153, 27, 27, 0.3) !important; }
-
-/* 7. TEXT COLORS */
+/* TEXT COLORS */
 .text-blue-600, .text-indigo-600, .text-blue-700 { color: #ef4444 !important; }
 .text-emerald-500 { color: #10b981 !important; }
 
 /* ========================================================
-   🚀 SIDEBAR SPECIFIC OVERRIDES (Pitch Black Everywhere)
+   🚀 3. SIDEBAR SPECIFIC OVERRIDES (Pitch Black)
    ======================================================== */
-
-/* Sidebar ka main background aur border */
 .dark aside {
   background-color: #000000 !important;
   border-right: 1px solid #1a1a1a !important;
 }
-
-/* Sidebar ke andar ka Logo Area aur Profile Area */
 .dark aside > div {
   background-color: #000000 !important;
   border-color: #1a1a1a !important;
 }
-
-/* Hover Effect: Jab menu item par mouse jaye (No Grey Background) */
 .dark aside nav a:hover {
-  background-color: #000000 !important; /* Grey ki jagah Pitch Black */
+  background-color: #000000 !important; 
   color: #ffffff !important; 
 }
-
-/* Logout Button Area (Jagah ke peeche Pitch Black) */
 .dark aside .border-t {
   background-color: #000000 !important;
   border-top-color: #1a1a1a !important;
 }
 
 /* ========================================================
-   HEADER & OTHER OVERRIDES
+   HEADER
    ======================================================== */
-/* Dark Mode Header */
 .dark header { 
   background-color: #000000 !important; 
   border-bottom-color: #1a1a1a !important; 
 }
-
-/* Light Mode Header */
 header { 
   background-color: #ffffff !important; 
   border-bottom-color: #e5e7eb !important; 
