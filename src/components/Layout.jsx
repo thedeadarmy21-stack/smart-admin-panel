@@ -60,7 +60,10 @@ const Layout = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-[#050505] transition-colors duration-300 overflow-hidden">
+    <div 
+      style={{ backgroundColor: isDark ? '#0c0c0e' : '#f8fafc' }}
+      className="flex h-screen transition-colors duration-300 overflow-hidden"
+    >
       
       {isMobileMenuOpen && (
         <div 
@@ -140,28 +143,28 @@ const Layout = ({ children }) => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         
-        {/* 🚀 Header - Matched Background */}
+        {/* 🚀 Header - Matched Background (No border) */}
         <header 
-          style={{ backgroundColor: '#0a0a0a', borderBottomColor: '#1a1a1a' }}
-          className="h-20 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300 border-b"
+          style={{ backgroundColor: isDark ? '#0c0c0e' : '#ffffff' }}
+          className="h-20 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300"
         >
           
           <div className="flex items-center gap-4">
             <button 
-              className="md:hidden p-2 rounded-lg bg-[#1a1a1a] text-white border border-transparent"
+              className={`md:hidden p-2 rounded-lg border border-transparent ${isDark ? 'bg-[#1a1a1a] text-white' : 'bg-slate-100 text-slate-800'}`}
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
 
-            <h2 className="text-lg md:text-xl font-bold text-white capitalize tracking-tight truncate">
+            <h2 className={`text-lg md:text-xl font-bold capitalize tracking-tight truncate ${isDark ? 'text-white' : 'text-slate-800'}`}>
               {location.pathname.replace('/', '').replace('-', ' ')}
             </h2>
           </div>
           
           <button 
             onClick={() => setIsDark(!isDark)}
-            className="p-2 md:p-2.5 rounded-xl bg-[#1a1a1a] text-red-400 hover:bg-[#222] transition-all flex items-center gap-2 font-bold text-sm border border-red-900/30"
+            className={`p-2 md:p-2.5 rounded-xl transition-all flex items-center gap-2 font-bold text-sm border ${isDark ? 'bg-[#1a1a1a] text-red-400 border-red-900/30' : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'}`}
           >
             {isDark ? (
               <>
