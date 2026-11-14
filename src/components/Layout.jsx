@@ -69,17 +69,16 @@ const Layout = ({ children }) => {
         ></div>
       )}
 
-      {/* Premium Sidebar */}
-      <aside className={`
-        fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 dark:bg-[#0a0a0a] text-white flex flex-col shadow-2xl transition-all duration-300 ease-in-out border-r border-slate-800 dark:border-red-900/30
-        md:relative md:translate-x-0
-        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
+      {/* 🚀 Premium Sidebar - Force Pure Black via Inline Styles */}
+      <aside 
+        style={{ backgroundColor: '#000000', borderRight: '1px solid #000000' }}
+        className={`fixed inset-y-0 left-0 z-40 w-64 text-white flex flex-col shadow-none transition-all duration-300 ease-in-out md:relative md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
         
-        {/* Logo Area */}
-        <div className="h-20 flex items-center justify-between px-5 border-b border-slate-800/80 dark:border-red-900/30 bg-slate-950 dark:bg-[#050505]">
+        {/* Logo Area (Pure Black) */}
+        <div style={{ backgroundColor: '#000000', borderBottom: '1px solid #000000' }} className="h-20 flex items-center justify-between px-5">
           <div className="flex items-center gap-3 w-full">
-            <div className="h-14 w-14 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden shadow-md">
+            <div className="h-14 w-14 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden shadow-none">
               <img src="/card.png" alt="Logo" className="h-full w-full object-contain p-1" />
             </div>
             <h1 className="text-lg font-extrabold tracking-wider text-white">
@@ -94,16 +93,16 @@ const Layout = ({ children }) => {
           </button>
         </div>
         
-        {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-1.5 mt-2 overflow-y-auto">
+        {/* Navigation Area (Pure Black) */}
+        <nav style={{ backgroundColor: '#000000' }} className="flex-1 p-4 space-y-1.5 mt-2 overflow-y-auto">
           {menuItems.map((item) => (
             <Link
               key={item.name}
               to={item.path}
               className={`flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${
                 location.pathname === item.path
-                  ? 'bg-gradient-to-r from-red-700 to-red-900 text-white shadow-lg shadow-red-900/40 font-semibold translate-x-1 border border-red-500/20'
-                  : 'text-slate-400 hover:bg-slate-800/60 dark:hover:bg-[#1a1a1a] hover:text-white'
+                  ? 'bg-gradient-to-r from-red-700 to-red-900 text-white font-semibold translate-x-1'
+                  : 'text-slate-400 hover:bg-[#000000] hover:text-white'
               }`}
             >
               <span className={`${location.pathname === item.path ? 'text-white' : 'text-slate-500 group-hover:text-red-400'}`}>
@@ -114,10 +113,10 @@ const Layout = ({ children }) => {
           ))}
         </nav>
 
-        {/* User Profile Section */}
-        <div className="p-5 border-t border-slate-800/80 dark:border-red-900/30 bg-slate-950 dark:bg-[#050505]">
+        {/* User Profile Area (Pure Black) */}
+        <div style={{ backgroundColor: '#000000', borderTop: '1px solid #000000' }} className="p-5">
           <div className="flex items-center gap-3 mb-5">
-            <div className="h-11 w-11 rounded-full bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-red-900/50 border-2 border-slate-800 dark:border-red-900/50">
+            <div className="h-11 w-11 rounded-full bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center text-white font-bold text-lg border-2 border-slate-800">
               {displayName.charAt(0).toUpperCase()}
             </div>
             <div className="overflow-hidden">
@@ -159,7 +158,7 @@ const Layout = ({ children }) => {
           
           <button 
             onClick={() => setIsDark(!isDark)}
-            className="p-2 md:p-2.5 rounded-xl bg-slate-100 dark:bg-[#1a1a1a] text-slate-600 dark:text-red-400 hover:bg-slate-200 dark:hover:bg-[#222] transition-all shadow-sm flex items-center gap-2 font-bold text-sm border border-transparent dark:border-red-900/30"
+            className="p-2 md:p-2.5 rounded-xl bg-slate-100 dark:bg-[#1a1a1a] text-slate-600 dark:text-red-400 hover:bg-slate-200 dark:hover:bg-[#222] transition-all shadow-none flex items-center gap-2 font-bold text-sm border border-transparent dark:border-red-900/30"
           >
             {isDark ? (
               <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg> <span className="hidden md:inline">Light</span></>
