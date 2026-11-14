@@ -34,7 +34,7 @@ a.bg-blue-600,
 .shadow-blue-900\/40, 
 .shadow-blue-900\/50, 
 .shadow-indigo-900\/50 {
-  box-shadow: none !important; /* Saari shadows khatam */
+  box-shadow: none !important; 
 }
 
 /* ========================================================
@@ -49,7 +49,7 @@ a.bg-blue-600,
 .dark .bg-slate-900 { 
   background-color: #0f0f11 !important; 
   border-color: #27272a !important; 
-  box-shadow: none !important; /* Cards ki shadow bhi clean */
+  box-shadow: none !important; 
 }
 
 /* LOGIN BOX */
@@ -67,7 +67,7 @@ a.bg-blue-600,
 input:focus, select:focus, textarea:focus {
   border-color: #b91c1c !important;
   outline: none !important;
-  box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2) !important; /* Sirf input pe red border glow rahega */
+  box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2) !important; 
 }
 
 /* BUTTONS */
@@ -86,24 +86,41 @@ input:focus, select:focus, textarea:focus {
 .text-emerald-500 { color: #10b981 !important; }
 
 /* ========================================================
-   🚀 3. SIDEBAR (Pitch Black)
+   🚀 3. SIDEBAR FIX (Always Pitch Black in Both Modes)
    ======================================================== */
-.dark aside {
-  background-color: #000000 !important;
+aside {
+  background-color: #000000 !important; /* Sidebar Hamesha Black */
   border-right: 1px solid #1a1a1a !important;
 }
-.dark aside > div {
+aside > div {
   background-color: #000000 !important;
   border-color: #1a1a1a !important;
 }
-.dark aside nav a:hover {
+aside nav a:hover {
   background-color: #000000 !important; 
   color: #ffffff !important; 
 }
-.dark aside .border-t {
+aside .border-t {
   background-color: #000000 !important;
   border-top-color: #1a1a1a !important;
 }
+
+/* ========================================================
+   🚀 4. STUDENT NAME HOVER FIX (Blue to Red)
+   ======================================================== */
+/* Jab student ke naam par hover ho, toh Blue ki jagah Red ho */
+a:hover .group-hover\:text-blue-600, 
+a:hover .group-hover\:text-indigo-600,
+a:hover .group-hover\:text-blue-700 {
+  color: #ef4444 !important;
+}
+
+/* Light mode mein hover par background thoda light red ho */
+.dark .hover\:bg-slate-50:hover { background-color: #1a1a1a !important; }
+.hover\:bg-slate-50:hover { background-color: #fef2f2 !important; }
+
+/* Table header text fix */
+.text-slate-500 { color: #6b7280 !important; }
 
 /* ========================================================
    HEADER
