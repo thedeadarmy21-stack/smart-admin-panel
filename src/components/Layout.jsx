@@ -69,13 +69,13 @@ const Layout = ({ children }) => {
         ></div>
       )}
 
-      {/* 🚀 Premium Sidebar - Force Pure Black via Inline Styles */}
+      {/* 🚀 Premium Sidebar - Pure Black */}
       <aside 
         style={{ backgroundColor: '#000000', borderRight: '1px solid #000000' }}
         className={`fixed inset-y-0 left-0 z-40 w-64 text-white flex flex-col shadow-none transition-all duration-300 ease-in-out md:relative md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         
-        {/* Logo Area (Pure Black) */}
+        {/* Logo Area */}
         <div style={{ backgroundColor: '#000000', borderBottom: '1px solid #000000' }} className="h-20 flex items-center justify-between px-5">
           <div className="flex items-center gap-3 w-full">
             <div className="h-14 w-14 bg-white rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden shadow-none">
@@ -93,7 +93,7 @@ const Layout = ({ children }) => {
           </button>
         </div>
         
-        {/* Navigation Area (Pure Black) */}
+        {/* Navigation Area */}
         <nav style={{ backgroundColor: '#000000' }} className="flex-1 p-4 space-y-1.5 mt-2 overflow-y-auto">
           {menuItems.map((item) => (
             <Link
@@ -113,7 +113,7 @@ const Layout = ({ children }) => {
           ))}
         </nav>
 
-        {/* User Profile Area (Pure Black) */}
+        {/* User Profile Area */}
         <div style={{ backgroundColor: '#000000', borderTop: '1px solid #000000' }} className="p-5">
           <div className="flex items-center gap-3 mb-5">
             <div className="h-11 w-11 rounded-full bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center text-white font-bold text-lg border-2 border-slate-800">
@@ -140,30 +140,40 @@ const Layout = ({ children }) => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         
-        {/* Header */}
-        <header className="h-20 bg-white/80 dark:bg-[#0a0a0a]/90 backdrop-blur-md border-b border-slate-200 dark:border-red-900/30 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300">
+        {/* 🚀 Header - Matched Background */}
+        <header 
+          style={{ backgroundColor: '#0a0a0a', borderBottomColor: '#1a1a1a' }}
+          className="h-20 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300 border-b"
+        >
           
           <div className="flex items-center gap-4">
             <button 
-              className="md:hidden p-2 rounded-lg bg-slate-100 dark:bg-[#1a1a1a] text-slate-600 dark:text-white border border-transparent dark:border-red-900/30"
+              className="md:hidden p-2 rounded-lg bg-[#1a1a1a] text-white border border-transparent"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
 
-            <h2 className="text-lg md:text-xl font-bold text-slate-800 dark:text-white capitalize tracking-tight truncate">
+            <h2 className="text-lg md:text-xl font-bold text-white capitalize tracking-tight truncate">
               {location.pathname.replace('/', '').replace('-', ' ')}
             </h2>
           </div>
           
           <button 
             onClick={() => setIsDark(!isDark)}
-            className="p-2 md:p-2.5 rounded-xl bg-slate-100 dark:bg-[#1a1a1a] text-slate-600 dark:text-red-400 hover:bg-slate-200 dark:hover:bg-[#222] transition-all shadow-none flex items-center gap-2 font-bold text-sm border border-transparent dark:border-red-900/30"
+            className="p-2 md:p-2.5 rounded-xl bg-[#1a1a1a] text-red-400 hover:bg-[#222] transition-all flex items-center gap-2 font-bold text-sm border border-red-900/30"
           >
             {isDark ? (
-              <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg> <span className="hidden md:inline">Light</span></>
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg> 
+                <span className="hidden md:inline">Light</span>
+              </>
             ) : (
-              <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg> <span className="hidden md:inline">Dark</span></>)}
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg> 
+                <span className="hidden md:inline">Dark</span>
+              </>
+            )}
           </button>
         </header>
 
