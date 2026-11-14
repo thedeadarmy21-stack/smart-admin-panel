@@ -4,16 +4,21 @@
 /* Tailwind v4 me Dark Mode enable karne ka sahi tarika */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ========================================================
+   LIGHT MODE (Pure White & Premium Contrast)
+   ======================================================== */
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #f8fafc; /* Light Mode */
-  color: #1e293b;
+  background-color: #ffffff; /* Full White Background */
+  color: #111827; /* Dark Text */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 🚀 Dark Mode Background (Deep Premium Charcoal) */
+/* ========================================================
+   DARK MODE (Pitch Black & Elevated Cards)
+   ======================================================== */
 .dark body {
-  background-color: #0a0a0a; 
+  background-color: #000000; /* Full Pitch Black */
   color: #f8fafc;
 }
 
@@ -21,19 +26,19 @@ body {
    🚀 THE PERFECT PROFESSIONAL THEME (Global Overrides)
    ======================================================== */
 
-/* 1. CARDS & BOXES (Elevated Black) */
+/* 1. CARDS & BOXES (Dark Mode: Elevated Black | Light Mode: Pure White) */
 .dark .bg-white, 
 .dark .bg-slate-50, 
 .dark .bg-slate-100, 
 .dark .bg-slate-800, 
 .dark .bg-slate-900 { 
-  background-color: #121212 !important; 
+  background-color: #0f0f11 !important; /* Elevated Pitch Black for Cards */
   border-color: #27272a !important; 
 }
 
 /* 2. INPUTS (Deep Black) */
 .dark input, .dark select, .dark textarea {
-  background-color: #050505 !important;
+  background-color: #000000 !important;
   border-color: #27272a !important; 
   color: white !important;
 }
@@ -47,15 +52,14 @@ input:focus, select:focus, textarea:focus {
 .bg-indigo-600, .bg-blue-600 { background-color: #b91c1c !important; } 
 .hover\:bg-indigo-700:hover, .hover\:bg-blue-700:hover { background-color: #991b1b !important; }
 
-/* 4. HEADERS & GRADIENTS (Broadcast, Login, etc.) */
+/* 4. HEADERS & GRADIENTS */
 .from-indigo-700, .from-blue-700 { --tw-gradient-from: #7f1d1d !important; }
 .to-purple-800, .to-indigo-800, .to-indigo-600 { --tw-gradient-to: #450a0a !important; }
-/* Login Button specific */
 .from-blue-600 { --tw-gradient-from: #991b1b !important; }
 .hover\:from-blue-700:hover { --tw-gradient-from: #7f1d1d !important; }
 .hover\:to-indigo-700:hover { --tw-gradient-to: #450a0a !important; }
 
-/* 🚨 5. FIX SHADOWS (Blue to Red) - As per your request 🚨 */
+/* 5. SHADOWS (Blue to Red) */
 .shadow-blue-600\/20 { box-shadow: 0 10px 15px -3px rgba(185, 28, 28, 0.3), 0 4px 6px -4px rgba(185, 28, 28, 0.3) !important; }
 .shadow-indigo-600\/20 { box-shadow: 0 10px 15px -3px rgba(185, 28, 28, 0.3), 0 4px 6px -4px rgba(185, 28, 28, 0.3) !important; }
 .shadow-blue-900\/30, .shadow-blue-900\/40, .shadow-blue-900\/50 { box-shadow: 0 10px 15px -3px rgba(153, 27, 27, 0.4), 0 4px 6px -4px rgba(153, 27, 27, 0.4) !important; }
@@ -63,24 +67,41 @@ input:focus, select:focus, textarea:focus {
 
 /* 6. TEXT COLORS */
 .text-blue-600, .text-indigo-600, .text-blue-700 { color: #ef4444 !important; }
-.text-emerald-500 { color: #10b981 !important; } /* Keep green for success */
+.text-emerald-500 { color: #10b981 !important; }
 
-/* 7. BORDERS & HOVER */
+/* 7. BORDERS & HOVER (Dark Mode) */
 .dark .hover\:bg-slate-50:hover { background-color: #1a1a1a !important; }
 .dark .hover\:bg-slate-700:hover { background-color: #1a1a1a !important; }
 
-/* 8. SIDEBAR & HEADER */
-.dark aside { background-color: #050505 !important; border-right-color: #1a1a1a !important; }
-.dark header { background-color: #0a0a0a !important; border-bottom-color: #1a1a1a !important; }
+/* ========================================================
+   8. SIDEBAR & HEADER
+   ======================================================== */
+/* Sidebar ko dono modes mein Pure Black rakhna hai (Premium Contrast) */
+aside { 
+  background-color: #000000 !important; 
+  border-right-color: #1a1a1a !important; 
+}
+
+/* Dark Mode Header */
+.dark header { 
+  background-color: #000000 !important; 
+  border-bottom-color: #1a1a1a !important; 
+}
+
+/* Light Mode Header */
+header { 
+  background-color: #ffffff !important; 
+  border-bottom-color: #e5e7eb !important; 
+}
 
 /* ========================================================
    Scrollbar Styling
    ======================================================== */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid #f8fafc; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid #ffffff; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-.dark ::-webkit-scrollbar-track { background: #0a0a0a; }
-.dark ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; border: 2px solid #0a0a0a; }
+.dark ::-webkit-scrollbar-track { background: #000000; }
+.dark ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; border: 2px solid #000000; }
 .dark ::-webkit-scrollbar-thumb:hover { background: #991b1b; }
