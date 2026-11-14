@@ -81,10 +81,7 @@ input:focus, select:focus, textarea:focus {
 .hover\:from-blue-700:hover { --tw-gradient-from: #7f1d1d !important; }
 .hover\:to-indigo-700:hover { --tw-gradient-to: #450a0a !important; }
 
-/* ========================================================
-   🚀 3. THE ULTIMATE TEXT & HOVER FIX (Blue to Red)
-   ======================================================== */
-/* Har us jagah Red karo jahan Blue ho */
+/* TEXT & HOVER COLORS (Blue to Red) */
 .text-blue-600, 
 .text-indigo-600, 
 .text-blue-700,
@@ -94,28 +91,39 @@ input:focus, select:focus, textarea:focus {
   color: #ef4444 !important;
 }
 
-/* Hover effect ka background red */
 .hover\:bg-slate-50:hover { background-color: #fef2f2 !important; }
 .dark .hover\:bg-slate-50:hover, .dark .hover\:bg-slate-700:hover { background-color: #1a1a1a !important; }
 
 /* ========================================================
-   🚀 4. SIDEBAR FIX (Always Pitch Black in Both Modes)
+   🚀 3. SIDEBAR FIX (Force Pure Black Everywhere)
    ======================================================== */
+/* Main Sidebar */
 aside {
-  background-color: #000000 !important; /* Sidebar Hamesha Pitch Black */
+  background-color: #000000 !important; 
   border-right: 1px solid #1a1a1a !important;
 }
-aside > div {
+
+/* Logo Area (Top) */
+aside > div:first-child {
   background-color: #000000 !important;
-  border-color: #1a1a1a !important;
+  border-bottom: 1px solid #1a1a1a !important;
 }
+
+/* Navigation Area (Middle) */
+aside nav {
+  background-color: #000000 !important;
+}
+
+/* Profile Area (Bottom) */
+aside > div:last-child {
+  background-color: #000000 !important;
+  border-top: 1px solid #1a1a1a !important;
+}
+
+/* Hover effect on menu items */
 aside nav a:hover {
   background-color: #000000 !important; 
   color: #ffffff !important; 
-}
-aside .border-t {
-  background-color: #000000 !important;
-  border-top-color: #1a1a1a !important;
 }
 
 /* ========================================================
