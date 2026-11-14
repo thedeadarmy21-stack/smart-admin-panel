@@ -13,7 +13,7 @@ body {
 
 /* 🚀 Dark Mode Background (Deep Premium Charcoal) */
 .dark body {
-  background-color: #0a0a0a; /* Pitch black se thoda behtar, deep charcoal */
+  background-color: #0a0a0a; 
   color: #f8fafc;
 }
 
@@ -21,40 +21,46 @@ body {
    🚀 THE PERFECT PROFESSIONAL THEME (Global Overrides)
    ======================================================== */
 
-/* 1. CARDS & BOXES: Elevated Black (Thoda lighter than background) */
+/* 1. CARDS & BOXES: Elevated Black */
 .dark .bg-white, 
 .dark .bg-slate-50, 
 .dark .bg-slate-100, 
 .dark .bg-slate-800, 
 .dark .bg-slate-900 { 
-  background-color: #121212 !important; /* Premium Elevated Black */
-  border-color: #27272a !important; /* Subtle Grey Border */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important; /* Soft shadow for depth */
+  background-color: #121212 !important; 
+  border-color: #27272a !important; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important; 
 }
 
-/* 2. LOGIN BOX SPECIFIC (Taa ke woh thoda alag aur premium lage) */
+/* 2. LOGIN BOX SPECIFIC */
 .dark .max-w-md { 
   background-color: #121212 !important; 
   border: 1px solid #27272a !important;
 }
 
-/* 3. INPUTS: Form ke andar ke boxes (Ekdum dark black) */
+/* 3. INPUTS */
 .dark input, .dark select, .dark textarea {
   background-color: #050505 !important;
   border-color: #27272a !important; 
   color: white !important;
 }
 input:focus, select:focus, textarea:focus {
-  border-color: #b91c1c !important; /* Focus par Red */
+  border-color: #b91c1c !important; 
   outline: none !important;
   box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2) !important;
 }
 
-/* 4. BUTTONS: Blue ko Royal Red karna */
+/* 4. BUTTONS */
 .bg-indigo-600, .bg-blue-600 { background-color: #b91c1c !important; } 
 .hover\:bg-indigo-700:hover, .hover\:bg-blue-700:hover { background-color: #991b1b !important; }
 
-/* 5. LOGIN BUTTON GRADIENT (Blue ko Poori tarah khatam karna) */
+/* 5. 🚨 BROADCAST HEADER FIX (Indigo/Purple to Royal Red) 🚨 */
+.from-indigo-700 { --tw-gradient-from: #7f1d1d !important; }
+.to-purple-800 { --tw-gradient-to: #450a0a !important; }
+.from-purple-800 { --tw-gradient-from: #7f1d1d !important; }
+.to-indigo-800 { --tw-gradient-to: #450a0a !important; }
+
+/* Login Button specific */
 .from-blue-600 { --tw-gradient-from: #991b1b !important; }
 .to-indigo-600 { --tw-gradient-to: #7f1d1d !important; }
 .hover\:from-blue-700:hover { --tw-gradient-from: #7f1d1d !important; }
@@ -67,9 +73,9 @@ input:focus, select:focus, textarea:focus {
 .dark .hover\:bg-slate-50:hover { background-color: #1a1a1a !important; }
 .dark .hover\:bg-slate-700:hover { background-color: #1a1a1a !important; }
 
-/* 8. SIDEBAR & HEADER (Ekdum Dark) */
-.dark aside { background-color: #050505 !important; border-right-color: #1a1a1a !important; }
-.dark header { background-color: #0a0a0a !important; border-bottom-color: #1a1a1a !important; }
+/* 8. 🚨 SIDEBAR & HEADER FIX (Pitch Black) 🚨 */
+.dark aside { background-color: #000000 !important; border-right-color: #1a1a1a !important; }
+.dark header { background-color: #000000 !important; border-bottom-color: #1a1a1a !important; }
 
 /* ========================================================
    Scrollbar Styling
