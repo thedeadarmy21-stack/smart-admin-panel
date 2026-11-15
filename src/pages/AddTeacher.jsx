@@ -67,11 +67,11 @@ const AddTeacher = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white dark:bg-slate-800 p-5 md:p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors duration-300">
+    <div className="max-w-3xl mx-auto bg-white dark:bg-[#0a0a0a] p-4 md:p-8 rounded-2xl md:rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/30 transition-colors duration-300">
       
       <div className="mb-6 md:mb-8 text-center md:text-left">
-        <h3 className="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white">Add New Teacher</h3>
-        <p className="text-slate-500 dark:text-slate-400 text-xs md:text-sm mt-1">Register a new teacher and assign them a class.</p>
+        <h3 className="text-lg md:text-2xl font-extrabold text-slate-800 dark:text-white">Add New Teacher</h3>
+        <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-sm mt-1">Register a new teacher and assign them a class.</p>
       </div>
 
       {error && (
@@ -85,36 +85,36 @@ const AddTeacher = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          <div>
-            <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5 md:mb-2">Full Name</label>
+      <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-6">
+          <div className="col-span-2 md:col-span-1">
+            <label className="block text-[10px] md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 md:mb-2 uppercase tracking-wider">Full Name</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2.5 md:py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white placeholder:text-slate-400 text-sm md:text-base"
+              className="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-50 dark:bg-[#121212] border border-slate-200 dark:border-red-900/30 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white placeholder:text-slate-400 text-xs md:text-base"
               placeholder="Enter full name"
             />
           </div>
 
-          <div>
-            <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5 md:mb-2">Username</label>
+          <div className="col-span-2 md:col-span-1">
+            <label className="block text-[10px] md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 md:mb-2 uppercase tracking-wider">Username</label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2.5 md:py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white placeholder:text-slate-400 text-sm md:text-base"
+              className="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-50 dark:bg-[#121212] border border-slate-200 dark:border-red-900/30 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white placeholder:text-slate-400 text-xs md:text-base"
               placeholder="Enter username"
             />
           </div>
 
-          <div>
-            <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5 md:mb-2">Password</label>
+          <div className="col-span-2 md:col-span-1">
+            <label className="block text-[10px] md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 md:mb-2 uppercase tracking-wider">Password</label>
             <input
               type="password"
               name="password"
@@ -122,30 +122,30 @@ const AddTeacher = () => {
               onChange={handleChange}
               required
               minLength={6}
-              className="w-full px-4 py-2.5 md:py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white placeholder:text-slate-400 text-sm md:text-base"
+              className="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-50 dark:bg-[#121212] border border-slate-200 dark:border-red-900/30 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white placeholder:text-slate-400 text-xs md:text-base"
               placeholder="Min 6 characters"
             />
           </div>
 
-          <div>
-            <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5 md:mb-2">Phone Number</label>
+          <div className="col-span-2 md:col-span-1">
+            <label className="block text-[10px] md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 md:mb-2 uppercase tracking-wider">Phone Number</label>
             <input
               type="text"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 md:py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white placeholder:text-slate-400 text-sm md:text-base"
+              className="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-50 dark:bg-[#121212] border border-slate-200 dark:border-red-900/30 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white placeholder:text-slate-400 text-xs md:text-base"
               placeholder="Enter phone number"
             />
           </div>
 
-          <div>
-            <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5 md:mb-2">Assigned Class</label>
+          <div className="col-span-2 md:col-span-1">
+            <label className="block text-[10px] md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 md:mb-2 uppercase tracking-wider">Assigned Class</label>
             <select
               name="assignedClass"
               value={formData.assignedClass}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 md:py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-white cursor-pointer text-sm md:text-base"
+              className="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-50 dark:bg-[#121212] border border-slate-200 dark:border-red-900/30 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white cursor-pointer text-xs md:text-base"
             >
               <option value="">Select Class</option>
               {classes.map((cls, idx) => (
@@ -154,8 +154,8 @@ const AddTeacher = () => {
             </select>
           </div>
 
-          <div>
-            <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5 md:mb-2">School / College Name</label>
+          <div className="col-span-2 md:col-span-1">
+            <label className="block text-[10px] md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 md:mb-2 uppercase tracking-wider">School Name</label>
             <input
               type="text"
               name="schoolName"
@@ -163,17 +163,17 @@ const AddTeacher = () => {
               onChange={handleChange}
               required
               readOnly
-              className="w-full px-4 py-2.5 md:py-3 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-600 dark:text-slate-400 cursor-not-allowed text-sm md:text-base"
+              className="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-100 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-lg md:rounded-xl text-slate-600 dark:text-slate-400 cursor-not-allowed text-xs md:text-base"
               title="School name admin ke account se aata hai"
             />
           </div>
         </div>
 
-        <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
+        <div className="pt-3 md:pt-4 border-t border-slate-100 dark:border-red-900/20">
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white font-bold py-3.5 md:py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/30 flex justify-center items-center gap-2 text-sm md:text-base"
+            className="w-full bg-red-600 text-white font-bold py-3 md:py-4 rounded-lg md:rounded-xl hover:bg-red-700 transition-all flex justify-center items-center gap-2 text-xs md:text-base"
           >
             {loading ? (
               <><div className="w-4 h-4 md:w-5 md:h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Saving...</>
