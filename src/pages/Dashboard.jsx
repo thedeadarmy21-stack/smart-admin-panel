@@ -117,34 +117,33 @@ const Dashboard = () => {
   const maxWeeklyCount = Math.max(...weeklyData.map(d => d.count), 10);
 
   return (
-    <div className="space-y-6 md:space-y-8 animate-pop relative">
+    <div className="space-y-4 md:space-y-8 animate-pop relative">
       
-      {/* WELCOME BANNER (High-Class Premium Red) */}
-      <div className="bg-gradient-to-r from-[#2a0000] via-[#5c0000] to-[#991b1b] p-6 md:p-8 rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(153,27,27,0.3)] text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-red-900/40">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
-        <div className="relative z-10">
-          <h3 className="text-xl md:text-2xl font-extrabold mb-2 tracking-tight">Welcome back, {adminData.name || 'Principal'}!</h3>
-          <p className="text-red-100/90 text-sm md:text-base max-w-2xl leading-relaxed">
-            Manage your school with confidence. <span className="font-bold text-white">{schoolName}</span>.
+      {/* WELCOME BANNER (Mobile Optimized) */}
+      <div className="bg-gradient-to-r from-[#2a0000] via-[#5c0000] to-[#991b1b] p-5 md:p-8 rounded-2xl md:rounded-[2rem] shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-red-900/40">
+        <div className="relative z-10 w-full md:w-auto">
+          <h3 className="text-lg md:text-2xl font-extrabold mb-1 md:mb-2 tracking-tight">Welcome back, {adminData.name || 'Principal'}!</h3>
+          <p className="text-red-100/90 text-xs md:text-base max-w-2xl leading-relaxed">
+            Manage school with confidence. <span className="font-bold text-white">{schoolName}</span>.
           </p>
         </div>
-        <button onClick={() => setShowModal(true)} className="w-full md:w-auto justify-center bg-white/10 hover:bg-white/20 transition-all px-6 py-3 rounded-xl text-sm font-bold backdrop-blur-md border border-white/20 z-10 whitespace-nowrap flex items-center gap-2 shadow-lg">
+        <button onClick={() => setShowModal(true)} className="w-full md:w-auto justify-center bg-white/10 hover:bg-white/20 transition-all px-4 py-2.5 md:px-6 md:py-3 rounded-xl text-xs md:text-sm font-bold backdrop-blur-md border border-white/20 z-10 whitespace-nowrap flex items-center gap-2">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
           Security
         </button>
       </div>
 
-      {/* SECURITY MODAL (Premium Black) */}
+      {/* SECURITY MODAL (Mobile Optimized) */}
       {showModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-[#121212] rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 dark:border-red-900/30 overflow-hidden max-h-[90vh] overflow-y-auto">
             
-            <div className="p-6 bg-slate-50 dark:bg-[#0a0a0a] border-b border-slate-200 dark:border-red-900/30 flex items-center gap-3">
+            <div className="p-5 md:p-6 bg-slate-50 dark:bg-[#0a0a0a] border-b border-slate-200 dark:border-red-900/30 flex items-center gap-3">
               <div className="h-10 w-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center text-red-600 dark:text-red-500">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-800 dark:text-white">Security</h3>
+                <h3 className="text-lg md:text-xl font-bold text-slate-800 dark:text-white">Security</h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400">Manage credentials</p>
               </div>
             </div>
@@ -152,61 +151,61 @@ const Dashboard = () => {
             <div className="flex border-b border-slate-200 dark:border-red-900/30">
               <button 
                 onClick={() => { setActiveTab('admin'); setMsg({type:'',text:''}); }}
-                className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'admin' ? 'text-red-600 border-b-2 border-red-600 dark:text-red-500 dark:border-red-500' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                className={`flex-1 py-3 text-xs md:text-sm font-bold transition-colors ${activeTab === 'admin' ? 'text-red-600 border-b-2 border-red-600 dark:text-red-500 dark:border-red-500' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
               >
                 My Account
               </button>
               <button 
                 onClick={() => { setActiveTab('teacher'); setMsg({type:'',text:''}); }}
-                className={`flex-1 py-3 text-sm font-bold transition-colors ${activeTab === 'teacher' ? 'text-red-600 border-b-2 border-red-600 dark:text-red-500 dark:border-red-500' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                className={`flex-1 py-3 text-xs md:text-sm font-bold transition-colors ${activeTab === 'teacher' ? 'text-red-600 border-b-2 border-red-600 dark:text-red-500 dark:border-red-500' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
               >
                 Manage Teacher
               </button>
             </div>
 
-            <div className="p-6">
+            <div className="p-5 md:p-6">
               {msg.text && (
-                <div className={`p-3 rounded-xl mb-6 text-sm font-bold flex items-center gap-2 ${msg.type === 'success' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400'}`}>
+                <div className={`p-3 rounded-xl mb-4 text-xs md:text-sm font-bold flex items-center gap-2 ${msg.type === 'success' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400'}`}>
                   {msg.text}
                 </div>
               )}
 
               {activeTab === 'admin' && (
-                <form onSubmit={handleUpdateAdmin} className="space-y-5 animate-fadeIn">
+                <form onSubmit={handleUpdateAdmin} className="space-y-4 animate-fadeIn">
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Current Password <span className="text-red-500">*</span></label>
-                    <input type="password" value={profileData.currentPassword} onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" required placeholder="Enter current password" />
+                    <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">Current Password <span className="text-red-500">*</span></label>
+                    <input type="password" value={profileData.currentPassword} onChange={(e) => setProfileData({...profileData, currentPassword: e.target.value})} className="w-full px-3 py-2.5 md:px-4 md:py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white text-sm" required placeholder="Enter current password" />
                   </div>
                   
                   <div className="h-px bg-slate-200 dark:bg-red-900/30 my-2"></div>
                   
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username</label>
-                    <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">New Username</label>
+                    <input type="text" value={profileData.newUsername} onChange={(e) => setProfileData({...profileData, newUsername: e.target.value})} className="w-full px-3 py-2.5 md:px-4 md:py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white text-sm" placeholder="Leave blank to keep current" />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
-                    <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">New Password</label>
+                    <input type="password" value={profileData.newPassword} onChange={(e) => setProfileData({...profileData, newPassword: e.target.value})} className="w-full px-3 py-2.5 md:px-4 md:py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white text-sm" placeholder="Leave blank to keep current" />
                   </div>
                   
-                  <div className="flex gap-3 pt-4">
-                    <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-[#1a1a1a] text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
-                    <button type="submit" disabled={updating} className="flex-1 bg-gradient-to-r from-red-700 to-red-900 text-white font-bold py-3 rounded-xl hover:from-red-600 hover:to-red-800 transition flex justify-center items-center shadow-lg shadow-red-900/20">
-                      {updating ? 'Updating...' : 'Update Profile'}
+                  <div className="flex gap-2 pt-2">
+                    <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-[#1a1a1a] text-slate-700 dark:text-white font-bold py-2.5 md:py-3 rounded-xl hover:bg-slate-200 transition text-xs md:text-sm">Cancel</button>
+                    <button type="submit" disabled={updating} className="flex-1 bg-gradient-to-r from-red-700 to-red-900 text-white font-bold py-2.5 md:py-3 rounded-xl hover:from-red-600 hover:to-red-800 transition flex justify-center items-center text-xs md:text-sm">
+                      {updating ? 'Updating...' : 'Update'}
                     </button>
                   </div>
                 </form>
               )}
 
               {activeTab === 'teacher' && (
-                <form onSubmit={handleUpdateTeacher} className="space-y-5 animate-fadeIn">
+                <form onSubmit={handleUpdateTeacher} className="space-y-4 animate-fadeIn">
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Select Teacher <span className="text-red-500">*</span></label>
+                    <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">Select Teacher <span className="text-red-500">*</span></label>
                     <select 
                       value={selectedTeacherId} 
                       onChange={(e) => setSelectedTeacherId(e.target.value)} 
-                      className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white cursor-pointer"
+                      className="w-full px-3 py-2.5 md:px-4 md:py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white cursor-pointer text-sm"
                       required
                     >
                       <option value="">-- Select a Teacher --</option>
@@ -219,19 +218,19 @@ const Dashboard = () => {
                   <div className="h-px bg-slate-200 dark:bg-red-900/30 my-2"></div>
                   
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Username</label>
-                    <input type="text" value={teacherUpdateData.newUsername} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newUsername: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">New Username</label>
+                    <input type="text" value={teacherUpdateData.newUsername} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newUsername: e.target.value})} className="w-full px-3 py-2.5 md:px-4 md:py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white text-sm" placeholder="Leave blank to keep current" />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
-                    <input type="password" value={teacherUpdateData.newPassword} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newPassword: e.target.value})} className="w-full px-4 py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white" placeholder="Leave blank to keep current" />
+                    <label className="block text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">New Password</label>
+                    <input type="password" value={teacherUpdateData.newPassword} onChange={(e) => setTeacherUpdateData({...teacherUpdateData, newPassword: e.target.value})} className="w-full px-3 py-2.5 md:px-4 md:py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-red-900/30 rounded-xl focus:ring-2 focus:ring-red-500 text-slate-800 dark:text-white text-sm" placeholder="Leave blank to keep current" />
                   </div>
                   
-                  <div className="flex gap-3 pt-4">
-                    <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-[#1a1a1a] text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-200 transition">Cancel</button>
-                    <button type="submit" disabled={updating} className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 rounded-xl hover:from-emerald-700 hover:to-teal-700 transition flex justify-center items-center shadow-lg shadow-emerald-600/20">
-                      {updating ? 'Updating...' : 'Update Teacher'}
+                  <div className="flex gap-2 pt-2">
+                    <button type="button" onClick={closeModal} className="flex-1 bg-slate-100 dark:bg-[#1a1a1a] text-slate-700 dark:text-white font-bold py-2.5 md:py-3 rounded-xl hover:bg-slate-200 transition text-xs md:text-sm">Cancel</button>
+                    <button type="submit" disabled={updating} className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-2.5 md:py-3 rounded-xl hover:from-emerald-700 hover:to-teal-700 transition flex justify-center items-center text-xs md:text-sm">
+                      {updating ? 'Updating...' : 'Update'}
                     </button>
                   </div>
                 </form>
@@ -241,106 +240,101 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* LIVE STATS CARDS (Premium Elevated Black) */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4">
-        <div className="bg-white dark:bg-[#121212] p-4 md:p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-2 md:space-y-0 transition-all duration-300">
-          <div className="p-2.5 md:p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-500 rounded-xl">
-            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+      {/* LIVE STATS CARDS (Mobile: 2 cols, Desktop: 5 cols) */}
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4">
+        <div className="bg-white dark:bg-[#121212] p-3 md:p-5 rounded-2xl md:rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-1 md:space-y-0 transition-all duration-300">
+          <div className="p-2 md:p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-500 rounded-lg md:rounded-xl">
+            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Students</p>
-            <p className="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white">{loading ? '-' : stats.totalStudents}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-[9px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Students</p>
+            <p className="text-base md:text-2xl font-extrabold text-slate-800 dark:text-white">{loading ? '-' : stats.totalStudents}</p>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#121212] p-4 md:p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-2 md:space-y-0 transition-all duration-300">
-          <div className="p-2.5 md:p-3 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-500 rounded-xl">
-            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <div className="bg-white dark:bg-[#121212] p-3 md:p-5 rounded-2xl md:rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-1 md:space-y-0 transition-all duration-300">
+          <div className="p-2 md:p-3 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-500 rounded-lg md:rounded-xl">
+            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Present</p>
-            <p className="text-xl md:text-2xl font-extrabold text-emerald-600 dark:text-emerald-500">{loading ? '-' : stats.presentToday}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-[9px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Present</p>
+            <p className="text-base md:text-2xl font-extrabold text-emerald-600 dark:text-emerald-500">{loading ? '-' : stats.presentToday}</p>
           </div>
         </div>
 
-        <Link to="/reports" className="bg-white dark:bg-[#121212] p-4 md:p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-2 md:space-y-0 transition-all duration-300">
-          <div className="p-2.5 md:p-3 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-500 rounded-xl">
-            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <Link to="/reports" className="bg-white dark:bg-[#121212] p-3 md:p-5 rounded-2xl md:rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-1 md:space-y-0 transition-all duration-300">
+          <div className="p-2 md:p-3 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-500 rounded-lg md:rounded-xl">
+            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Absent</p>
-            <p className="text-xl md:text-2xl font-extrabold text-amber-600 dark:text-amber-500">{loading ? '-' : absentStudents.length}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-[9px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Absent</p>
+            <p className="text-base md:text-2xl font-extrabold text-amber-600 dark:text-amber-500">{loading ? '-' : absentStudents.length}</p>
           </div>
         </Link>
 
-        <Link to="/teachers-attendance" className="bg-white dark:bg-[#121212] p-4 md:p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-2 md:space-y-0 transition-all duration-300">
-          <div className="p-2.5 md:p-3 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-500 rounded-xl">
-            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+        <Link to="/teachers-attendance" className="bg-white dark:bg-[#121212] p-3 md:p-5 rounded-2xl md:rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-1 md:space-y-0 transition-all duration-300">
+          <div className="p-2 md:p-3 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-500 rounded-lg md:rounded-xl">
+            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Teachers</p>
-            <p className="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white">{loading ? '-' : teacherStats.totalTeachers}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-[9px] md:text-xs font-bold uppercase tracking-wider mb-0.5">Teachers</p>
+            <p className="text-base md:text-2xl font-extrabold text-slate-800 dark:text-white">{loading ? '-' : teacherStats.totalTeachers}</p>
           </div>
         </Link>
 
-        <Link to="/teachers-attendance" className="bg-white dark:bg-[#121212] p-4 md:p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-2 md:space-y-0 transition-all duration-300">
-          <div className="p-2.5 md:p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-500 rounded-xl">
-            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <Link to="/teachers-attendance" className="bg-white dark:bg-[#121212] p-3 md:p-5 rounded-2xl md:rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-1 md:space-y-0 transition-all duration-300">
+          <div className="p-2 md:p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-500 rounded-lg md:rounded-xl">
+            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <div>
-            <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-0.5">T. Present</p>
-            <p className="text-xl md:text-2xl font-extrabold text-red-600 dark:text-red-500">{loading ? '-' : teacherStats.presentTeachers}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-[9px] md:text-xs font-bold uppercase tracking-wider mb-0.5">T. Present</p>
+            <p className="text-base md:text-2xl font-extrabold text-red-600 dark:text-red-500">{loading ? '-' : teacherStats.presentTeachers}</p>
           </div>
         </Link>
       </div>
 
-      {/* GRAPH & CLASS-WISE OVERVIEW (Premium Black) */}
+      {/* GRAPH & CLASS-WISE OVERVIEW */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         
-        {/* PREMIUM WEEKLY GRAPH */}
-        <div className="bg-white dark:bg-[#121212] p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 transition-colors">
-          <div className="flex justify-between items-center mb-6">
-            <h4 className="font-bold text-base md:text-lg text-slate-800 dark:text-white">Weekly Attendance Overview</h4>
-            <span className="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-[#0a0a0a] px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-red-900/20">Last 7 Days</span>
+        {/* WEEKLY GRAPH (Mobile scroll fixed) */}
+        <div className="bg-white dark:bg-[#121212] p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 transition-colors">
+          <div className="flex justify-between items-center mb-4 md:mb-6">
+            <h4 className="font-bold text-sm md:text-lg text-slate-800 dark:text-white">Weekly Attendance</h4>
+            <span className="text-[9px] md:text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-[#0a0a0a] px-2 py-1 rounded-lg border border-slate-200 dark:border-red-900/20">Last 7 Days</span>
           </div>
           
-          <div className="flex items-end justify-between h-40 md:h-56 gap-2 md:gap-4">
+          <div className="flex items-end justify-between h-32 md:h-56 gap-1 md:gap-4">
             {weeklyData.length === 0 ? (
-              <p className="text-slate-500 text-xs md:text-sm w-full text-center">No data available.</p>
+              <p className="text-slate-500 text-xs w-full text-center">No data available.</p>
             ) : (
               weeklyData.map((day, idx) => (
                 <div key={idx} className="flex flex-col items-center flex-1 group h-full justify-end">
                   <div className="w-full relative flex justify-center">
                     <div 
-                      className="w-full max-w-[36px] md:max-w-[48px] bg-gradient-to-t from-red-900 to-red-600 rounded-t-md hover:from-red-800 hover:to-red-500 transition-all duration-500 shadow-lg shadow-red-900/20 relative"
-                      style={{ height: `${Math.max((day.count / maxWeeklyCount) * (window.innerWidth < 768 ? 100 : 160), 6)}px` }}
-                    >
-                      <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-[#0a0a0a] border border-red-900/30 text-white text-[10px] py-2 px-3 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-10 shadow-2xl flex flex-col items-center gap-0.5">
-                        <span className="font-bold text-sm">{day.count} Present</span>
-                        <span className="text-red-400 font-bold">{day.percentage}% Attendance</span>
-                        <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2.5 h-2.5 bg-[#0a0a0a] border-b border-r border-red-900/30 rotate-45"></div>
-                      </div>
-                    </div>
+                      className="w-full max-w-[24px] md:max-w-[48px] bg-gradient-to-t from-red-900 to-red-600 rounded-t-sm md:rounded-t-md hover:from-red-800 hover:to-red-500 transition-all duration-500"
+                      style={{ height: `${Math.max((day.count / maxWeeklyCount) * (window.innerWidth < 768 ? 80 : 160), 6)}px` }}
+                    ></div>
                   </div>
-                  <span className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 mt-3 font-bold group-hover:text-red-500 transition-colors">{day.dayName}</span>
+                  <span className="text-[9px] md:text-xs text-slate-500 dark:text-slate-400 mt-2 md:mt-3 font-bold">{day.dayName}</span>
                 </div>
               ))
             )}
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#121212] p-4 md:p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 transition-colors">
-          <h4 className="font-bold text-base md:text-lg text-slate-800 dark:text-white mb-3 md:mb-4">Class-wise Overview (Today)</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 max-h-32 md:max-h-48 overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
+        {/* CLASS-WISE OVERVIEW */}
+        <div className="bg-white dark:bg-[#121212] p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border border-slate-200 dark:border-red-900/20 transition-colors">
+          <h4 className="font-bold text-sm md:text-lg text-slate-800 dark:text-white mb-3 md:mb-4">Class Overview</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 max-h-40 md:max-h-48 overflow-y-auto pr-1 custom-scrollbar">
             {classStats.length === 0 ? (
-              <p className="text-slate-500 text-xs md:text-sm col-span-full">No data available.</p>
+              <p className="text-slate-500 text-xs col-span-full">No data available.</p>
             ) : (
               classStats.map((cls, idx) => (
-                <div key={idx} className="flex items-center justify-between p-2.5 md:p-3 bg-slate-50 dark:bg-[#0a0a0a] rounded-xl border border-slate-100 dark:border-red-900/20">
+                <div key={idx} className="flex items-center justify-between p-2 md:p-3 bg-slate-50 dark:bg-[#0a0a0a] rounded-xl border border-slate-100 dark:border-red-900/20">
                   <span className="font-bold text-slate-700 dark:text-slate-300 text-xs md:text-sm truncate max-w-[80px] md:max-w-none">Class {cls.className}</span>
                   <div className="flex gap-2 md:gap-3 text-[10px] md:text-xs font-bold">
-                    <span className="text-emerald-500 flex items-center gap-1"><span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-500"></span> {cls.present}</span>
-                    <span className="text-red-500 flex items-center gap-1"><span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-red-500"></span> {cls.absent}</span>
+                    <span className="text-emerald-500 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> {cls.present}</span>
+                    <span className="text-red-500 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-red-500"></span> {cls.absent}</span>
                   </div>
                 </div>
               ))
@@ -349,17 +343,17 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* LOW ATTENDANCE ALERT (Premium Black) */}
-      <div className="bg-white dark:bg-[#121212] p-4 md:p-6 rounded-3xl shadow-sm border border-red-200 dark:border-red-900/30 transition-colors">
+      {/* LOW ATTENDANCE ALERT (Mobile Optimized) */}
+      <div className="bg-white dark:bg-[#121212] p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border border-red-200 dark:border-red-900/30 transition-colors">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-4 mb-4 md:mb-6">
           
-          <div className="flex items-center gap-2">
-            <span className="text-xl md:text-2xl">⚠️</span>
-            <h4 className="font-bold text-base md:text-lg text-red-600 dark:text-red-500">
-              LOW ATTENDANCE ALERT (SMART DASHBOARD)
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-lg md:text-2xl">⚠️</span>
+            <h4 className="font-bold text-xs md:text-lg text-red-600 dark:text-red-500">
+              LOW ATTENDANCE ALERT
             </h4>
             {selectedClassFilter && lowAttendance.length > 0 && (
-              <span className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 px-2.5 py-0.5 rounded-full text-xs font-bold border border-red-200 dark:border-red-800 ml-2">
+              <span className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 px-2 py-0.5 rounded-full text-[10px] font-bold border border-red-200 dark:border-red-800">
                 Total: {lowAttendance.length}
               </span>
             )}
@@ -369,7 +363,7 @@ const Dashboard = () => {
             <select
               value={selectedClassFilter}
               onChange={(e) => setSelectedClassFilter(e.target.value)}
-              className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-red-200 dark:border-red-900/30 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-xs md:text-sm cursor-pointer shadow-sm appearance-none"
+              className="w-full px-3 py-2 md:px-4 md:py-3 bg-slate-50 dark:bg-[#0a0a0a] border border-red-200 dark:border-red-900/30 text-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 font-bold text-xs md:text-sm cursor-pointer shadow-sm appearance-none"
               style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ef4444'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1.2em' }}
             >
               <option value="">-- Select Class --</option>
@@ -381,16 +375,16 @@ const Dashboard = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
           {!selectedClassFilter ? (
-            <p className="text-slate-500 text-xs md:text-sm col-span-full text-center py-6 md:py-8">
-              Please select a class from the dropdown above.
+            <p className="text-slate-500 text-xs md:text-sm col-span-full text-center py-4 md:py-8">
+              Please select a class to view students.
             </p>
           ) : lowAttendance.length === 0 ? (
-            <div className="col-span-full flex flex-col items-center justify-center py-8 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-900/30">
-              <span className="text-3xl mb-2">🎉</span>
-              <p className="text-emerald-700 dark:text-emerald-400 text-sm md:text-base font-bold">
-                Excellent! No students found with low attendance in this class.
+            <div className="col-span-full flex flex-col items-center justify-center py-6 md:py-8 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-900/30">
+              <span className="text-2xl md:text-3xl mb-2">🎉</span>
+              <p className="text-emerald-700 dark:text-emerald-400 text-xs md:text-base font-bold text-center px-4">
+                Excellent! No students found with low attendance.
               </p>
             </div>
           ) : (
@@ -401,14 +395,14 @@ const Dashboard = () => {
               const badgeClass = isCritical ? 'bg-red-700' : 'bg-yellow-600';
 
               return (
-                <Link to={`/student/${student._id}`} key={student._id} className={`flex items-center justify-between p-2.5 md:p-3 ${bgClass} rounded-xl border ${borderClass} hover:shadow-md transition`}>
+                <Link to={`/student/${student._id}`} key={student._id} className={`flex items-center justify-between p-2 md:p-3 ${bgClass} rounded-xl border ${borderClass} hover:shadow-md transition`}>
                   <div className="overflow-hidden pr-2">
                     <p className="font-bold text-slate-800 dark:text-white text-xs md:text-sm truncate">{student.name}</p>
                     <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 truncate">Roll: {student.rollNumber}</p>
                   </div>
-                  <div className={`${badgeClass} text-white text-[10px] md:text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0 flex flex-col items-center shadow-sm`}>
+                  <div className={`${badgeClass} text-white text-[9px] md:text-xs font-bold px-1.5 py-1 md:px-2 rounded-lg flex-shrink-0 flex flex-col items-center`}>
                     <span>{student.percentage}%</span>
-                    <span className="text-[8px] uppercase tracking-wider opacity-90">{student.status}</span>
+                    <span className="text-[7px] md:text-[8px] uppercase tracking-wider opacity-90">{student.status}</span>
                   </div>
                 </Link>
               );
