@@ -61,7 +61,7 @@ const Layout = ({ children }) => {
 
   return (
     <div 
-      style={{ backgroundColor: isDark ? '#0c0c0e' : '#f8fafc' }}
+      style={{ backgroundColor: isDark ? '#0a0a0a' : '#f8fafc' }}
       className="flex h-screen transition-colors duration-300 overflow-hidden"
     >
       
@@ -143,9 +143,10 @@ const Layout = ({ children }) => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         
-        {/* 🚀 Header - Transparent (No Background Color) */}
+        {/* 🚀 Header - Solid Background matching the content */}
         <header 
-          className={`h-20 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300 bg-transparent`}
+          style={{ backgroundColor: isDark ? '#0a0a0a' : '#ffffff' }}
+          className="h-20 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300"
         >
           
           <div className="flex items-center gap-4">
@@ -180,7 +181,10 @@ const Layout = ({ children }) => {
         </header>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-8">
+        <div 
+          style={{ backgroundColor: isDark ? '#0a0a0a' : '#f8fafc' }}
+          className="flex-1 overflow-y-auto p-4 md:p-8 transition-colors duration-300"
+        >
           <div className="max-w-7xl mx-auto">{children}</div>
         </div>
       </main>
