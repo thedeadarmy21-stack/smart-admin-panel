@@ -143,9 +143,9 @@ const Layout = ({ children }) => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         
-        {/* 🚀 Header - Matched Background (No border) */}
+        {/* 🚀 Header - Matched Background (Pitch Black) */}
         <header 
-          style={{ backgroundColor: isDark ? '#0c0c0e' : '#ffffff' }}
+          style={{ backgroundColor: isDark ? '#000000' : '#ffffff' }}
           className="h-20 flex justify-between items-center px-4 md:px-8 sticky top-0 z-10 transition-colors duration-300"
         >
           
