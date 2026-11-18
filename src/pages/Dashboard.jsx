@@ -382,7 +382,7 @@ const Dashboard = () => {
             </p>
           ) : lowAttendance.length === 0 ? (
             <div className="col-span-full flex flex-col items-center justify-center py-6 md:py-8 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-900/30">
-              <span className="text-2xl md:text-3xl mb-2">🎉</span>
+              <span className="text-2xl md:text-3xl mb-2">saRKar</span>
               <p className="text-emerald-700 dark:text-emerald-400 text-xs md:text-base font-bold text-center px-4">
                 Excellent! No students found with low attendance.
               </p>

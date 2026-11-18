@@ -9,13 +9,14 @@
    ======================================================== */
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #ffffff; 
-  color: #111827; 
+  background-color: #f8fafc; 
+  color: #1e293b; 
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* 🚀 ROOT FIX: Dark mode me body ka background bhi #0a0a0a */
 .dark body {
-  background-color: #000000; 
+  background-color: #0a0a0a; 
   color: #f8fafc;
 }
 
@@ -47,20 +48,20 @@ a.bg-blue-600,
 .dark .bg-slate-100, 
 .dark .bg-slate-800, 
 .dark .bg-slate-900 { 
-  background-color: #0f0f11 !important; 
+  background-color: #121212 !important; 
   border-color: #27272a !important; 
   box-shadow: none !important; 
 }
 
 /* LOGIN BOX */
 .dark .max-w-md { 
-  background-color: #0f0f11 !important; 
+  background-color: #121212 !important; 
   border: 1px solid #27272a !important;
 }
 
 /* INPUTS */
 .dark input, .dark select, .dark textarea {
-  background-color: #000000 !important;
+  background-color: #0a0a0a !important;
   border-color: #27272a !important; 
   color: white !important;
 }
@@ -95,25 +96,19 @@ input:focus, select:focus, textarea:focus {
 .dark .hover\:bg-slate-50:hover, .dark .hover\:bg-slate-700:hover { background-color: #1a1a1a !important; }
 
 /* ========================================================
-   🚀 3. SIDEBAR THE ULTIMATE FIX (Solid Pitch Black)
+   🚀 3. SIDEBAR FIX (Pure Pitch Black)
    ======================================================== */
 aside {
-  background-color: #000000 !important; 
+  background-color: #000000 !important;
   border-right: 1px solid #000000 !important;
 }
-
-/* Sidebar ke andar ka har ek hissa (Logo area, Navigation, Profile area) */
 aside > div {
   background-color: #000000 !important;
   border-color: #000000 !important;
 }
-
-/* Sidebar ke andar ki saari lines (Borders) gayab karna */
 aside * {
-  border-color: #000000 !important; 
+  border-color: #000000 !important;
 }
-
-/* Hover Effect (Menu par mouse le jane par bhi black hi rahe) */
 aside nav a:hover {
   background-color: #000000 !important; 
   color: #ffffff !important; 
@@ -123,8 +118,8 @@ aside nav a:hover {
    HEADER
    ======================================================== */
 .dark header { 
-  background-color: #000000 !important; 
-  border-bottom-color: #000000 !important; 
+  background-color: #0a0a0a !important; 
+  border-bottom-color: #0a0a0a !important; 
 }
 header { 
   background-color: #ffffff !important; 
@@ -139,6 +134,6 @@ header {
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid #ffffff; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-.dark ::-webkit-scrollbar-track { background: #000000; }
-.dark ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; border: 2px solid #000000; }
+.dark ::-webkit-scrollbar-track { background: #0a0a0a; }
+.dark ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; border: 2px solid #0a0a0a; }
 .dark ::-webkit-scrollbar-thumb:hover { background: #991b1b; }
