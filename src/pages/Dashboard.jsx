@@ -117,7 +117,7 @@ const Dashboard = () => {
   const maxWeeklyCount = Math.max(...weeklyData.map(d => d.count), 10);
 
   return (
-    <div className="space-y-4 md:space-y-8 animate-pop relative">
+    <div style={{ backgroundColor: 'transparent' }} className="space-y-4 md:space-y-8 animate-pop relative">
       
       {/* WELCOME BANNER (Mobile Optimized) */}
       <div className="bg-gradient-to-r from-[#2a0000] via-[#5c0000] to-[#991b1b] p-5 md:p-8 rounded-2xl md:rounded-[2rem] shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-red-900/40">
