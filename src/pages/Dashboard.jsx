@@ -119,12 +119,14 @@ const Dashboard = () => {
   return (
     <div style={{ backgroundColor: 'transparent' }} className="space-y-4 md:space-y-8 animate-pop relative">
       
-      {/* WELCOME BANNER (Mobile Optimized) */}
-      <div className="bg-gradient-to-r from-[#2a0000] via-[#5c0000] to-[#991b1b] p-5 md:p-8 rounded-2xl md:rounded-[2rem] shadow-xl text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-red-900/40">
+          {/* WELCOME BANNER (Premium & Clear Text) */}
+      <div className="bg-gradient-to-r from-[#3a0505] via-[#7a0a0a] to-[#b91c1c] p-5 md:p-8 rounded-2xl md:rounded-3xl shadow-lg text-white relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-red-500/30">
         <div className="relative z-10 w-full md:w-auto">
-          <h3 className="text-lg md:text-2xl font-extrabold mb-1 md:mb-2 tracking-tight">Welcome back, {adminData.name || 'Principal'}!</h3>
-          <p className="text-red-100/90 text-xs md:text-base max-w-2xl leading-relaxed">
-            Manage school with confidence. <span className="font-bold text-white">{schoolName}</span>.
+          <h3 className="text-xl md:text-3xl font-black mb-2 md:mb-3 tracking-tight text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+            Welcome back, {adminData.name || 'Principal'}!
+          </h3>
+          <p className="text-red-50 text-sm md:text-base max-w-2xl leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
+            Manage school with confidence. <span className="font-bold text-white underline decoration-red-400 underline-offset-4">{schoolName}</span>.
           </p>
         </div>
         <button onClick={() => setShowModal(true)} className="w-full md:w-auto justify-center bg-white/10 hover:bg-white/20 transition-all px-4 py-2.5 md:px-6 md:py-3 rounded-xl text-xs md:text-sm font-bold backdrop-blur-md border border-white/20 z-10 whitespace-nowrap flex items-center gap-2">
